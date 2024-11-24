@@ -1,0 +1,1 @@
+sqlite3 slotify.db < createTables.sql
