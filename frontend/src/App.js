@@ -6,8 +6,8 @@ function App() {
   // State to store the message from the backend
   const [message, setMessage] = useState('');
 
-  const publicUrl = 'https://fall2024-comp307-group06.cs.mcgill.ca/api';
-  // const publicUrl = 'http://localhost:5000';
+  // const publicUrl = 'https://fall2024-comp307-group06.cs.mcgill.ca/api';
+  const publicUrl = 'http://localhost:4000';
 
   // Function to fetch the message from the backend
   const fetchMessage = async () => {
