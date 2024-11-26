@@ -9,7 +9,6 @@ app.use(cors());
 // Define the API endpoint
 app.get('//message', (req, res) => {
   res.json({ msg: 'Hello World' });
-  
 });
 
 // Start the server
