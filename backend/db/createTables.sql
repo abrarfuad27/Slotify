@@ -1,3 +1,5 @@
+-- Members Table --
+
 CREATE TABLE Member (
     email TEXT PRIMARY KEY,
     encryptedPassword TEXT NOT NULL,
@@ -5,29 +7,34 @@ CREATE TABLE Member (
     lastName TEXT NOT NULL
 );
 
+-- Appointments Table --
+
 CREATE TABLE Appointment ( 
     appointmentId TEXT PRIMARY KEY, 
     mode TEXT CHECK (mode IN ('recurring', 'one-time')), 
     creator TEXT NOT NULL, 
     startDate DATE NOT NULL, 
     endDate DATE NOT NULL CHECK (endDate > startDate), 
-    topic TEXT NOT NULL, appointmentURL TEXT NOT NULL UNIQUE, 
-
-    FOREIGN KEY (creator) REFERENCES Member(email)
+    topic TEXT NOT NULL, 
+    appointmentURL TEXT NOT NULL UNIQUE 
 );
 
+-- Timeslot Table --
 
 CREATE TABLE Timeslot ( 
     timeslotID TEXT PRIMARY KEY, 
     appointmentId TEXT NOT NULL UNIQUE, 
     startTime TIME NOT NULL, 
     endTime TIME NOT NULL CHECK (startTime < endTime), 
-    meetingDate DATE NOT NULL, 
+    timeslotDate DATE NOT NULL, 
     appointee TEXT, 
     isRequest BOOLEAN NOT NULL, 
     requestStatus TEXT CHECK (requestStatus IN ('approved', 'pending')),
+    
+    FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) 
+);
 
-    FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) );
+-- Booking Table --
 
 CREATE TABLE Booking (
     timeslotID TEXT NOT NULL,
@@ -36,6 +43,8 @@ CREATE TABLE Booking (
     
     FOREIGN KEY (timeslotID) REFERENCES Timeslot(timeslotID)
 );
+
+-- Polling Table --
 
 CREATE TABLE Polling (
     pollId TEXT PRIMARY KEY,
@@ -46,12 +55,15 @@ CREATE TABLE Polling (
     pollUrl TEXT NOT NULL UNIQUE
 );
 
+-- Polling Slot Table --
+
 CREATE TABLE PollingSlot (
     pollSlotId TEXT PRIMARY KEY,
     pollId TEXT NOT NULL,
     voteCount INTEGER NOT NULL,
     startTime DATE NOT NULL,
     endTime DATE NOT NULL CHECK (startTime < endTime),
-    meetingDate DATE NOT NULL,
+    pollingSlotDate DATE NOT NULL,
+
     FOREIGN KEY (pollId) REFERENCES Polling(pollId)
 );
