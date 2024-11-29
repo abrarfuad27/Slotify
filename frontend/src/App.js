@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Landing from './pages/landing';
+import MemberDashboard from './pages/memberDashboard';
 // import axios from 'axios';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       {/* <button onClick={fetchMessage}>Click to print Hello World</button> */}
       {/* <div>{message}</div> */}
       <Landing></Landing>
+      {/* <MemberDashboard></MemberDashboard> */}
     </div>
   );
 }
