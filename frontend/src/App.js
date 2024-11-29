@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import Landing from './pages/landing';
 // import axios from 'axios';
 
 function App() {
@@ -28,8 +29,9 @@ function App() {
     // Browser-Router will be inserted
 
     <div className="App">
-      <button onClick={fetchMessage}>Click to print Hello World</button>
-      <div>{message}</div>
+      {/* <button onClick={fetchMessage}>Click to print Hello World</button> */}
+      {/* <div>{message}</div> */}
+      <Landing></Landing>
     </div>
   );
 }
