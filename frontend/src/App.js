@@ -32,8 +32,8 @@ function App() {
     <div className="App">
       {/* <button onClick={fetchMessage}>Click to print Hello World</button> */}
       {/* <div>{message}</div> */}
-      <Landing></Landing>
-      {/* <MemberDashboard></MemberDashboard> */}
+      {/* <Landing></Landing> */}
+      <MemberDashboard></MemberDashboard>
     </div>
   );
 }
