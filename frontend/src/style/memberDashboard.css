@@ -45,13 +45,12 @@
     margin-top: 2%;
 }
 
-dashboard-el > h1 {
+dashboard-el > h2 {
     margin-bottom: 0px;
 }
 
 .upcoming-meetings-container {
     width:50vw;
-    height:50vh;
 
     background-color: white;
     opacity: 0.9;
@@ -83,13 +82,15 @@ dashboard-el > h1 {
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: bold;
-    margin-left: 5%;
 }
 
 /* TODO styling content of the card */
-.card-content {
-    flex-direction: column;
-    justify-content: left;
+.card-content p {
+    text-align: left;
+    line-height: 1;
+    margin-left: 6%;
+    color: #085A77;
+    font-weight: bold;
 }
 
 /* footer */
