@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 frontend/node_modules/
 backend/node_modules/
-backend/slotify.db
+backend/slotify.db/
