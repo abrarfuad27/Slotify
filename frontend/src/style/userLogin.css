@@ -1,0 +1,238 @@
+body {
+  font-family: Inter, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  z-index: 0; /* Ensure content stays above the background */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../public/assets/background.png");
+  background-size: cover; /* Ensures the image covers the entire viewport */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  background-attachment: fixed; /* Keeps the image fixed while scrolling */
+  opacity: 0.5; /* Decrease the opacity here */
+  z-index: -1; /* Place the pseudo-element behind the content */
+}
+
+.login-page-header {
+  color: #3d0db2;
+  margin-bottom: 20px;
+}
+
+.login-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-div {
+  width: 100%;
+  background-color: #e8f3f9;
+  border-radius: 20px;
+  border: 1px solid #085a77;
+  padding: 25px 30px; /* Ensure equal padding on all sides of the form */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 14px;
+  font-weight: bold;
+  color: #085a77;
+}
+
+input {
+  width: 95%;
+  padding: 10px; /* Equal padding on all sides */
+  margin-top: 5px;
+  border: 1px solid #085a77;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+button {
+  background-color: #085a77;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: auto; /* Ensures the button is not stretched */
+  max-width: 200px; /* Adjust as needed to make it less wide */
+  align-self: center; /* Centers the button within its parent */
+}
+
+button:hover {
+  background-color: #034459;
+}
+
+p {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #034459;
+}
+
+p a {
+  color: #034459;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #085a77;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modal button:hover {
+  background-color: #034459;
+}
+
+/* Tablets (max-width: 800px) */
+@media (max-width: 800px) {
+  body {
+    padding: 10px; /* Add padding for better spacing on smaller screens */
+  }
+
+  .form-div {
+    max-width: 90%; /* Adjust width for tablets */
+    padding: 20px 25px; /* Reduce padding slightly */
+    border-radius: 15px; /* Slightly smaller border-radius */
+  }
+
+  input {
+    width: 90%; /* Make inputs take the full width */
+  }
+
+  button {
+    max-width: 150px; /* Reduce the button width */
+    font-size: 14px; /* Slightly smaller font size for buttons */
+  }
+
+  .login-page-header {
+    font-size: 20px; /* Adjust font size of the header */
+  }
+
+  .modal {
+    max-width: 350px; /* Slightly reduce modal width */
+    padding: 15px; /* Reduce padding */
+    border-radius: 8px; /* Slightly smaller border-radius */
+  }
+
+  .modal button {
+    font-size: 14px; /* Adjust button font size */
+    padding: 8px 18px; /* Adjust button padding */
+  }
+}
+
+/* Smartphones (max-width: 600px) */
+@media (max-width: 600px) {
+  body {
+    flex-direction: column; /* Stack items vertically */
+    padding: 10px;
+  }
+
+  .form-div {
+    max-width: 95%; /* Further reduce width for smartphones */
+    padding: 15px 20px; /* Reduce padding even more */
+    border-radius: 10px; /* Smaller border-radius for small screens */
+  }
+
+  .login-page-header {
+    font-size: 18px; /* Further reduce header font size */
+    margin-bottom: 15px;
+  }
+
+  input {
+    padding: 8px; /* Reduce input padding */
+    font-size: 12px; /* Smaller input font size */
+  }
+
+  button {
+    max-width: 120px; /* Make the button even smaller */
+    font-size: 12px;
+    padding: 8px 15px; /* Adjust padding for smaller buttons */
+  }
+
+  p {
+    font-size: 12px; /* Reduce font size for paragraph text */
+  }
+  .modal {
+    max-width: 300px; /* Reduce modal width for small screens */
+    padding: 10px; /* Reduce padding for modal */
+    border-radius: 6px; /* Smaller border-radius */
+  }
+
+  .modal button {
+    font-size: 12px; /* Reduce button font size */
+    padding: 6px 15px; /* Adjust button padding */
+  }
+
+  .modal h1,
+  .modal p {
+    font-size: 14px; /* Reduce font size for text inside the modal */
+  }
+}
