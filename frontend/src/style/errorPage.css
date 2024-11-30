@@ -1,0 +1,46 @@
+.error-404-container {
+  text-align: center;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.error-title {
+  font-size: 72px;
+  color: #ff6f61;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  font-size: 24px;
+  color: #333;
+}
+
+/* Media Query for screens up to 800px */
+@media (max-width: 800px) {
+  .error-title {
+    font-size: 60px;
+  }
+
+  .error-message {
+    font-size: 20px;
+  }
+
+  .error-404-container {
+    padding: 30px;
+  }
+}
+
+/* Media Query for screens up to 600px */
+@media (max-width: 600px) {
+  .error-title {
+    font-size: 48px;
+  }
+
+  .error-message {
+    font-size: 18px;
+  }
+
+  .error-404-container {
+    padding: 20px;
+  }
+}

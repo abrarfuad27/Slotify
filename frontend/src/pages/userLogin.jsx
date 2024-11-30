@@ -3,6 +3,9 @@ import "../style/userLogin.css"; // Import the CSS file
 import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useAuth } from "../context/AuthContext"; // Import useAuth hook
+
+Modal.setAppElement("#root"); // Set the root element for accessibility
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,42 +14,34 @@ export default function LoginPage() {
   const [modalMessage, setModalMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate
+  const { login } = useAuth(); // Access login function from AuthContext
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission for now
-    const userData = {
-      email,
-      password,
-    };
+    e.preventDefault(); // Prevent default form submission
+
+    if (!email || !password) {
+      setModalMessage("All fields are required.");
+      setIsSuccess(false);
+      setModalIsOpen(true); // Open the modal with the error
+      return;
+    }
+
     try {
-      // Send the data to the backend using Axios
-      const response = await axios.post(
-        "http://localhost:5000/userLogin",
-        userData
-      );
+      // Call the login function from AuthContext
+      await login(email, password);
 
-      setModalMessage(response.data.message); // Set success message from server
-      setIsSuccess(true); // Mark as a success response
-
-      // Redirect to the root page if the login is successful
-      setTimeout(() => {
-        navigate("/"); // Use navigate() to redirect to the home page
-      }, 1500); // Wait for 1.5 seconds before redirecting
+      setModalMessage("Login successful! Redirecting to dashboard...");
+      setIsSuccess(true);
     } catch (error) {
-      // Handle error response from the server
+      // Handle error response from the login attempt
       const errorMessage =
         error.response && error.response.data && error.response.data.message
           ? error.response.data.message
           : "An unknown error occurred";
-      setModalMessage(errorMessage); // Set error message
-      setIsSuccess(false); // Mark as an error response
+      setModalMessage(errorMessage);
+      setIsSuccess(false);
     } finally {
-      // Open the modal
-      setModalIsOpen(true);
-
-      // Optionally clear the form fields after submission
-      setEmail("");
-      setPassword("");
+      setModalIsOpen(true); // Open the modal
     }
   };
 
@@ -90,7 +85,7 @@ export default function LoginPage() {
         <button
           onClick={() => {
             if (isSuccess) {
-              navigate("/"); // Redirect to the root page if login is successful
+              navigate("/memberDashboard"); // Redirect to the root page if login is successful
             } else {
               closeModal(); // Close the modal if there's an error
             }
