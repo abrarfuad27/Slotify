@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
@@ -40,18 +40,17 @@ function App() {
 
   return (
 
-    <Router>
+    <BrowserRouter>
         <NavBarMember />
         <Routes>
-          {/* <Landing></Landing> */}
-          <MemberDashboard></MemberDashboard>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Landing />} />
+          <Route path="/memberDashboard" element={<MemberDashboard />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/createPoll" element={<CreatePoll />} />
           <Route path="/history" element={<MeetingHistory />} />
           <Route path="/requests" element={<MeetingRequests />} />
         </Routes>
-    </Router>
+    </BrowserRouter>
     // <div className="App">
     //   <button onClick={fetchMessage}>Click to print Hello World</button>
     //   <div>{message}</div>

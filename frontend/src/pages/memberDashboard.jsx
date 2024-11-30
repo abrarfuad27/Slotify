@@ -44,9 +44,6 @@ const MemberDashboard = () => {
 
   return (
     <div className='member-dashboard'>
-        {/* nav bar */}
-        <div className='nav-dummy'></div>
-        
         <div className='dashboard-content'>
             <div className='dashboard-background'></div>
             {/* header */}

@@ -10,8 +10,6 @@ const Landing = () => {
 
   return (
     <div className='landing'>
-        {/* put nav bar component */}
-        <div className='nav-dummy'></div>
         {/* hero section */}
         <div className='hero'>
             <div className='hero-img'></div>

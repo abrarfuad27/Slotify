@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../style/navbarMember.css';
+import slotifyLogo from '../assets/slotify-logo.png';
 
 const NavBarMember = () => {
   return (
     <nav className="navbar">
       <div className="logo">
-        <img src="/path-to-logo.png" alt="Slotify Logo" />
-        <span>Slotify</span>
+        <img src={slotifyLogo} alt="Slotify Logo" className="logo"/>
       </div>
       <ul className="nav-links">
         <li><Link to="/">Home</Link></li>

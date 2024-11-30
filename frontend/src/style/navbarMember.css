@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #025D7B;
+    background-color: #085A77;
     padding: 10px 20px;
     color: white;
   }
@@ -10,17 +10,21 @@
   .logo {
     display: flex;
     align-items: center;
+    width: 250px;
+    height: auto;
   }
   
   .logo img {
-    height: 30px;
-    margin-right: 10px;
+    margin-right: 30px;
+    margin-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 100px;
   }
   
   .nav-links a {
@@ -35,10 +39,11 @@
   
   .logout-button {
     background-color: #FFFFFF;
-    color: #025D7B;
+    color: #085A77;
+    font-weight: bold;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 20px;
     cursor: pointer;
   }
   
