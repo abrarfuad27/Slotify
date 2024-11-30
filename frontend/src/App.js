@@ -20,7 +20,7 @@ function App() {
     <Router>
       <div>
         {/* Navigation for demonstration */}
-        <NavBarMember />
+        {/* <NavBarMember /> */}
         <Routes>
           <Route
             path="/"
