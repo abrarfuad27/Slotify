@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RegisterPage from "./pages/userRegister.jsx";
 import LoginPage from "./pages/userLogin.jsx";
+import NavBarMember from './components/navbarMember';
+import './App.css';
+import Landing from './pages/landing';
+import MemberDashboard from './pages/memberDashboard';
+
+import Appointments from './pages/appointments';
+import MeetingRequests from './pages/meetingRequests';
+import MeetingHistory from './pages/meetingHistory';
+import CreatePoll from './pages/createPoll';
 
 function App() {
   // const publicUrl = 'https://fall2024-comp307-group06.cs.mcgill.ca/api';
@@ -11,6 +20,7 @@ function App() {
     <Router>
       <div>
         {/* Navigation for demonstration */}
+        <NavBarMember />
         <Routes>
           <Route
             path="/"
@@ -28,6 +38,12 @@ function App() {
           />
           <Route path="/userRegister" element={<RegisterPage />} />
           <Route path="/userLogin" element={<LoginPage />} />
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/memberDashboard" element={<MemberDashboard />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/createPoll" element={<CreatePoll />} />
+          <Route path="/history" element={<MeetingHistory />} />
+          <Route path="/requests" element={<MeetingRequests />} />
         </Routes>
       </div>
     </Router>

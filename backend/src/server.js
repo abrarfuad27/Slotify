@@ -4,7 +4,8 @@ const cookieParser = require("cookie-parser");
 const { registerUser } = require("./utility/register"); // Import the register function
 const { loginUser } = require("./utility/login"); // Import the login function
 const app = express();
-const PORT = 5000;
+const PORT = 4000;
+// const PORT = 5000;
 
 // Enable CORS to allow requests from the local frontend
 app.use(cors());
