@@ -6,12 +6,17 @@ import {
 } from "react-router-dom";
 import NavBarMember from './components/navbarMember';
 import './App.css';
+<<<<<<< HEAD
 
 import Appointments from './pages/appointments';
 import MeetingRequests from './pages/meetingRequests';
 import MeetingHistory from './pages/meetingHistory';
 import CreatePoll from './pages/createPoll';
 
+=======
+import Landing from './pages/landing';
+import MemberDashboard from './pages/memberDashboard';
+>>>>>>> origin/christina
 // import axios from 'axios';
 
 function App() {
@@ -38,6 +43,7 @@ function App() {
 
   return (
 
+<<<<<<< HEAD
     <Router>
         <NavBarMember />
         <Routes>
@@ -54,6 +60,14 @@ function App() {
     // </div>
 
     // style.css global with primary colours, font, h1 h2 etc. navbar dummy
+=======
+    <div className="App">
+      {/* <button onClick={fetchMessage}>Click to print Hello World</button> */}
+      {/* <div>{message}</div> */}
+      {/* <Landing></Landing> */}
+      <MemberDashboard></MemberDashboard>
+    </div>
+>>>>>>> origin/christina
   );
 }
 

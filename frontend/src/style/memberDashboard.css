@@ -1,0 +1,100 @@
+/* navbar */
+.nav-dummy {
+    height:11vh;
+    background-color: #085A77;
+}
+
+.member-dashboard {
+    width:100vw;
+    height:100vh;
+}
+
+/* main content */
+.dashboard-content {
+    position: relative;
+    width: 100vw; 
+    height: 100vh; 
+}
+
+/* dashboard content */
+.dashboard-background {
+    height:100vh;
+    width: 100vw;
+    left: 0px;
+    top: 0px;
+
+    background-image: url('../assets/bg_img.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+    z-index: -1;
+    position: absolute; 
+    border-style : solid;
+    border-width: 1px;
+}
+
+.dashboard-el {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    margin-top: 2%;
+}
+
+dashboard-el > h2 {
+    margin-bottom: 0px;
+}
+
+.upcoming-meetings-container {
+    width:50vw;
+
+    background-color: white;
+    opacity: 0.9;
+    border-radius : 20px;
+    filter: drop-shadow(1px 1px 10px gray);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-card-container {
+    height: 100%;
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+}
+
+.create-appt-btn {
+    margin-top: 2%;
+    width: 12vw;
+    height: 8vh;
+    border-radius : 15px;
+    border: none;
+    background-color: #085A77;
+
+    color:white;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+}
+
+/* TODO styling content of the card */
+.card-content p {
+    text-align: left;
+    line-height: 1;
+    margin-left: 6%;
+    color: #085A77;
+    font-weight: bold;
+}
+
+/* footer */
+.footer-dummy{
+    height:5vh;
+    background-color: #085A77;
+}
