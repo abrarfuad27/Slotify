@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import NavBarMember from './components/navbarMember';
 import './App.css';
+
+import Appointments from './pages/appointments';
+import MeetingRequests from './pages/meetingRequests';
+import MeetingHistory from './pages/meetingHistory';
+import CreatePoll from './pages/createPoll';
+
 // import axios from 'axios';
 
 function App() {
@@ -25,12 +37,23 @@ function App() {
   };
 
   return (
-    // Browser-Router will be inserted
 
-    <div className="App">
-      <button onClick={fetchMessage}>Click to print Hello World</button>
-      <div>{message}</div>
-    </div>
+    <Router>
+        <NavBarMember />
+        <Routes>
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/createPoll" element={<CreatePoll />} />
+          <Route path="/history" element={<MeetingHistory />} />
+          <Route path="/requests" element={<MeetingRequests />} />
+        </Routes>
+    </Router>
+    // <div className="App">
+    //   <button onClick={fetchMessage}>Click to print Hello World</button>
+    //   <div>{message}</div>
+    // </div>
+
+    // style.css global with primary colours, font, h1 h2 etc. navbar dummy
   );
 }
 
