@@ -14,16 +14,18 @@ CREATE TABLE IF NOT EXISTS Appointment (
     mode TEXT CHECK (mode IN ('recurring', 'one-time')), 
     creator TEXT NOT NULL, 
     startDate DATE NOT NULL, 
-    endDate DATE NOT NULL CHECK (endDate > startDate), 
+    endDate DATE NOT NULL CHECK (startDate <= endDate), 
     topic TEXT NOT NULL, 
-    appointmentURL TEXT NOT NULL UNIQUE 
+    appointmentURL TEXT NOT NULL UNIQUE,
+
+    FOREIGN KEY (creator) REFERENCES Member(email)
 );
 
 -- Timeslot Table --
 
 CREATE TABLE IF NOT EXISTS Timeslot ( 
     timeslotID TEXT PRIMARY KEY, 
-    appointmentId TEXT NOT NULL UNIQUE, 
+    appointmentId TEXT NOT NULL, 
     startTime TIME NOT NULL, 
     endTime TIME NOT NULL CHECK (startTime < endTime), 
     timeslotDate DATE NOT NULL, 
@@ -32,16 +34,6 @@ CREATE TABLE IF NOT EXISTS Timeslot (
     requestStatus TEXT CHECK (requestStatus IN ('approved', 'pending')),
     
     FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) 
-);
-
--- Booking Table --
-
-CREATE TABLE IF NOT EXISTS Booking (
-    timeslotID TEXT NOT NULL,
-    appointeeEmail TEXT NOT NULL,
-    upcoming BOOLEAN NOT NULL,
-    
-    FOREIGN KEY (timeslotID) REFERENCES Timeslot(timeslotID)
 );
 
 -- Polling Table --
