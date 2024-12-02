@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../style/memberDashboard.css';
 import DashboardCard from '../components/dashboardCard';
+import NavBarMember from '../components/navbarMember';
 
 const MemberDashboard = () => {
   const content = (
@@ -44,12 +45,13 @@ const MemberDashboard = () => {
 
   return (
     <div className='member-dashboard'>
+        <NavBarMember/>
         <div className='dashboard-content'>
             <div className='dashboard-background'></div>
             {/* header */}
             <div className='dashboard-el'>
                 <h1>Welcome!</h1>
-                <div className='upcoming-meetings-container' style={{height: `${height}vh`}}>
+                <div className='upcoming-meetings-container container-box' style={{height: `${height}vh`}}>
                     <h2>Your upcoming meetings</h2>
 
                     {/* TODO: set limit to max 3 info-cards showing */}

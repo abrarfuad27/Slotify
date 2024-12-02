@@ -14,16 +14,18 @@ CREATE TABLE Appointment (
     mode TEXT CHECK (mode IN ('recurring', 'one-time')), 
     creator TEXT NOT NULL, 
     startDate DATE NOT NULL, 
-    endDate DATE NOT NULL CHECK (endDate > startDate), 
+    endDate DATE NOT NULL CHECK (startDate <= endDate), 
     topic TEXT NOT NULL, 
-    appointmentURL TEXT NOT NULL UNIQUE 
+    appointmentURL TEXT NOT NULL UNIQUE,
+
+    FOREIGN KEY (creator) REFERENCES Member(email)
 );
 
 -- Timeslot Table --
 
 CREATE TABLE Timeslot ( 
     timeslotID TEXT PRIMARY KEY, 
-    appointmentId TEXT NOT NULL UNIQUE, 
+    appointmentId TEXT NOT NULL, 
     startTime TIME NOT NULL, 
     endTime TIME NOT NULL CHECK (startTime < endTime), 
     timeslotDate DATE NOT NULL, 
