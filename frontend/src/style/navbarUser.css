@@ -1,0 +1,131 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #085A77;
+  color: white;
+  padding: 1vh 4vw;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  width: 15vw;
+  max-width: 15vw;
+  height: auto;
+}
+
+.logo img {
+  margin-right: 2vw;
+  margin-left: 4vw;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 4vw;
+  position: relative;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 3vh 2vw;
+  min-width: 12vw;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+  text-decoration: none;
+  background-color: #81B5D1;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 5vh;
+  left: 0;
+  background-color: #FFFFFF;
+  color: #085A77;
+  padding: 0;
+  list-style: none;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  display: block;
+}
+
+.dropdown-menu li a {
+  display: block;
+  color: #085A77;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 1vh 2vw;
+  min-height: 4vh;
+  line-height: 4vh;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #F0F0F0;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1vw;
+}
+
+.auth-button {
+  text-decoration: none;
+  padding: 1.5vh 2.5vw;
+  border-radius: 20px;
+  color: #085A77;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.login-button:hover {
+  text-decoration: none;
+  background-color: #81B5D1;
+}
+
+.signup-button {
+  background-color: #FFFFFF;
+  color: #085A77;
+  font-weight: bold;
+  border: none;
+  padding: 1.5vh 2.5vw;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.signup-button:hover {
+  background-color: #F0F0F0;
+}
+
+body, html {
+  overflow-x: hidden;
+}
