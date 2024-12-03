@@ -5,6 +5,7 @@
   background-color: #085A77;
   padding: 10px 20px;
   color: white;
+  height: 7vh;
 }
 
 .navbar-member .logo {
@@ -25,6 +26,9 @@
   list-style: none;
   display: flex;
   position: relative;
+  text-align: center;
+  align-items: center;
+  text-wrap: wrap;
 }
 
 .navbar-member .nav-links a {
@@ -34,6 +38,8 @@
   padding: 3vh 3vw;
   min-width: 12vw;
   text-align: center;
+  align-items: center;
+  text-wrap: wrap;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
@@ -98,4 +104,9 @@
 
 .navbar-member .logout-button:hover {
   background-color: #F0F0F0;
+}
+
+.navbar-member body,
+.navbar-member html {
+  overflow-x: hidden;
 }
