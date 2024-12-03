@@ -12,7 +12,7 @@ const MemberDashboard = () => {
   // dynamically change upcoming-meetings-container height
   const [height, setHeight] = useState(35);
 
-  
+
   // TODO: replace dummy data
   const email = 'student@mcgill.ca';
   const userData = {
@@ -84,7 +84,7 @@ const MemberDashboard = () => {
           'content':(
           <div className='card-content'>
             <p>Time: {formatDate(data['timeslotDate'])} from {data['startTime']}-{apptTimes[i]['endTime']}</p>
-            <p>Member: {data['creator']}</p>
+            <p>Organizer: {data['creator']}</p>
             <p>Topic: {data['topic']}</p>
             <p>URL:  {data['appointmentURL']} </p>
           </div>
