@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Appointment (
     startDate DATE NOT NULL, 
     endDate DATE NOT NULL CHECK (startDate <= endDate), 
     topic TEXT NOT NULL, 
+    course TEXT,
     appointmentURL TEXT NOT NULL UNIQUE,
 
     FOREIGN KEY (creator) REFERENCES Member(email)
