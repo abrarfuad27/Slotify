@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavBarUser from '../components/navbarUser';
 import Footer from '../components/footer';
 import schedule_icon from '../assets/schedule_icon.png';
 import meeting_icon from '../assets/meeting_icon.png';
 import appointment_icon from '../assets/appointment_icon.png';
+import NavBarMember from '../components/navbarMember';
 
 import '../style/landing.css';
 
 const Landing = () => {
+    const [apptTimes, setApptTimes] = useState([]);
+
+    useEffect(()=> {
+        axios.get('')
+    });
+
     const handleClick = () => { alert('Button was clicked!'); };
 
+  // TODO - only showcase the appointments that are not requests, or if it is request, check if it is approved 
   return (
     <div className='landing'>
         <NavBarUser />

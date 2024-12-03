@@ -3,8 +3,10 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { registerUser } = require("./utility/register"); // Import the register function
 const { loginUser } = require("./utility/login"); // Import the login function
+const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const app = express();
-const PORT = 5000;
+const PORT = 4000;
+// const PORT = 5000;
 
 // Enable CORS to allow requests from the local frontend
 app.use(cors());
@@ -59,6 +61,16 @@ app.post("/userLogin", async (req, res) => {
 app.post("/userLogout", (req, res) => {
   res.clearCookie("authToken"); // Removes the cookie
   res.json({ message: "Logged out successfully!" });
+});
+
+// Route to handle member dashboard page upcoming meetings
+app.get("/upcomingAppointments", async (req, res) => {
+  try {
+    const result = await getUpcomingAppts(req.query, res); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
 });
 
 // Start the server

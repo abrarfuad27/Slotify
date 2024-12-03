@@ -42,7 +42,7 @@
     flex-direction: column;
     justify-content: top;
     align-items: center;
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 dashboard-el > h2 {
@@ -51,12 +51,6 @@ dashboard-el > h2 {
 
 .upcoming-meetings-container {
     width:50vw;
-
-    background-color: white;
-    opacity: 0.9;
-    border-radius : 20px;
-    filter: drop-shadow(1px 1px 10px gray);
-
     display: flex;
     flex-direction: column;
     align-items: center;
