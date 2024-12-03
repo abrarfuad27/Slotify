@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import NavBarUser from '../components/navbarUser';
+import Footer from '../components/footer';
 import schedule_icon from '../assets/schedule_icon.png';
 import meeting_icon from '../assets/meeting_icon.png';
 import appointment_icon from '../assets/appointment_icon.png';
@@ -18,8 +20,7 @@ const Landing = () => {
   // TODO - only showcase the appointments that are not requests, or if it is request, check if it is approved 
   return (
     <div className='landing'>
-        <NavBarMember/>
-        {/* hero section */}
+        <NavBarUser />
         <div className='hero'>
             <div className='hero-img'></div>
 
@@ -57,8 +58,7 @@ const Landing = () => {
             </div>
         </div>
 
-        {/* put footer  */}
-        <div className='footer-dummy'></div>
+        <Footer />
     </div>
   );
 };
