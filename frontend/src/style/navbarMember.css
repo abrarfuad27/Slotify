@@ -5,6 +5,7 @@
   background-color: #085A77;
   padding: 10px 20px;
   color: white;
+  height: 7vh;
 }
 
 .navbar-member .logo {
@@ -103,4 +104,9 @@
 
 .navbar-member .logout-button:hover {
   background-color: #F0F0F0;
+}
+
+.navbar-member body,
+.navbar-member html {
+  overflow-x: hidden;
 }
