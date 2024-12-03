@@ -19,22 +19,11 @@ const NavBarUser = () => {
         </Link>
       </div>
       <ul className={`nav-links ${menuActive ? 'active' : ''}`}>
-        {/* Appointments Dropdown */}
         <li className="dropdown">
-          <Link to="/appointments">Appointments</Link>
-          <ul className="dropdown-menu">
-            <li><Link to="/appointments">Book Appointment</Link></li>
-            <li><Link to="/create-appointment">Create Appointment</Link></li>
-          </ul>
+          <Link to="/appointments">Book Appointment</Link>
         </li>
-        {/* Poll Dropdown */}
         <li className="dropdown">
-          <Link to="/poll">Poll</Link>
-          <ul className="dropdown-menu">
-            <li><Link to="/create-poll">Create Poll</Link></li>
-            <li><Link to="/poll">Access Poll</Link></li>
-            <li><Link to="/poll-results">See Poll Results</Link></li>
-          </ul>
+          <Link to="/poll">Access Poll</Link>
         </li>
       </ul>
       <div className="auth-buttons">
