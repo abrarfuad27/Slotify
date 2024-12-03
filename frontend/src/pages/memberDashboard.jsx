@@ -2,47 +2,102 @@ import React, { useState, useEffect } from 'react';
 import '../style/memberDashboard.css';
 import DashboardCard from '../components/dashboardCard';
 import NavBarMember from '../components/navbarMember';
+import axios from "axios";
+import { parseISO, format } from 'date-fns';
 
 const MemberDashboard = () => {
-  const content = (
-    <div className='card-content'>
-        <p>Time: January 1, 2025 at 1:00 PM - 1:15 PM</p>
-        <p>Member: Prof. Joseph Vybihal</p>
-        <p>Course: COMP307</p>
-        <p>URL:  https://example.com/</p>
-    </div>
-  );
-
-  const [appointments, setAppointments] = useState([]);
-
-//   dynamically change upcoming-meetings-container height
+  // database information
+  const [apptTimes, setApptTimes] = useState([]);
+  const [apptDivs, setApptDivs] = useState([]);
+  // dynamically change upcoming-meetings-container height
   const [height, setHeight] = useState(35);
 
-//   simulates fetching upcoming appointments from database
-  const fetchAppointment = () => {
-    // query only 3 upcoming appointments, close to current date
-    let queryData = [content, content, content];
-    
-    if (queryData.length === 0) {
-        queryData = [(
+  
+  // TODO: replace dummy data
+  const email = 'student@mcgill.ca';
+  const userData = {
+      email
+  };
+
+    // on mount, get upcoming appointments from database
+    useEffect(()=> {
+      getUpcomingAppointments();
+    }, []);
+
+    // update the dashboard with the upcoming meetings
+    useEffect(() => { 
+      displayUpcomingAppointments();
+    }, [apptTimes]);
+
+    // method to get upcoming meetings/appointments
+    const getUpcomingAppointments = async () => {
+      try{
+        const resp = await axios.get('http://localhost:4000/upcomingAppointments', {
+          params: userData
+        });
+        setApptTimes(resp.data.data);  
+      }catch (error) {
+        console.error('There was an error getting the upcoming appointments.', error);
+      }
+    };
+
+    // format date
+    function formatDate(dateString) { 
+      const formattedDate = format(parseISO(dateString), "MMM do, yyyy");
+      return formattedDate; 
+    }
+  
+    // method to display upcoming meetings/appointments to dashboard
+    const displayUpcomingAppointments = () => {
+      let queryData = [];
+      
+      if (apptTimes.length === 0) {
+        const empty_card = { 
+            'content':(
             <div className='card-content'>
                 <p>No meetings yet!</p>
                 <p>Start by creating an appointment</p>
             </div>
-        )]
-    } else if (queryData.length === 2){
-        setHeight(55);
-    } else {
-        setHeight(68);
-    }
-    setAppointments(queryData);
-  }
-  
-  
-  useEffect(() => { 
-    fetchAppointment(); 
-  }, []);
+            ),
+            'banner': ''
+        };
+        queryData.push(empty_card);
+          // queryData = [(
+          //     <div className='card-content'>
+          //         <p>No meetings yet!</p>
+          //         <p>Start by creating an appointment</p>
+          //     </div>
+          // )]
+      } else if (apptTimes.length === 2){
+          setHeight(55);
+      } else {
+          setHeight(68);
+      }
 
+      let data = '';
+      let divElement = null;
+      for (let i=0; i < apptTimes.length; i++){
+        console.log(apptTimes[i]);
+        
+        data = apptTimes[i];
+        const divElement = { 
+          'content':(
+          <div className='card-content'>
+            <p>Time: {formatDate(data['timeslotDate'])} from {data['startTime']}-{apptTimes[i]['endTime']}</p>
+            <p>Member: {data['creator']}</p>
+            <p>Topic: {data['topic']}</p>
+            <p>URL:  {data['appointmentURL']} </p>
+          </div>
+          ),
+          'banner': data['course']
+        };
+        
+        queryData.push(divElement);
+        
+      }
+      setApptDivs(queryData);
+  };
+  
   return (
     <div className='member-dashboard'>
         <NavBarMember/>
@@ -56,8 +111,8 @@ const MemberDashboard = () => {
 
                     {/* TODO: set limit to max 3 info-cards showing */}
                     <div className='info-card-container'>
-                        {appointments.map((appt, _)=>(
-                            <DashboardCard content={appt}></DashboardCard>
+                        {apptDivs.map((appt, _)=>(
+                            <DashboardCard content={appt.content} banner={appt.banner}></DashboardCard>
                         ))}
                     </div>
                 </div>
