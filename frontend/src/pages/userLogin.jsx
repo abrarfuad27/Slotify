@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../style/userLogin.css"; // Import the CSS file
+import NavBarUser from "../components/navbarUser";
 import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
@@ -56,6 +57,7 @@ export default function LoginPage() {
 
   return (
     <div className="login-page-container">
+      <NavBarUser/>
       <h1 className="login-page-header">Already a Member? Log In</h1>
       <div className="form-div">
         <form className="form-container" onSubmit={handleSubmit}>
