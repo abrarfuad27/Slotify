@@ -25,6 +25,9 @@
   list-style: none;
   display: flex;
   position: relative;
+  text-align: center;
+  align-items: center;
+  text-wrap: wrap;
 }
 
 .navbar-member .nav-links a {
@@ -34,6 +37,8 @@
   padding: 3vh 3vw;
   min-width: 12vw;
   text-align: center;
+  align-items: center;
+  text-wrap: wrap;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
