@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../style/userRegister.css"; // Import the CSS file
 import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
+import NavBarUser from "../components/navbarUser";
 
 Modal.setAppElement("#root");
 
@@ -76,6 +77,7 @@ export default function RegisterPage() {
 
   return (
     <div className="register-page-container">
+      <NavBarUser />
       <h1 className="register-page-header">Create a Slotify Account</h1>
       <div className="form-div">
         <form className="form-container" onSubmit={handleSubmit}>
