@@ -6,7 +6,6 @@ const { loginUser } = require("./utility/login"); // Import the login function
 const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const app = express();
 const PORT = 4000;
-// const PORT = 5000;
 
 // Enable CORS to allow requests from the local frontend
 app.use(cors());
