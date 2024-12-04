@@ -76,71 +76,75 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="register-page-container">
+    <>
       <NavBarUser />
-      <h1 className="register-page-header">Create a Slotify Account</h1>
-      <div className="form-div">
-        <form className="form-container" onSubmit={handleSubmit}>
-          <label>
-            First name :
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </label>
-          <label>
-            Last name :
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </label>
-          <label>
-            Email :
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label>
-            Password :
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <button type="submit">Register now</button>
-        </form>
-        <p>
-          Already a member? <a href="/userLogin">Log in</a>
-        </p>
+      <div className="register-page-without-nav">
+        <div className="register-page-container">
+          <h1 className="register-page-header">Create a Slotify Account</h1>
+          <div className="form-div">
+            <form className="form-container" onSubmit={handleSubmit}>
+              <label>
+                First name :
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </label>
+              <label>
+                Last name :
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </label>
+              <label>
+                Email :
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+              <label>
+                Password :
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
+              <button type="submit">Register now</button>
+            </form>
+            <p>
+              Already a member? <a href="/userLogin">Log in</a>
+            </p>
+          </div>
+          {/* Modal Component */}
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Registration Status"
+            className="modal"
+            overlayClassName="modal-overlay"
+          >
+            <h2>{isSuccess ? "Success" : "Error"}</h2>
+            <p>{modalMessage}</p>
+            <button
+              onClick={() => {
+                if (isSuccess) {
+                  window.location.href = "/userLogin"; // Redirect to login page
+                } else {
+                  closeModal(); // Close the modal
+                }
+              }}
+            >
+              {isSuccess ? "Login" : "OK"}
+            </button>
+          </Modal>
+        </div>
       </div>
-      {/* Modal Component */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Registration Status"
-        className="modal"
-        overlayClassName="modal-overlay"
-      >
-        <h2>{isSuccess ? "Success" : "Error"}</h2>
-        <p>{modalMessage}</p>
-        <button
-          onClick={() => {
-            if (isSuccess) {
-              window.location.href = "/userLogin"; // Redirect to login page
-            } else {
-              closeModal(); // Close the modal
-            }
-          }}
-        >
-          {isSuccess ? "Login" : "OK"}
-        </button>
-      </Modal>
-    </div>
+    </>
   );
 }

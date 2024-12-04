@@ -1,80 +1,80 @@
 .poll-page {
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    width: 100vw;
-    background-color: #FFFBF5;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  width: 100vw;
+  background-color: #fffbf5;
 }
 
 .poll-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-    height: auto;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  height: auto;
 }
 
 .poll-container h1 {
-    text-align: center;
-    color: #4A4A4A;
+  text-align: center;
+  color: #4a4a4a;
 }
 
-label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
+.poll-page label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
 }
 
-input,
+.poll-page input,
 textarea {
-    width: 100%;
-    padding: 0px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  width: 100%;
+  padding: 0px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .poll-options h3 {
-    margin-top: 20px;
-    color: #333;
+  margin-top: 20px;
+  color: #333;
 }
 
-button {
-    margin: 5px;
-    padding: 10px 15px;
-    background-color: #085A77;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.poll-page button {
+  margin: 5px;
+  padding: 10px 15px;
+  background-color: #085a77;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-button:hover {
-    background-color: #064A5B;
+.poll-page button:hover {
+  background-color: #064a5b;
 }
 
 .options-list {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .option-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .poll-actions {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
-body, html {
-    overflow-x: hidden;
+.poll-page body,
+html {
+  overflow-x: hidden;
 }
-  
