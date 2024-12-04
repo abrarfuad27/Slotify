@@ -1,31 +1,13 @@
-body {
+.login-page-without-nav {
   font-family: Inter, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  position: relative;
-  z-index: 0; /* Ensure content stays above the background */
+  margin-top: 3rem;
+  
 }
-/*
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("../../public/assets/background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  opacity: 0.5;
-  z-index: -1;
-}
-*/
 
 .login-page-header {
   color: #3d0db2;
@@ -54,7 +36,7 @@ body::before {
   gap: 20px;
 }
 
-label {
+.login-page-container label {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,7 +45,7 @@ label {
   color: #085a77;
 }
 
-input {
+.login-page-container input {
   width: 95%;
   padding: 10px; /* Equal padding on all sides */
   margin-top: 5px;
@@ -72,12 +54,12 @@ input {
   font-size: 14px;
 }
 
-input:focus {
+.login-page-container input:focus {
   border-color: #0056b3;
   outline: none;
 }
 
-button {
+.login-page-container button {
   background-color: #085a77;
   color: #fff;
   padding: 10px 20px;
@@ -93,11 +75,11 @@ button {
   align-self: center; /* Centers the button within its parent */
 }
 
-button:hover {
+.login-page-container button:hover {
   background-color: #034459;
 }
 
-p {
+.login-page-container p {
   margin-top: 15px;
   text-align: center;
   font-size: 14px;
@@ -105,12 +87,12 @@ p {
   color: #034459;
 }
 
-p a {
+.login-page-container p a {
   color: #034459;
   text-decoration: none;
 }
 
-p a:hover {
+.login-page-container p a:hover {
   text-decoration: underline;
 }
 
@@ -154,7 +136,7 @@ p a:hover {
 
 /* Tablets (max-width: 800px) */
 @media (max-width: 800px) {
-  body {
+  .login-page-container {
     padding: 10px; /* Add padding for better spacing on smaller screens */
   }
 
@@ -164,11 +146,11 @@ p a:hover {
     border-radius: 15px; /* Slightly smaller border-radius */
   }
 
-  input {
+  .login-page-container input {
     width: 90%; /* Make inputs take the full width */
   }
 
-  button {
+  .login-page-container button {
     max-width: 150px; /* Reduce the button width */
     font-size: 14px; /* Slightly smaller font size for buttons */
   }
@@ -191,7 +173,7 @@ p a:hover {
 
 /* Smartphones (max-width: 600px) */
 @media (max-width: 600px) {
-  body {
+  .login-page-container {
     flex-direction: column; /* Stack items vertically */
     padding: 10px;
   }
@@ -207,18 +189,18 @@ p a:hover {
     margin-bottom: 15px;
   }
 
-  input {
+  .login-page-container input {
     padding: 8px; /* Reduce input padding */
     font-size: 12px; /* Smaller input font size */
   }
 
-  button {
+  .login-page-container button {
     max-width: 120px; /* Make the button even smaller */
     font-size: 12px;
     padding: 8px 15px; /* Adjust padding for smaller buttons */
   }
 
-  p {
+  .login-page-container p {
     font-size: 12px; /* Reduce font size for paragraph text */
   }
   .modal {
