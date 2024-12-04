@@ -30,17 +30,19 @@ import DashboardCard from '../components/dashboardCard';
 import NavBarMember from '../components/navbarMember';
 import axios from "axios";
 import { parseISO, format } from 'date-fns';
+import { useAuth } from "../context/AuthContext";
 
 const MemberDashboard = () => {
+  const { user } = useAuth();
   // database information
   const [apptTimes, setApptTimes] = useState([]);
   const [apptDivs, setApptDivs] = useState([]);
   // dynamically change upcoming-meetings-container height
   const [height, setHeight] = useState(35);
 
-
+  
   // TODO: replace dummy data
-  const email = 'student@mcgill.ca';
+  const email = user.email;
   const userData = {
       email
   };
