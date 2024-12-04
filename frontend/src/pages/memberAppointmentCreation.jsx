@@ -1,18 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../style/memberAppointmentCreation.css';
+import axios from "axios";
+import { useAuth } from '../context/AuthContext';
 
 const MemberAppointmentCreation = () => {
-  const [formData, setFormData] = useState({
-    meeting_mode: '',
+  const { user } = useAuth();
+  const email = user.email;
+  // ARGS for APPT table :
+      // appointmentId PK
+      // mode
+      // creator
+      // startDate
+      // endDate
+      // topic
+      // appointmentURL UNIQUE
+
+  // ARGS for timeslot table : 
+      // timeslotId
+      // appointmentId (foreign key of the APPT table)
+      // startTime 
+      // endTime
+      // timeslotDate
+      // appointee == null
+      // isRequest == False
+      // requestStatus == null
+
+  const initialFormData = {
+    meeting_mode: 'one-time', // Set default value here
     course: '',
     topic: '',
-    day: '',
+    day: -1,
     start_date: '',
     end_date: '',
     start_time: '',
     end_time: ''
-  });
+  };
+  const requestData = {
+    'appointment_data' : {},
+    'timeslot_data' : {}
+  }
+  const [formData, setFormData] = useState(initialFormData);
 
+  const handleCancel = () => {
+    console.log('Resetting form data')
+    setFormData(initialFormData);
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,12 +53,49 @@ const MemberAppointmentCreation = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateDates()){
+      return;
+    }
     console.log('Form data:', formData);
-    // You can now use formData for further processing, like sending it to a server
+    requestData['appointment_data'] = {...formData};
+    requestData['appointment_data']['email'] = email;
+    console.log('Appointment:', requestData);
+
+    // const response = await axios.post(
+    //   "http://localhost:4000/createAppointments",
+    //   formData
+    // );
   };
 
+  const validateDates = () => {
+    const { start_date, end_date, start_time, end_time } = formData;
+    if (start_date && end_date && new Date(start_date) > new Date(end_date)) { 
+      alert('Start Date must be before or equal to End Date'); 
+      return false; 
+    }
+    if (start_time && end_time && start_time >= end_time) { 
+      alert('Start Time must be before End Time'); 
+      return false; 
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    // Reset day and time period if meeting_mode is one-time
+    if (formData.meeting_mode === 'one-time') {
+      setFormData((prevData) => ({
+        ...prevData,
+        day: -1,
+        start_date: '',
+        end_date: ''
+      }));
+    }
+  }, [formData.meeting_mode]);
+
+  const processData = (data) => {
+  };
   return (
     <form className="create-appt-form-div container-box create-appt-form-container" onSubmit={handleSubmit}>
       <div className='mode'>
@@ -39,6 +108,7 @@ const MemberAppointmentCreation = () => {
             value="one-time"
             onChange={handleChange}
             required
+            checked = {formData.meeting_mode === 'one-time'}
           />
           <label htmlFor="one-time">One-Time</label>
         </div>
@@ -49,6 +119,7 @@ const MemberAppointmentCreation = () => {
             name="meeting_mode"
             value="recurring"
             onChange={handleChange}
+            checked = {formData.meeting_mode === 'recurring'}
           />
           <label htmlFor="recurring">Recurring</label><br />
         </div>
@@ -78,20 +149,23 @@ const MemberAppointmentCreation = () => {
       {/* only appears when you select RECURRING*/}
       <div className='day'>
         <p>Day*:</p>
+        
         <select
           name='day'
           value={formData.day}
           onChange={handleChange}
-          required
+          required={formData.meeting_mode === 'recurring'}
+          disabled={formData.meeting_mode === 'one-time'}
         >
-          <option disabled selected value> -- choose a day -- </option>
-          <option>Monday</option>
-          <option>Tuesday</option>
-          <option>Wednesday</option>
-          <option>Thursday</option>
-          <option>Friday</option>
-          <option>Saturday</option>
-          <option>Sunday</option>
+          <option selected value={-1} disabled> -- choose a day -- </option>
+         
+          <option value='1' >Monday</option>
+          <option value='2'>Tuesday</option>
+          <option value='3'>Wednesday</option>
+          <option value='4'>Thursday</option>
+          <option value='5'>Friday</option>
+          <option value='6'>Saturday</option>
+          <option value='0'>Sunday</option>
         </select>
       </div>
 
@@ -110,7 +184,8 @@ const MemberAppointmentCreation = () => {
           name="end_date"
           value={formData.end_date}
           onChange={handleChange}
-          required
+          disabled={formData.meeting_mode === 'one-time'}
+          required={formData.meeting_mode === 'recurring'}
         />
       </div>
 
@@ -135,7 +210,7 @@ const MemberAppointmentCreation = () => {
 
       <div className='form-btn'>
         <button type='submit' className='confirm'>Confirm</button>
-        <button type='button' className='cancel'>Cancel</button>
+        <button type='button' className='cancel' onClick={handleCancel}>Cancel</button>
       </div>
     </form>
   );
