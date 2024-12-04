@@ -42,9 +42,8 @@ export default function RegisterPage() {
     };
 
     try {
-      // Send the data to the backend using Axios
       const response = await axios.post(
-        "http://localhost:5000/userRegister",
+        "http://localhost:4000/userRegister",
         userData
       );
       console.log("Server Response:", response.data); // Display the server response

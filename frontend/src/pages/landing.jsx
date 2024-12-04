@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
 import NavBarUser from '../components/navbarUser';
 import Footer from '../components/footer';
 import schedule_icon from '../assets/schedule_icon.png';
@@ -11,9 +12,9 @@ import '../style/landing.css';
 const Landing = () => {
     const [apptTimes, setApptTimes] = useState([]);
 
-    useEffect(()=> {
-        axios.get('')
-    });
+    // useEffect(()=> {
+    //     axios.get('')
+    // });
 
     const handleClick = () => { alert('Button was clicked!'); };
 

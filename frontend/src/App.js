@@ -14,8 +14,9 @@ import CreatePoll from './pages/createPoll';
 
 function App() {
   // const publicUrl = 'https://fall2024-comp307-group06.cs.mcgill.ca/api';
-  const publicUrl = "http://localhost:5000";
-
+  // const publicUrl = "http://localhost:5000";
+  const publicUrl = "http://localhost:4000";
+  
   return (
     <Router>
       <div>
