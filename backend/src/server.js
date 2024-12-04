@@ -5,9 +5,10 @@ const { authenticateToken } = require("./utility/authenticate"); // Import the a
 const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
+const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 
 const app = express();
-const PORT = 5000;
+const PORT = 4000;
 
 const corsOptions = {
   origin: "http://localhost:3000", // Your React app's URL
@@ -56,6 +57,16 @@ app.get("/validateUser", authenticateToken, (req, res) => {
       email: req.user.email,
     },
   });
+
+// Route to handle member dashboard page upcoming meetings
+app.get("/upcomingAppointments", async (req, res) => {
+  try {
+    const result = await getUpcomingAppts(req.query, res); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+
 });
 
 // Start the server

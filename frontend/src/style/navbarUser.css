@@ -1,0 +1,151 @@
+.navbar-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #085A77;
+  color: white;
+  padding: 1vh 4vw;
+}
+
+.navbar-user .logo {
+  display: flex;
+  align-items: center;
+  width: 15vw;
+  max-width: 15vw;
+  height: auto;
+}
+
+.navbar-user .logo img {
+  margin-right: 2vw;
+  margin-left: 4vw;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.navbar-user .nav-links {
+  list-style: none;
+  display: flex;
+  position: relative;
+}
+
+.navbar-user .nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 3vh 3vw;
+  min-width: 12vw;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-user .nav-links a:hover {
+  text-decoration: none;
+  background-color: #81B5D1;
+}
+
+.navbar-user .dropdown {
+  position: relative;
+}
+
+.navbar-user .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 5vh;
+  left: 0;
+  background-color: #FFFFFF;
+  color: #085A77;
+  padding: 0;
+  list-style: none;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.navbar-user .dropdown-menu li {
+  display: block;
+}
+
+.navbar-user .dropdown-menu li a {
+  display: block;
+  color: #085A77;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 1vh 2vw;
+  min-height: 4vh;
+  line-height: 4vh;
+}
+
+.navbar-user .dropdown-menu li a:hover {
+  background-color: #F0F0F0;
+}
+
+.navbar-user .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.navbar-user .auth-buttons {
+  display: flex;
+  gap: 1vw;
+}
+
+.navbar-user .auth-button {
+  text-decoration: none;
+  padding: 1.5vh 2.5vw;
+  border-radius: 20px;
+  color: #085A77;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-user .login-button {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.navbar-user .login-button:hover {
+  text-decoration: none;
+  background-color: #81B5D1;
+}
+
+.navbar-user .signup-button {
+  background-color: #FFFFFF;
+  color: #085A77;
+  font-weight: bold;
+  border: none;
+  padding: 1.5vh 2.5vw;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.navbar-user .signup-button:hover {
+  background-color: #F0F0F0;
+}
+
+.navbar-user body,
+.navbar-user html {
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 800px) {
+  .navbar-user .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+    gap: 0;
+  }
+
+  .navbar-user .nav-links a {
+    padding: 2vh 4vw;
+    text-align: left;
+    min-width: 100%;
+  }
+
+  .navbar-user .nav-links.active {
+    display: flex;
+  }
+}

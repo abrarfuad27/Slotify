@@ -1,0 +1,30 @@
+/* general text */
+h1 {
+    color: #3D0DB2;
+    font-size: 3rem;
+    font-family: 'Open Sans', sans-serif;
+}
+h2 {
+    font-size: 2rem;
+    color: #085A77;
+}
+h3 {
+    margin-top: 0px;
+    color: #085A77;
+}
+h2, h3, p{
+    font-family: 'Inter', sans-serif;
+}
+
+/* page background color */
+.bg {
+    background-color : #FFFBF5;
+}
+
+/* white box with shadow */
+.container-box {
+    background-color: white;
+    opacity: 0.9;
+    border-radius : 20px;
+    filter: drop-shadow(1px 1px 10px gray);
+}
