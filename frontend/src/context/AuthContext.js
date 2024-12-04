@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const validateUser = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/validateUser", {
+        const response = await axios.get("http://localhost:4000/validateUser", {
           withCredentials: true,
         });
 
@@ -35,14 +35,14 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/userLogin",
+        "http://localhost:4000/userLogin",
         { email, password },
         { withCredentials: true }
       );
 
       // Validate user again to get user details
       const validateResponse = await axios.get(
-        "http://localhost:5000/validateUser",
+        "http://localhost:4000/validateUser",
         {
           withCredentials: true,
         }
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/userLogout",
+        "http://localhost:4000/userLogout",
         {},
         {
           withCredentials: true,

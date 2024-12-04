@@ -57,7 +57,7 @@ app.get("/validateUser", authenticateToken, (req, res) => {
       email: req.user.email,
     },
   });
-
+});
 // Route to handle member dashboard page upcoming meetings
 app.get("/upcomingAppointments", async (req, res) => {
   try {
@@ -66,8 +66,7 @@ app.get("/upcomingAppointments", async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error });
   }
-
-});
+}); // Add a closing curly brace here
 
 // Start the server
 app.listen(PORT, () => {
