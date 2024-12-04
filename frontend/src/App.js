@@ -8,7 +8,7 @@ import LoginPage from "./pages/userLogin.jsx";
 
 import Error404 from "./pages/errorPage.jsx";
 import MemberDashboard from "./pages/memberDashboard.jsx";
-
+import MemberAppointmentCreation from "./pages/memberAppointmentCreation.jsx";
 function App() {
   return (
     <AuthProvider>
@@ -52,6 +52,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MemberDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/memberAppointmentCreation"
+              element={
+                <ProtectedRoute>
+                  <MemberAppointmentCreation />
                 </ProtectedRoute>
               }
             />

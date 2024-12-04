@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import '../style/createAppointments.css';
+import '../style/memberAppointmentCreation.css';
 
-const CreateAppointments = () => {
+const MemberAppointmentCreation = () => {
   const [formData, setFormData] = useState({
     meeting_mode: '',
     course: '',
@@ -141,7 +141,7 @@ const CreateAppointments = () => {
   );
 };
 
-export default CreateAppointments;
+export default MemberAppointmentCreation;
 
 // import React, { useState } from "react";
 // import NavBarMember from '../components/navbarMember';
