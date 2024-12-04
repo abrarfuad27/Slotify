@@ -50,7 +50,7 @@
     margin-bottom: 4%;
 }
 
-.topic, .day, .time-period, .time-of-day, .form-btn {
+.topic, .day, .time-period, .time-of-day, .form-btn, .course {
     width: 100%;
     display: flex;
 }
