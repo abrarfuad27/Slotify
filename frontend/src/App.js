@@ -38,28 +38,21 @@ function App() {
                 </PublicRoute>
               }
             />
-            <Route
-              path="/appointments"
-              element={
-                <PublicRoute>
-                  <Appointments />
-                </PublicRoute>
-              }
-            />
+            <Route path="/appointments" element={<Appointments />} />
             <Route
               path="/createPoll"
               element={
-                <PublicRoute>
+                <ProtectedRoute>
                   <CreatePoll />
-                </PublicRoute>
+                </ProtectedRoute>
               }
             />
             <Route
               path="/history"
               element={
-                <PublicRoute>
+                <ProtectedRoute>
                   <MeetingHistory />
-                </PublicRoute>
+                </ProtectedRoute>
               }
             />
             <Route
@@ -122,7 +115,5 @@ function App() {
     //     </Router>
   );
 }
-
-
 
 export default App;
