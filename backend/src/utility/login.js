@@ -9,44 +9,69 @@ const loginUser = async (userData, res) => {
   const { email, password } = userData;
 
   return new Promise((resolve, reject) => {
+    // Validate input
+    if (!email || !password) {
+      return reject("Email and password are required.");
+    }
+
     // Check if the user exists in the database
     db.get(
       `SELECT * FROM Member WHERE email = ?`,
       [email],
       async (err, user) => {
         if (err) {
-          reject("Database error: " + err.message);
-        } else if (!user) {
-          reject("Invalid email or password.");
-        } else {
-          try {
-            // Compare the provided password with the stored encrypted password
-            const isMatch = await bcrypt.compare(password, user.encryptedPassword);
-            if (!isMatch) {
-              reject("Invalid email or password. Please try again.");
-            } else {
-              // Generate a JWT token
-              const token = jwt.sign(
-                { id: user.id, email: user.email }, // Payload
-                JWT_SECRET, // Secret key
-                { expiresIn: "4h" } // Token expiration
-              );
+          return reject("Database error: " + err.message);
+        }
 
-              // Set the token in an HTTP-only cookie
-              res.cookie("authToken", token, {
-                httpOnly: true, // Can't be accessed by JavaScript
-                //secure: process.env.NODE_ENV === "production", // Only sent over HTTPS in production
-                maxAge: 4 * 60 * 60 * 1000, // 4 hours
-                sameSite: "strict", // Prevents CSRF
-              });
-              resolve({
-                message: "Login successful!",
-                token, // You can still send the token in the response if needed
-              });
-            }
-          } catch (error) {
-            reject("Error during login: " + error.message);
+        if (!user) {
+          return reject("Invalid email or password.");
+        }
+
+        try {
+          // Compare the provided password with the stored encrypted password
+          const isMatch = await bcrypt.compare(
+            password,
+            user.encryptedPassword
+          );
+
+          if (!isMatch) {
+            return reject("Invalid email or password. Please try again.");
           }
+
+          // Generate a JWT token with more specific payload
+          const token = jwt.sign(
+            { 
+              id: user.email, // Using email as unique identifier
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName
+            },
+            JWT_SECRET,
+            { 
+              expiresIn: "4h",
+              issuer: "Slotify",
+              audience: "SlotifyUsers"
+            }
+          );
+
+          // Set the token in an HTTP-only, secure cookie
+          res.cookie("authToken", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", // Use secure in production
+            sameSite: 'strict', // Protect against CSRF
+            maxAge: 4 * 60 * 60 * 1000, // 4 hours
+          });
+
+          resolve({
+            message: "Login successful!",
+            user: {
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName
+            }
+          });
+        } catch (error) {
+          reject("Error during login: " + error.message);
         }
       }
     );
