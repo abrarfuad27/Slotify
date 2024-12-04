@@ -27,8 +27,6 @@ export default function LoginPage() {
       return;
     }
 
-
-
     try {
       // Call the login function from AuthContext
       await login(email, password);
@@ -53,51 +51,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-page-container">
-      <NavBarUser/>
-      <h1 className="login-page-header">Already a Member? Log In</h1>
-      <div className="form-div">
-        <form className="form-container" onSubmit={handleSubmit}>
-          <label>
-            Email :
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label>
-            Password :
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <button type="submit">Log In</button>
-        </form>
+    <>
+      <NavBarUser />
+      <div className="login-page-without-nav">
+        <div className="login-page-container">
+          <h1 className="login-page-header">Already a Member? Log In</h1>
+          <div className="form-div">
+            <form className="form-container" onSubmit={handleSubmit}>
+              <label>
+                Email :
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+              <label>
+                Password :
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
+              <button type="submit">Log In</button>
+            </form>
+          </div>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Login Status"
+            className="modal"
+            overlayClassName="modal-overlay"
+          >
+            <h2>{isSuccess ? "Success" : "Error"}</h2>
+            <p>{modalMessage}</p>
+            <button
+              onClick={() => {
+                if (isSuccess) {
+                  navigate("/memberDashboard"); // Redirect to the root page if login is successful
+                } else {
+                  closeModal(); // Close the modal if there's an error
+                }
+              }}
+            >
+              {isSuccess ? "Proceed to Dashboard" : "OK"}
+            </button>
+          </Modal>
+        </div>
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Login Status"
-        className="modal"
-        overlayClassName="modal-overlay"
-      >
-        <h2>{isSuccess ? "Success" : "Error"}</h2>
-        <p>{modalMessage}</p>
-        <button
-          onClick={() => {
-            if (isSuccess) {
-              navigate("/memberDashboard"); // Redirect to the root page if login is successful
-            } else {
-              closeModal(); // Close the modal if there's an error
-            }
-          }}
-        >
-          {isSuccess ? "Proceed to Dashboard" : "OK"}
-        </button>
-      </Modal>
-    </div>
+    </>
   );
 }
