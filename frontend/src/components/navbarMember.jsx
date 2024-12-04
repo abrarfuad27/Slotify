@@ -2,8 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../style/navbarMember.css';
 import slotifyLogo from '../assets/slotify-logo.png';
+import { useAuth } from '../context/AuthContext';
 
 const NavBarMember = () => {
+  
+  const { logout } = useAuth(); // Access the logout function from AuthContext
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // Call the logout function
+      // Redirect to the home after logging out
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+  
   return (
     <nav className="navbar-member">
       <div className="logo">
@@ -29,9 +42,7 @@ const NavBarMember = () => {
         <li><Link to="/history">History</Link></li>
         <li><Link to="/requests">View Requests</Link></li>
       </ul>
-      <Link to="/landing">
-        <button className="logout-button">Log Out</button>
-      </Link>
+      <button className="logout-button" onClick={handleLogout}>Log Out</button>
     </nav>
   );
 };
