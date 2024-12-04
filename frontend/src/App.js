@@ -5,6 +5,7 @@ import { ProtectedRoute, PublicRoute } from "./components/route.jsx";
 
 import RegisterPage from "./pages/userRegister.jsx";
 import LoginPage from "./pages/userLogin.jsx";
+import CreatePoll from "./pages/createPoll.jsx";
 
 import Error404 from "./pages/errorPage.jsx";
 import MemberDashboard from "./pages/memberDashboard.jsx";
@@ -52,6 +53,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MemberDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/createPoll"
+              element={
+                <ProtectedRoute>
+                  <CreatePoll />
                 </ProtectedRoute>
               }
             />
