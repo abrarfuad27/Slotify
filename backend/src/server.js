@@ -6,7 +6,7 @@ const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
 const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
-
+const {createAppointments } = require("./utility/createAppointments");
 const app = express();
 const PORT = 4000;
 
@@ -66,7 +66,17 @@ app.get("/upcomingAppointments", async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error });
   }
-}); // Add a closing curly brace here
+}); 
+
+// Route to handle appointment creation
+app.post("/createAppointments", async (req, res) => {
+  try {
+    const result = await createAppointments(req.body, res); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});// Add a closing curly brace here
 
 // Start the server
 app.listen(PORT, () => {

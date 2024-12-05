@@ -41,10 +41,14 @@ const AppointmentCreation = () => {
     console.log('Form data:', formData);
     const requestData = createRequestData();
     console.log('Request data', requestData);
-    // const response = await axios.post(
-    //   "http://localhost:4000/createAppointments",
-    //   formData
-    // );
+
+    await axios.post(
+      "http://localhost:4000/createAppointments",
+      {...requestData},
+      {
+        withCredentials: true,
+      }
+    );
   };
 
   const createRequestData = () => {
@@ -53,6 +57,11 @@ const AppointmentCreation = () => {
     }
 
     const requestData = {};
+    const timeslot_dates = createTimeslotDates();
+    const timeslotIds = [];
+    for (let i = 0; i < timeslot_dates.length; i++) { 
+      timeslotIds.push('time' + generateUniqueString(11)); 
+    }
     requestData.appointment_data = {
       ...formData,
       'creator': email,
@@ -60,8 +69,8 @@ const AppointmentCreation = () => {
       'appointmentURL': 'http://slotify.com/'+generateUniqueString(11)
     };
     requestData.timeslot_data = {
-      'timeslotId' : 'time'+ generateUniqueString(11),
-      'timeslot_dates' : createTimeslotDates()
+      'timeslotIds' : timeslotIds,
+      'timeslot_dates' : timeslot_dates
     }
 
     return requestData;
@@ -89,10 +98,11 @@ const AppointmentCreation = () => {
       endDateParts[1] - 1,
       endDateParts[2]
     )
-
+    let timeslot = '';
     while (curr_date <= end_date){
       if (curr_date.getDay() === Number(formData.day)){
-        result.push(new Date(curr_date));
+        timeslot = curr_date.toISOString().slice(0, 10);
+        result.push(timeslot);
       }
       curr_date.setDate(curr_date.getDate() + 1);
     }
@@ -130,7 +140,6 @@ const AppointmentCreation = () => {
       setFormData((prevData) => ({
         ...prevData,
         day: -1,
-        start_date: '',
         end_date: ''
       }));
     }
