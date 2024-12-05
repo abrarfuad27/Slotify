@@ -6,24 +6,7 @@ import { useAuth } from '../context/AuthContext';
 const AppointmentCreation = () => {
   const { user } = useAuth();
   const email = user.email;
-  // ARGS for APPT table :
-      // appointmentId PK
-      // mode
-      // creator
-      // startDate
-      // endDate
-      // topic
-      // appointmentURL UNIQUE
 
-  // ARGS for timeslot table : 
-      // timeslotId
-      // appointmentId (foreign key of the APPT table)
-      // startTime 
-      // endTime
-      // timeslotDate
-      // appointee == null
-      // isRequest == False
-      // requestStatus == null
 
   const initialFormData = {
     meeting_mode: 'one-time', // Set default value here
@@ -35,10 +18,7 @@ const AppointmentCreation = () => {
     start_time: '',
     end_time: ''
   };
-  const requestData = {
-    'appointment_data' : {},
-    'timeslot_data' : {}
-  }
+
   const [formData, setFormData] = useState(initialFormData);
 
   const handleCancel = () => {
@@ -59,16 +39,78 @@ const AppointmentCreation = () => {
       return;
     }
     console.log('Form data:', formData);
-    requestData['appointment_data'] = {...formData};
-    requestData['appointment_data']['email'] = email;
-    console.log('Appointment:', requestData);
-
+    const requestData = createRequestData();
+    console.log('Request data', requestData);
     // const response = await axios.post(
     //   "http://localhost:4000/createAppointments",
     //   formData
     // );
   };
 
+  const createRequestData = () => {
+    if (formData.meeting_mode === 'one-time') {
+      formData.end_date = formData.start_date;
+    }
+
+    const requestData = {};
+    requestData.appointment_data = {
+      ...formData,
+      'creator': email,
+      'appointmentId' : 'appt'+ generateUniqueString(11),
+      'appointmentURL': 'http://slotify.com/'+generateUniqueString(11)
+    };
+    requestData.timeslot_data = {
+      'timeslotId' : 'time'+ generateUniqueString(11),
+      'timeslot_dates' : createTimeslotDates()
+    }
+
+    return requestData;
+  };
+
+
+  // warning : ensure that times are set in correct timezone
+  const createTimeslotDates = () => {
+    if (formData.meeting_mode === 'one-time'){
+      return [new Date(formData.start_date)];
+    }
+    const result = [];
+    
+    const startDateParts = formData.start_date.split('-');
+    const endDateParts = formData.end_date.split('-');
+
+    let curr_date = new Date(
+      startDateParts[0],
+      startDateParts[1] - 1,
+      startDateParts[2]
+    );
+
+    const end_date = new Date(
+      endDateParts[0],
+      endDateParts[1] - 1,
+      endDateParts[2]
+    )
+
+    while (curr_date <= end_date){
+      if (curr_date.getDay() === Number(formData.day)){
+        result.push(new Date(curr_date));
+      }
+      curr_date.setDate(curr_date.getDate() + 1);
+    }
+    if (!result.length){
+      alert(`Invalid start/end date range. The time window is too narrow, and no ${formData.day} falls within the specified period for a recurring meeting.`);
+    }
+    return result;
+  };
+
+  const generateUniqueString = (length) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+    return result;
+  }
   const validateDates = () => {
     const { start_date, end_date, start_time, end_time } = formData;
     if (start_date && end_date && new Date(start_date) > new Date(end_date)) { 
@@ -94,8 +136,7 @@ const AppointmentCreation = () => {
     }
   }, [formData.meeting_mode]);
 
-  const processData = (data) => {
-  };
+  
   return (
     <form className="create-appt-form-div container-box create-appt-form-container" onSubmit={handleSubmit}>
       <div className='mode'>
@@ -157,15 +198,15 @@ const AppointmentCreation = () => {
           required={formData.meeting_mode === 'recurring'}
           disabled={formData.meeting_mode === 'one-time'}
         >
-          <option selected value={-1} disabled> -- choose a day -- </option>
+          <option value={-1} disabled> -- choose a day -- </option>
          
-          <option value='1' >Monday</option>
-          <option value='2'>Tuesday</option>
-          <option value='3'>Wednesday</option>
-          <option value='4'>Thursday</option>
-          <option value='5'>Friday</option>
-          <option value='6'>Saturday</option>
-          <option value='0'>Sunday</option>
+          <option value={1}>Monday</option>
+          <option value={2}>Tuesday</option>
+          <option value={3}>Wednesday</option>
+          <option value={4}>Thursday</option>
+          <option value={5}>Friday</option>
+          <option value={6}>Saturday</option>
+          <option value={0}>Sunday</option>
         </select>
       </div>
 
