@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '../style/memberAppointmentCreation.css';
+import '../style/appointmentCreation.css';
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 
-const MemberAppointmentCreation = () => {
+const AppointmentCreation = () => {
   const { user } = useAuth();
   const email = user.email;
   // ARGS for APPT table :
@@ -216,7 +216,7 @@ const MemberAppointmentCreation = () => {
   );
 };
 
-export default MemberAppointmentCreation;
+export default AppointmentCreation;
 
 // import React, { useState } from "react";
 // import NavBarMember from '../components/navbarMember';

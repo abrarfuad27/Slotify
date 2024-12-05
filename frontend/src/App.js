@@ -8,7 +8,7 @@ import LoginPage from "./pages/userLogin.jsx";
 
 import Error404 from "./pages/errorPage.jsx";
 
-import MemberAppointmentCreation from "./pages/memberAppointmentCreation.jsx";
+import AppointmentCreation from "./pages/appointmentCreation.jsx";
 import "./App.css";
 import Landing from "./pages/landing";
 import MemberDashboard from "./pages/memberDashboard";
@@ -39,7 +39,7 @@ function App() {
                 </PublicRoute>
               }
             />
-            <Route path="/appointments" element={<Appointments />} />
+            {/* <Route path="/appointments" element={<Appointments />} /> */}
             <Route
               path="/createPoll"
               element={
@@ -73,10 +73,10 @@ function App() {
               }
             />
             <Route
-              path="/memberAppointmentCreation"
+              path="/appointmentCreation"
               element={
                 <ProtectedRoute>
-                  <MemberAppointmentCreation />
+                  <AppointmentCreation />
                 </ProtectedRoute>
               }
             />
