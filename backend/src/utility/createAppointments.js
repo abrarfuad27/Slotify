@@ -21,14 +21,7 @@ const createAppointments = async (userData, res) => {
           topic,
           course ? course : null,
           appointmentURL
-        ],
-        (err) => {
-          if (err) {
-            reject("Failed to create entry in Appointment table: " + err.message);
-          } else {
-            resolve("Entry successfully inserted into Appointment table");
-          }
-        }
+        ]
       );
 
       // Insert entry into the Timeslot table
@@ -51,7 +44,7 @@ const createAppointments = async (userData, res) => {
       };
       
       insertTimeslotEntries();
-      
+      resolve("Successfully created appointment!");
       } catch (err) {
         reject("Failed to create appointment: " + err.message);
       }

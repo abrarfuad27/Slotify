@@ -72,7 +72,9 @@ app.get("/upcomingAppointments", async (req, res) => {
 app.post("/createAppointments", async (req, res) => {
   try {
     const result = await createAppointments(req.body, res); 
-    res.json(result);
+    // console.log(res.json(result));
+    res.status(201).json({ status: "success", message: result });
+
   } catch (error) {
     res.status(400).json({ message: error });
   }

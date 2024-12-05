@@ -63,8 +63,9 @@ const AppointmentCreation = () => {
       }
       curr_date.setDate(curr_date.getDate() + 1);
     }
+    const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday']
     if (!result.length){
-      alert(`Invalid start/end date range. The time window is too narrow, and no ${formData.day} falls within the specified period for a recurring meeting.`);
+      alert(`Invalid start/end date range. The time window is too narrow, and no ${days[formData.day]} falls within the specified period for a recurring meeting.`);
     }
     return result;
   };
@@ -93,12 +94,12 @@ const AppointmentCreation = () => {
       }
     );
 
-    console.log("Server Response:", response.data);
+    alert("Server Response:", response.data); 
+    console.log("Server Response:", response.data.message);
   };
   
   return (
     <div>
-      <h1>TEST FORM</h1>
       <FormComponent onSubmit={handleSubmit}/>
     </div>
     );
