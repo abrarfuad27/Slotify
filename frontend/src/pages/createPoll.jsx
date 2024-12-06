@@ -1,24 +1,82 @@
+// TODO: other than in css file, fix military time inconsistency with AM/PM (either, not both)
+
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
 import '../style/createPoll.css';
+import dayjs from 'dayjs';
+import axios from "axios";
+import { useAuth } from '../context/AuthContext';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 
 const CreatePoll = () => {
+
+  const { user } = useAuth();
+  const email = user.email;
+
   const [pollOptions, setPollOptions] = useState([]);
   const [pollName, setPollName] = useState('');
   const [pollQuestion, setPollQuestion] = useState('');
-  const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [date, setDate] = useState(dayjs());
+  const [startTime, setStartTime] = useState(dayjs());
+  const [endTime, setEndTime] = useState(dayjs().add(1, 'hour'));
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+  const [pollLink, setPollLink] = useState('');
+
+  const generateRandomId = (length = 11) => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  };
+
+  const getOrdinal = (day) => {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  };
 
   const handleAddOption = () => {
-    if (pollOptions.length < 4 && date && startTime && endTime) {
-      const newOption = `${date} | ${startTime} - ${endTime}`;
-      setPollOptions([...pollOptions, newOption]);
-      setDate('');
-      setStartTime('');
-      setEndTime('');
+    if (pollOptions.length >= 4) {
+      showError('You can only add up to 4 options.');
+      return;
     }
+
+    if (!date || !startTime || !endTime) {
+      showError('Please fill in all date and time fields.');
+      return;
+    }
+
+    if (endTime.isBefore(startTime)) {
+      showError('End time cannot be earlier than start time.');
+      return;
+    }
+
+    const now = dayjs();
+    const selectedDateTime = date.hour(startTime.hour()).minute(startTime.minute());
+    if (selectedDateTime.diff(now, 'hour') < 24) {
+      showError('The selected date and time must be at least 24 hours from now.');
+      return;
+    }
+
+    const day = date.date();
+    const month = date.format('MMM');
+    const year = date.format('YYYY');
+    const formattedDate = `${month} ${day}${getOrdinal(day)}, ${year}`;
+    const newOption = `Date: ${formattedDate} | ${startTime.format('HH:mm A')} - ${endTime.format('HH:mm A')}`;
+    setPollOptions([...pollOptions, newOption]);
+    setDate(null);
+    setStartTime(null);
+    setEndTime(null);
+  };
+
+  const showError = (message) => {
+    setErrorMessage(message);
   };
 
   const handleRemoveOption = (index) => {
@@ -26,19 +84,76 @@ const CreatePoll = () => {
     setPollOptions(updatedOptions);
   };
 
-  const handleCreatePoll = () => {
-    alert('Poll created successfully!');
+  const handleSubmit = async () => {
+    if (!pollName.trim() || !pollQuestion.trim()) {
+      showError("Poll name and question are required.");
+      return;
+    }
+  
+    if (pollOptions.length === 0) {
+      showError("At least one timeslot is required.");
+      return;
+    }
+  
+    const pollId = generateRandomId();
+    const pollUrl = `http://slotify.com/poll/${pollId}`;
+    const creator = email;
+  
+    const slots = pollOptions.map((option) => {
+      const [datePart, timePart] = option.split(' | ');
+      const [start, end] = timePart.split(' - ');
+      const pollingSlotDate = datePart.split(' ')[1];
+  
+      return {
+        pollSlotId: generateRandomId(),
+        startTime: start.trim(),
+        endTime: end.trim(),
+        pollingSlotDate: pollingSlotDate.trim(),
+      };
+    });
+  
+    const requestData = {
+      pollData: {
+        pollId,
+        pollName,
+        pollQuestion,
+        creator,
+        isActive: true,
+        pollUrl,
+      },
+      slots,
+    };
+  
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/createPollAndSlots",
+        requestData,
+        { withCredentials: true }
+      );
+  
+      if (response.status === 201) {
+        setPollLink(pollUrl);
+        setShowPopup(true);
+      } else {
+        showError('Error creating poll. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      showError('Error creating poll. Please try again.');
+    }
   };
 
   return (
     <div className="poll-page">
       <NavbarMember />
+      <h1 className="poll-header">Create a Poll</h1>
       <div className="poll-container">
         <form>
-        <h1>Create a Poll</h1>
+        {errorMessage && <p className="poll-error-message">{errorMessage}</p>}
           <label>
             Poll name:
             <input
+              className="poll-name-input"
               type="text"
               value={pollName}
               onChange={(e) => setPollName(e.target.value)}
@@ -52,60 +167,79 @@ const CreatePoll = () => {
             />
           </label>
           <div className="poll-options">
-            <h3>Add options (max 4):</h3>
-            <label>
-              Date:
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </label>
-            <label>
-              Start:
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-            </label>
-            <label>
-              End:
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </label>
-            <button type="button" onClick={handleAddOption}>
-              Add
-            </button>
-            <button type="reset" onClick={() => {
-              setDate('');
-              setStartTime('');
-              setEndTime('');
-            }}>
-              Reset
-            </button>
+            <h3>Add options (maximum 4):</h3>
+            <div className="poll-options-row">
+              <label>
+                Date:
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker value={date} onChange={setDate} />
+                </LocalizationProvider>
+              </label>
+              <label>
+                Start Time:
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker value={startTime} onChange={setStartTime} />
+                </LocalizationProvider>
+              </label>
+              <label>
+                End Time:
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker value={endTime} onChange={setEndTime} />
+                </LocalizationProvider>
+              </label>
+            </div>
+            <div className="poll-options-actions">
+              <button type="button" onClick={handleAddOption}>
+                Add
+              </button>
+            </div>
           </div>
           <div className="options-list">
             {pollOptions.map((option, index) => (
               <div key={index} className="option-item">
                 <span>{option}</span>
-                <button onClick={() => handleRemoveOption(index)}>🗑️</button>
+                <button type="button" onClick={() => handleRemoveOption(index)}>
+                  🗑️
+                </button>
               </div>
             ))}
           </div>
-          <div className="poll-actions">
-            <button type="button" onClick={handleCreatePoll}>
-              Create
-            </button>
-            <button type="button" onClick={() => alert('Poll creation cancelled.')}>
-              Cancel
+          <div className="poll-create">
+            <button type="button" onClick={handleSubmit}>
+              Create Poll
             </button>
           </div>
         </form>
       </div>
+      {showPopup && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-title">Poll Created Successfully!</div>
+            <div className="modal-message">
+              Your poll has been created. Click the link below to view your poll:
+            </div>
+            <a
+              href={pollLink}
+              className="modal-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {pollLink}
+            </a>
+            <div className="modal-buttons">
+              <button
+                className="close-btn"
+                onClick={() => (window.location.href = "http://localhost:3000/memberDashboard")}
+              >
+                Return To Dashboard
+              </button>
+              <button className="close-btn" onClick={() => setShowPopup(false)}>
+                Create Another Poll
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
