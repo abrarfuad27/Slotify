@@ -1,0 +1,92 @@
+const db = require("./db"); // Assuming your database connection is in db.js
+
+/**
+ * Fetch available timeslots for a given search URL.
+ * @param {string} searchUrl - The URL to search for the appointment.
+ * @returns {Promise<Array>} - A promise resolving to an array of available timeslots.
+ */
+const getAvailableTimeslots = (searchUrl) => {
+  return new Promise((resolve, reject) => {
+    if (!searchUrl) {
+      return reject({ status: 400, message: "URL is required" });
+    }
+
+    // Step 1: Query the database to find the appointmentId and creator using the URL
+    const findAppointmentQuery = `
+        SELECT appointmentId, creator, course, topic
+        FROM Appointment
+        WHERE appointmentURL = ?
+      `;
+
+    db.get(findAppointmentQuery, [searchUrl], (err, appointmentRow) => {
+      if (err) {
+        console.error(
+          "Database error while finding appointmentId:",
+          err.message
+        );
+        return reject({ status: 500, message: "Internal server error" });
+      }
+
+      if (!appointmentRow) {
+        return reject({ status: 404, message: "Appointment not found" });
+      }
+
+      const { appointmentId, creator, course, topic } = appointmentRow;
+
+      // Step 2: Fetch the creator's first and last names
+      const findMemberQuery = `
+          SELECT firstName, lastName
+          FROM Member
+          WHERE email = ?
+        `;
+
+      db.get(findMemberQuery, [creator], (err, memberRow) => {
+        if (err) {
+          console.error("Database error while finding member:", err.message);
+          return reject({ status: 500, message: "Internal server error" });
+        }
+
+        if (!memberRow) {
+          return reject({ status: 404, message: "Creator not found" });
+        }
+
+        const { firstName, lastName } = memberRow;
+
+        // Step 3: Fetch available timeslots for the appointment
+        const queryTimeslots = `
+            SELECT timeslotID, timeslotDate, startTime, endTime
+            FROM Timeslot
+            WHERE appointmentId = ? AND appointee IS NULL
+          `;
+
+        db.all(queryTimeslots, [appointmentId], (err, rows) => {
+          if (err) {
+            console.error(
+              "Database error while fetching timeslots:",
+              err.message
+            );
+            return reject({ status: 500, message: "Internal server error" });
+          }
+
+          if (rows.length === 0) {
+            return reject({
+              status: 405,
+              message: "This appointment no longer has available timeslots",
+            });
+          }
+
+          // Resolve with the available timeslots and creator details
+          resolve({
+            firstName,
+            lastName,
+            course,
+            topic,
+            timeslots: rows,
+          });
+        });
+      });
+    });
+  });
+};
+
+module.exports = { getAvailableTimeslots };

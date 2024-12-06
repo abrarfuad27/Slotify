@@ -6,6 +6,8 @@ const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
 const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
+const { getAvailableTimeslots } = require("./utility/getTimeslots");
+const { bookTimeslot } = require("./utility/bookTimeslot");
 
 const app = express();
 const PORT = 4000;
@@ -61,12 +63,34 @@ app.get("/validateUser", authenticateToken, (req, res) => {
 // Route to handle member dashboard page upcoming meetings
 app.get("/upcomingAppointments", async (req, res) => {
   try {
-    const result = await getUpcomingAppts(req.query, res); 
+    const result = await getUpcomingAppts(req.query, res);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
   }
 }); // Add a closing curly brace here
+
+app.post("/getAvailableTimeslots", async (req, res) => {
+  const { searchUrl } = req.body;
+
+  try {
+    const availableTimeslots = await getAvailableTimeslots(searchUrl);
+    res.status(200).json({ status: "success", availableTimeslots });
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
+});
+
+app.post("/bookTimeslot", async (req, res) => {
+  const { timeslotId, email } = req.body;
+
+  try {
+    const result = await bookTimeslot(timeslotId, email);
+    res.status(result.status).json({ message: result.message });
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
