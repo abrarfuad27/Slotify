@@ -1,29 +1,3 @@
-
-// import React from "react";
-// import { useAuth } from "../context/AuthContext";
-
-// export default function MemberDashboard() {
-//   const { logout } = useAuth(); // Access the logout function from AuthContext
-
-//   const handleLogout = async () => {
-//     try {
-//       await logout(); // Call the logout function
-//       // Redirect to the home after logging out
-//     } catch (error) {
-//       console.error("Logout failed:", error);
-//     }
-//   };
-
-//   return (
-//     <div className="container">
-//       <h1>Member Dashboard</h1>
-//       <button className="btn btn-primary" onClick={handleLogout}>
-//         Sign Out
-//       </button>
-//     </div>
-//   );
-// }
-
 import React, { useState, useEffect } from 'react';
 import '../style/memberDashboard.css';
 import DashboardCard from '../components/dashboardCard';
@@ -31,17 +5,15 @@ import NavBarMember from '../components/navbarMember';
 import axios from "axios";
 import { parseISO, format } from 'date-fns';
 import { useAuth } from "../context/AuthContext";
-
+import Footer from "../components/footer";
 const MemberDashboard = () => {
   const { user } = useAuth();
   // database information
   const [apptTimes, setApptTimes] = useState([]);
   const [apptDivs, setApptDivs] = useState([]);
   // dynamically change upcoming-meetings-container height
-  const [height, setHeight] = useState(35);
+  const [height, setHeight] = useState(50);
 
-  
-  // TODO: replace dummy data
   const email = user.email;
   const userData = {
       email
@@ -79,10 +51,10 @@ const MemberDashboard = () => {
     const displayUpcomingAppointments = () => {
       let queryData = [];
       
-      if (apptTimes.length === 0) {
+      if (apptTimes.length === 0 ) {
         const empty_card = { 
             'content':(
-            <div className='card-content'>
+            <div className='card-content empty-card'>
                 <p>No meetings yet!</p>
                 <p>Start by creating an appointment</p>
             </div>
@@ -90,16 +62,12 @@ const MemberDashboard = () => {
             'banner': ''
         };
         queryData.push(empty_card);
-          // queryData = [(
-          //     <div className='card-content'>
-          //         <p>No meetings yet!</p>
-          //         <p>Start by creating an appointment</p>
-          //     </div>
-          // )]
+      } else if (apptTimes.length === 1){
+        setHeight(48);
       } else if (apptTimes.length === 2){
           setHeight(55);
       } else {
-          setHeight(68);
+          setHeight(70);
       }
 
       let data = '';
@@ -108,11 +76,14 @@ const MemberDashboard = () => {
         console.log(apptTimes[i]);
         
         data = apptTimes[i];
-        const divElement = { 
+        divElement = { 
           'content':(
           <div className='card-content'>
+            {/* TODO add logic to display "you" if you are the Organizer, similar for participant */}
+            {/* SQL fetch information about the meetings you've organized OR for which you are an attendee */}
             <p>Time: {formatDate(data['timeslotDate'])} from {data['startTime']}-{apptTimes[i]['endTime']}</p>
             <p>Organizer: {data['creator']}</p>
+            <p>Participant: </p>
             <p>Topic: {data['topic']}</p>
             <p>URL:  {data['appointmentURL']} </p>
           </div>
@@ -134,7 +105,7 @@ const MemberDashboard = () => {
             {/* header */}
             <div className='dashboard-el'>
                 <h1>Welcome!</h1>
-                <div className='upcoming-meetings-container container-box' style={{height: `${height}vh`}}>
+                <div className='upcoming-meetings-container container-box' style={{height: `${height}%`}}>
                     <h2>Your upcoming meetings</h2>
 
                     {/* TODO: set limit to max 3 info-cards showing */}
@@ -148,9 +119,9 @@ const MemberDashboard = () => {
             </div>
 
         </div>
-        
         {/* footer */}
-        <div className='footer-dummy'></div>
+        <Footer />
+        
     </div>
 
   );
