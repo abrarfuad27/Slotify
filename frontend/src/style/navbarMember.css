@@ -110,3 +110,13 @@
 .navbar-member html {
   overflow-x: hidden;
 }
+
+@media screen and (max-width: 1170px) {
+  .navbar-member .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+    gap: 0;
+  }
+}

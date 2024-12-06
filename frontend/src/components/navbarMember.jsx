@@ -42,7 +42,9 @@ const NavBarMember = () => {
         <li><Link to="/history">History</Link></li>
         <li><Link to="/requests">View Requests</Link></li>
       </ul>
-      <button className="logout-button" onClick={handleLogout}>Log Out</button>
+      <div className="logout-button">
+        <button className="logout-button" onClick={handleLogout}>Log Out</button>
+      </div>
     </nav>
   );
 };
