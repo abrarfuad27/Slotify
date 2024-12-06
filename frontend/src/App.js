@@ -15,6 +15,8 @@ import Appointments from "./pages/appointments";
 import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
 import CreatePoll from "./pages/createPoll";
+import MemberAccessPoll from "./pages/memberPollVote.jsx";
+import UserAccessPoll from "./pages/userPollVote.jsx";
 
 function App() {
   return (
@@ -72,11 +74,19 @@ function App() {
               }
             />
             <Route
-              path="/createPoll"
+              path="/memberPoll"
               element={
                 <ProtectedRoute>
-                  <CreatePoll />
+                  <MemberAccessPoll />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/poll"
+              element={
+                <PublicRoute>
+                  <UserAccessPoll />
+                </PublicRoute>
               }
             />
             <Route path="/error404" element={<Error404 />} />

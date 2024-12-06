@@ -7,6 +7,7 @@ const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
 const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const { createPollAndSlots } = require("./utility/createPollAndSlots");
+const { getPollAndSlots } = require("./utility/getPollAndSlots");
 
 const app = express();
 const PORT = 4000;
@@ -77,6 +78,15 @@ app.post("/createPollAndSlots", async (req, res) => {
     res.status(201).json({ status: "success", message: result });
   } catch (error) {
     res.status(400).json({ status: "error", message: error });
+  }
+});
+
+app.get("/pollAndSlots", async (req, res) => {
+  try {
+    const result = await getPollAndSlots(req.query, res); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
   }
 });
 

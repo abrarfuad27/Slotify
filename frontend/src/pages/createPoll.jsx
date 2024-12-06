@@ -1,4 +1,5 @@
 // TODO: other than in css file, fix military time inconsistency with AM/PM (either, not both)
+// TODO: add easy shareable link option + checkbox to make poll public 
 
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
