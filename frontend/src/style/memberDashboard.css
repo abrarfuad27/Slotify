@@ -112,9 +112,9 @@
     font-weight: bold;
 } */
 
-.empty-card {
+.member-dashboard .empty-card {
     text-align: center;
-    margin-left: 0%;
+    margin-left: -5%;
     display:flex;
     color: #085A77;
     font-weight: bold;
