@@ -6,6 +6,8 @@ import axios from "axios";
 import { parseISO, format } from 'date-fns';
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/footer";
+import { Link } from 'react-router-dom';
+
 const MemberDashboard = () => {
   const { user } = useAuth();
   // database information
@@ -115,7 +117,7 @@ const MemberDashboard = () => {
                         ))}
                     </div>
                 </div>
-                <button type='button' className='create-appt-btn'>Create an Appointment</button>
+                <Link to="/appointmentCreation" className='create-appt-btn'>Create an Appointment</Link>
             </div>
 
         </div>

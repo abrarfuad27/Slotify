@@ -102,6 +102,12 @@
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: bold;
+    align-items: center;
+    text-decoration: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* .member-dashboard .card-content {

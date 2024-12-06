@@ -60,7 +60,7 @@ p {
 }
 
 .general-btn {
-  width: 12vw;
+  width: 15vw;
   height: 8vh;
   border-radius: 15px;
   border: none;
@@ -71,6 +71,10 @@ p {
   font-family: "Inter", sans-serif;
   font-weight: bold;
   margin-left: 5%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 /* content */

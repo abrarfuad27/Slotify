@@ -21,7 +21,7 @@ const Landing = () => {
             <div className='hero-txt'>
                 <h1>Simplify Your Appointments Today</h1>
                 <h2>Perfect for office hours, meetings, and one-on-one sessions.</h2>
-                <Link to="/userRegister"><button type='button' className='general-btn'>Secure your slot!</button></Link>
+                <Link to="/userRegister" className='general-btn'>Secure your slot!</Link>
             </div>
         </div>
         
