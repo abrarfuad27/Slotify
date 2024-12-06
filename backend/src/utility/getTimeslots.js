@@ -79,6 +79,7 @@ const getAvailableTimeslots = (searchUrl) => {
           resolve({
             firstName,
             lastName,
+            creator, //email of the prof
             course,
             topic,
             timeslots: rows,

@@ -15,6 +15,7 @@ export default function BookAppointment() {
   const { user, isLoading } = useAuth();
   const [url, setURL] = useState("");
   const [creatorName, setCreatorName] = useState("");
+  const [creatorEmail, setCreatorEmail] = useState("");
   const [course, setCourse] = useState("");
   const [topic, setTopic] = useState("");
   const [availableTimeslots, setAvailableTimeslots] = useState([]);
@@ -69,10 +70,11 @@ export default function BookAppointment() {
       );
 
       if (response.data.status === "success") {
-        const { firstName, lastName, course, topic, timeslots } =
+        const { firstName, lastName,creator, course, topic, timeslots } =
           response.data.availableTimeslots;
 
         setCreatorName(`${firstName} ${lastName}`);
+        setCreatorEmail(creator);
         setCourse(course);
         setTopic(topic);
         setAvailableTimeslots(timeslots);
@@ -88,6 +90,7 @@ export default function BookAppointment() {
       setCourse("");
       setTopic("");
       setCreatorName("");
+      setCreatorEmail("");
       if (error.status == 404) {
         openModal("Appointment not found. Please enter a valid URL.", false);
       } else if (error.status == 405) {
