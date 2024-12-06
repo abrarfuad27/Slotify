@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // import axios from 'axios';
 import NavBarUser from '../components/navbarUser';
 import Footer from '../components/footer';
 import schedule_icon from '../assets/schedule_icon.png';
 import meeting_icon from '../assets/meeting_icon.png';
 import appointment_icon from '../assets/appointment_icon.png';
+import { Link } from 'react-router-dom';
+
 
 import '../style/landing.css';
 
 const Landing = () => {
-    const [apptTimes, setApptTimes] = useState([]);
 
-    // useEffect(()=> {
-    //     axios.get('')
-    // });
-
-    const handleClick = () => { alert('Button was clicked!'); };
-
-  // TODO - only showcase the appointments that are not requests, or if it is request, check if it is approved 
   return (
     <div className='landing'>
         <NavBarUser />
@@ -25,11 +19,9 @@ const Landing = () => {
             <div className='hero-img'></div>
 
             <div className='hero-txt'>
-                {/* in css set the div to use background image */}
-                {/* <img src={backgroundImage}></img> */}
                 <h1>Simplify Your Appointments Today</h1>
                 <h2>Perfect for office hours, meetings, and one-on-one sessions.</h2>
-                <button onClick={handleClick} type='button' className='general-btn'>Secure your slot!</button>
+                <Link to="/userRegister"><button type='button' className='general-btn'>Secure your slot!</button></Link>
             </div>
         </div>
         
