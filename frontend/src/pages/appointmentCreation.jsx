@@ -97,7 +97,8 @@ const AppointmentCreation = () => {
         withCredentials: true,
       }
     );
-    alert("Appointment created! Save the URL", requestData.appointment_data.appointmentURL);
+    console.log(requestData.appointment_data.appointmentURL);
+    alert("Appointment created! Save the URL :" +  requestData.appointment_data.appointmentURL);
     // alert("Server Response:", response.data); 
     console.log("Server Response:", response.data.message);
   };

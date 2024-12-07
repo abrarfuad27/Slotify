@@ -36,7 +36,7 @@ const NavBarMember = () => {
           <ul className="dropdown-menu">
             <li><Link to="/createPoll">Create Poll</Link></li>
             <li><Link to="/poll">Access Poll</Link></li>
-            <li><Link to="/poll-results">See Poll Results</Link></li>
+            <li><Link to="/managePoll">Manage Poll</Link></li>
           </ul>
         </li>
         <li><Link to="/history">History</Link></li>

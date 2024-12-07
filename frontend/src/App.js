@@ -15,6 +15,7 @@ import MemberDashboard from "./pages/memberDashboard";
 import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
 import CreatePoll from "./pages/createPoll";
+import ManagePoll from "./pages/managePoll";
 
 
 function App() {
@@ -45,6 +46,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreatePoll />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/managePoll"
+              element={
+                <ProtectedRoute>
+                  <ManagePoll />
                 </ProtectedRoute>
               }
             />
