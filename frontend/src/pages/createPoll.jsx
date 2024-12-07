@@ -1,3 +1,6 @@
+// TODO: put red star beside poll name and question
+// TODO: implement multiple errors to appear in error message (array usestate?)
+
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
@@ -164,6 +167,7 @@ const CreatePoll = () => {
               type="text"
               value={pollName}
               onChange={(e) => setPollName(e.target.value)}
+              required
             />
           </label>
           <label>

@@ -1,24 +1,22 @@
-const db = require("./db");
+const db = require('./db');
 
 const getPollAndSlots = async (query) => {
-  const { url } = query;
+  const { pollId } = query;
 
-  if (!url) {
-    throw new Error("Poll URL is required.");
+  if (!pollId) {
+    throw new Error('Poll ID is required.');
   }
 
   return new Promise((resolve, reject) => {
-    // Fetch poll data
-    db.get("SELECT * FROM Polling WHERE pollUrl = ?", [url], async (err, poll) => {
+    db.get('SELECT * FROM Polling WHERE pollId = ?', [pollId], (err, poll) => {
       if (err) {
-        reject("Database error while fetching poll: " + err.message);
+        reject('Database error while fetching poll: ' + err.message);
       } else if (!poll) {
-        reject("Poll not found.");
+        reject('Poll not found.');
       } else {
-        // Fetch slots data for the poll
-        db.all("SELECT * FROM PollingSlot WHERE pollId = ?", [poll.pollId], (err, slots) => {
+        db.all('SELECT * FROM PollingSlot WHERE pollId = ?', [poll.pollId], (err, slots) => {
           if (err) {
-            reject("Database error while fetching slots: " + err.message);
+            reject('Database error while fetching slots: ' + err.message);
           } else {
             resolve({ ...poll, slots });
           }

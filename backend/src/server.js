@@ -8,6 +8,7 @@ const db = require("./utility/db");
 const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const { createPollAndSlots } = require("./utility/createPollAndSlots");
 const { getPollAndSlots } = require("./utility/getPollAndSlots");
+const { votePoll } = require("./utility/votePoll");
 
 const app = express();
 const PORT = 4000;
@@ -89,6 +90,22 @@ app.get("/pollAndSlots", async (req, res) => {
     res.status(400).json({ message: error });
   }
 });
+
+app.post("/voteOnSlot", async (req, res) => {
+  const { pollSlotId } = req.body;
+
+  if (!pollSlotId) {
+    return res.status(400).json({ message: "Polling slot ID is required." });
+  }
+
+  try {
+    const result = await votePoll(pollSlotId); // Call the function
+    res.status(200).json({ status: "success", message: result });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
 
 // Start the server
 app.listen(PORT, () => {

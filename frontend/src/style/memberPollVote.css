@@ -19,7 +19,7 @@
 }
 
 .poll-access-page .poll-url-input {
-  width: 80%;
+  width: 60%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -28,7 +28,7 @@
 }
 
 .poll-access-page .poll-submit-btn {
-  background-color: #007bff;
+  background-color: #085a77;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -39,7 +39,7 @@
 }
 
 .poll-access-page .poll-submit-btn:hover {
-  background-color: #0056b3;
+  background-color: #81B5D1;
 }
 
 /* Error message styling */
@@ -80,3 +80,21 @@
 .poll-access-page .poll-submit-vote-btn:hover {
   background-color: #0056b3;
 }
+
+.poll-access-page .poll-slot {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  cursor: pointer;
+  background: #f9f9f9;
+}
+
+.poll-access-page .poll-slot:hover {
+  background: #e0e0e0;
+}
+
+.poll-access-page .poll-slot.selected {
+  border-color: #007bff;
+  background: #d1e7ff;
+}
+
