@@ -28,7 +28,7 @@ const NavBarMember = () => {
           <Link to="/appointments">Appointments</Link>
           <ul className="dropdown-menu">
             <li><Link to="/appointments">Book Appointment</Link></li>
-            <li><Link to="/create-appointment">Create Appointment</Link></li>
+            <li><Link to="/appointmentCreation">Create Appointment</Link></li>
           </ul>
         </li>
         <li className="dropdown">
