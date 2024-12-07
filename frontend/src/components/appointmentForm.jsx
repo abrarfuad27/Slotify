@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../style/appointmentCreation.css';
+import '../style/appointmentForm.css';
 
 const AppointmentCreationForm = ({ onSubmit }) => {
 
@@ -64,9 +64,9 @@ const AppointmentCreationForm = ({ onSubmit }) => {
 
   
   return (
-    <form className="create-appt-form-div container-box create-appt-form-container" onSubmit={handleSubmit}>
+    <form className="create-appt-form-div container-box" onSubmit={handleSubmit}>
       <div className='mode'>
-        <p>Mode*:</p>
+        <p>Mode* :</p>
         <div className="radio-option">
           <input
             type="radio"
@@ -92,8 +92,9 @@ const AppointmentCreationForm = ({ onSubmit }) => {
         </div>
       </div>
 
+      {/* TODO built in formatting for course */}
       <div className='course'>
-        <p>Course (optional):</p>
+        <p>Course (optional) :</p>
         <input
           type="text"
           name="course"
@@ -103,7 +104,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       </div>
 
       <div className='topic'>
-        <p>Topic*:</p>
+        <p>Topic* :</p>
         <input
           type="text"
           name="topic"
@@ -115,7 +116,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
 
       {/* only appears when you select RECURRING*/}
       <div className='day'>
-        <p>Day*:</p>
+        <p>Day* :</p>
         
         <select
           name='day'
@@ -124,7 +125,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           required={formData.meeting_mode === 'recurring'}
           disabled={formData.meeting_mode === 'one-time'}
         >
-          <option value={-1} disabled> -- choose a day -- </option>
+          <option value={-1} disabled> choose a day </option>
          
           <option value={1}>Monday</option>
           <option value={2}>Tuesday</option>
@@ -137,7 +138,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       </div>
 
       <div className='time-period'>
-        <p>Time period*:</p>
+        <p>Time period* :</p>
         <input
           type="date"
           name="start_date"
@@ -145,7 +146,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           onChange={handleChange}
           required
         />
-        <p>to</p>
+        <p>&ensp;to&ensp;</p>
         <input
           type="date"
           name="end_date"
@@ -157,7 +158,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       </div>
 
       <div className='time-of-day'>
-        <p>Start*:</p>
+        <p>Start* :</p>
         <input
           type="time"
           name="start_time"
@@ -165,7 +166,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           onChange={handleChange}
           required
         />
-        <p>End*:</p>
+        <p>End* :</p>
         <input
           type="time"
           name="end_time"

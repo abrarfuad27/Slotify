@@ -2,7 +2,10 @@ import React from 'react';
 import '../style/appointmentCreation.css';
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
-import FormComponent from '../components/appointmentCreationForm';
+import FormComponent from '../components/appointmentForm';
+import NavBarMember from '../components/navbarMember';
+import Footer from "../components/footer";
+import icon from "../assets/create_appt_icon.png";
 
 const AppointmentCreation = () => {
   const { user } = useAuth();
@@ -70,8 +73,9 @@ const AppointmentCreation = () => {
     return result;
   };
 
+  //TODO : extract as function
   const generateUniqueString = (length) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%&!#';
     let result = '';
     for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
@@ -93,14 +97,22 @@ const AppointmentCreation = () => {
         withCredentials: true,
       }
     );
-
-    alert("Server Response:", response.data); 
+    alert("Appointment created! Save the URL", requestData.appointment_data.appointmentURL);
+    // alert("Server Response:", response.data); 
     console.log("Server Response:", response.data.message);
   };
   
   return (
-    <div>
-      <FormComponent onSubmit={handleSubmit}/>
+    <div className='appt-creation'>
+      <NavBarMember/>
+      <div className='create-appt-content'>
+        <div className='create-appt-header'>
+          <h1>Create an Appointment&nbsp;</h1><img className='create-appt-icon' src={icon}/>
+        </div>
+
+        <FormComponent onSubmit={handleSubmit}/>
+      </div>
+      <Footer/>
     </div>
     );
 };

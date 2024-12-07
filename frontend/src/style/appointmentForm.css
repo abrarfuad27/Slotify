@@ -1,0 +1,104 @@
+.create-appt-form-div {
+    width: 60vw;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2% 5% 2%;
+}
+
+.create-appt-form-div p{
+    font-weight: bold;
+}
+
+.mode {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+}
+.mode p {
+    width:10%;
+}
+.create-appt-form-div .radio-option {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: left;
+    width: 15%;
+}
+
+.create-appt-form-div .radio-option > input {
+    width: 10%;
+    margin-bottom: 4%;
+}
+
+
+.topic, .day, .time-period, .time-of-day, .form-btn, .course {
+    width: 100%;
+    display: flex;
+}
+
+.course p{
+    width:20%;
+}
+.course input {
+    width: 80%;
+}
+
+.topic p {
+    width:11%;
+}
+.topic input {
+    width : 89%;
+}
+
+.day p {
+    width : 11%;
+}
+.day select {
+    width: 15%;
+}
+.time-period p:first-child {
+    width : 15%;
+}
+
+.time-period input {
+    width: 20%;
+    margin-right: 3%;
+    margin-left: 3%;
+}
+.time-of-day p {
+    width: 10%;
+}
+.time-of-day input {
+    width: 15%;
+    margin-right: 10%;
+}
+
+.form-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-btn button {
+    width: 8vw;
+    height: 5vh;
+    border-radius: 10px;
+    color: white;
+}
+
+.form-btn button:first-child {
+    background-color: #085a77;
+    margin-left: 2%;
+}
+
+.form-btn button:last-child {
+    background-color: red;
+    margin-right: 2%;
+}
+/* TODO font ! */
