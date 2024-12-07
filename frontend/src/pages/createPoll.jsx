@@ -1,6 +1,3 @@
-// TODO: other than in css file, fix military time inconsistency with AM/PM (either, not both)
-// TODO: add easy shareable link option + checkbox to make poll public 
-
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
@@ -43,6 +40,7 @@ const CreatePoll = () => {
   };
 
   const handleAddOption = () => {
+
     if (pollOptions.length >= 4) {
       showError('You can only add up to 4 options.');
       return;
@@ -69,7 +67,11 @@ const CreatePoll = () => {
     const month = date.format('MMM');
     const year = date.format('YYYY');
     const formattedDate = `${month} ${day}${getOrdinal(day)}, ${year}`;
-    const newOption = `Date: ${formattedDate} | ${startTime.format('HH:mm A')} - ${endTime.format('HH:mm A')}`;
+    
+    // Format start and end times in 12-hour format with AM/PM
+    const formattedStartTime = startTime.format('h:mm A');
+    const formattedEndTime = endTime.format('h:mm A');
+    const newOption = `Date: ${formattedDate} | ${formattedStartTime} - ${formattedEndTime}`;
     setPollOptions([...pollOptions, newOption]);
     setDate(null);
     setStartTime(null);
@@ -91,8 +93,8 @@ const CreatePoll = () => {
       return;
     }
   
-    if (pollOptions.length === 0) {
-      showError("At least one timeslot is required.");
+    if (pollOptions.length === 0 || pollOptions.length === 1) {
+      showError("At least two timeslot options are required.");
       return;
     }
   
@@ -142,6 +144,10 @@ const CreatePoll = () => {
       console.error(error);
       showError('Error creating poll. Please try again.');
     }
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
   };
 
   return (
@@ -213,34 +219,45 @@ const CreatePoll = () => {
         </form>
       </div>
       {showPopup && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <div className="modal-title">Poll Created Successfully!</div>
-            <div className="modal-message">
-              Your poll has been created. Click the link below to view your poll:
-            </div>
-            <a
-              href={pollLink}
-              className="modal-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {pollLink}
-            </a>
-            <div className="modal-buttons">
-              <button
-                className="close-btn"
-                onClick={() => (window.location.href = "http://localhost:3000/memberDashboard")}
-              >
-                Return To Dashboard
-              </button>
-              <button className="close-btn" onClick={() => setShowPopup(false)}>
-                Create Another Poll
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="modal-overlay">
+    <div className="modal">
+      <div className="modal-title">Poll Created Successfully!</div>
+      <div className="modal-message">
+        Your poll has been created. Click the link below to view your poll:
+      </div>
+      <div className="modal-link-container">
+        <a
+          href={pollLink}
+          className="modal-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {pollLink}
+        </a>
+        <button
+          className="copy-icon-btn"
+          onClick={() => copyToClipboard(pollLink)}
+        >
+          📋
+        </button>
+      </div>
+      <div className="modal-buttons">
+        <button
+          className="close-btn"
+          onClick={() =>
+            (window.location.href = "http://localhost:3000/memberDashboard")
+          }
+        >
+          Return To Dashboard
+        </button>
+        <button className="close-btn" onClick={() => setShowPopup(false)}>
+          Create Another Poll
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       <Footer />
     </div>
   );

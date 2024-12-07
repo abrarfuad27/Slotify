@@ -74,19 +74,11 @@ function App() {
               }
             />
             <Route
-              path="/memberPoll"
+              path="/poll"
               element={
                 <ProtectedRoute>
                   <MemberAccessPoll />
                 </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/poll"
-              element={
-                <PublicRoute>
-                  <UserAccessPoll />
-                </PublicRoute>
               }
             />
             <Route path="/error404" element={<Error404 />} />

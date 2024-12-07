@@ -166,7 +166,6 @@ html {
 
 .modal-message {
   font-size: 16px;
-  margin-bottom: 20px;
 }
 
 .modal-link {
@@ -191,4 +190,23 @@ html {
 .poll-error-message {
   color: red;
 }
+
+.modal-link-container {
+  align-items: center;
+  margin-left: 50px;
+  gap: 8px;
+}
+
+.copy-icon-btn {
+  background: none !important;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.copy-icon-btn:hover {
+  color: #0056b3;
+}
+
 
