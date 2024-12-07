@@ -8,6 +8,10 @@ import LoginPage from "./pages/userLogin.jsx";
 
 import Error404 from "./pages/errorPage.jsx";
 import MemberDashboard from "./pages/memberDashboard.jsx";
+import Appointments from "./pages/appointments.jsx";
+import MeetingHistory from "./pages/meetingHistory.jsx";
+import RequestMeeting from "./pages/requestMeeting.jsx";
+import Requests from "./pages/requests.jsx";
 
 function App() {
   return (
@@ -52,6 +56,38 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MemberDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/appointments"
+              element={
+                <ProtectedRoute>
+                  <Appointments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/meetingHistory"
+              element={
+                <ProtectedRoute>
+                  <MeetingHistory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requestMeeting"
+              element={
+                <ProtectedRoute>
+                  <RequestMeeting />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requests"
+              element={
+                <ProtectedRoute>
+                  <Requests />
                 </ProtectedRoute>
               }
             />

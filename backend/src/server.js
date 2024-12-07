@@ -5,7 +5,12 @@ const { authenticateToken } = require("./utility/authenticate"); // Import the a
 const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
-const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
+const { getUpcomingAppts } = require("./utility/upcomingAppointments");
+const { getMeetingHistory } = require("./utility/meetingHistory"); 
+const { createAppointment } = require("./utility/createAppointment"); 
+const { createTimeSlot } = require("./utility/createTimeSlot"); 
+const { getRequests } = require("./utility/getRequests");
+const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
 
 const app = express();
 const PORT = 4000;
@@ -67,6 +72,67 @@ app.get("/upcomingAppointments", async (req, res) => {
     res.status(400).json({ message: error });
   }
 }); // Add a closing curly brace here
+
+// Route to handle member dashboard page past meetings
+app.get("/meetingHistory", async (req, res) => {
+  try {
+    const result = await getMeetingHistory(req.query); // Use req.query instead of req.body for GET requests
+    res.json({ data: result }); // Send the resolved data as JSON
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+//create Appointments
+app.post("/createAppointments", async (req, res) => {
+  try {
+    const result = await createAppointment(req.body, res);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+//create TimeSlots
+app.post("/createTimeSlot", async (req, res) => {
+  try {
+    const result = await createTimeSlot(req.body, res);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+//get Requests
+app.get("/requests", async (req, res) => {
+  try {
+    const result = await getRequests(req.query); // Use req.query instead of req.body for GET requests
+    res.json({ data: result }); // Send the resolved data as JSON
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+//accept Requests
+app.put("/handleRequests", async (req, res) => {
+  try {
+    const { timeSlotId } = req.body;
+    const result = await acceptRequest(timeSlotId); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+//deny Requests
+app.delete("/handleRequests", async (req, res) => {
+  try {
+    const { timeSlotId } = req.body;
+    const result = await deleteRequest(timeSlotId); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {

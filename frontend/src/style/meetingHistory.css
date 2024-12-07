@@ -1,0 +1,51 @@
+/* Apply a consistent background */
+.meeting-history-page {
+    padding: 20px;
+}
+
+/* Container styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Appointments Section Styling */
+.appointments-section {
+    margin-bottom: 40px;
+}
+
+.appointments-section h2 {
+    margin-bottom: 10px;
+}
+
+/* Table Styling */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.appointments-table th, .appointments-table td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.appointments-table th {
+    background-color: #085A77;
+    color: white;
+}
+
+.appointments-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.appointments-table tr:hover {
+    background-color: #e6f7ff;
+}
