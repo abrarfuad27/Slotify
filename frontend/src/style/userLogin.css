@@ -1,3 +1,22 @@
+.login-page {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.login-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/bg_img.png);
+  background-size: cover;
+  opacity: 0.3; /* Adjust the opacity as needed */
+  z-index: -1; /* Ensure the background is behind other elements */
+}
+
 .login-page-without-nav {
   font-family: Inter, sans-serif;
   margin: 0;
@@ -6,7 +25,6 @@
   justify-content: center;
   align-items: center;
   margin-top: 3rem;
-  
 }
 
 .login-page-header {
@@ -136,6 +154,11 @@
 
 /* Tablets (max-width: 800px) */
 @media (max-width: 800px) {
+  .login-page::before {
+    background-size: contain; /* Adjust background size for tablets */
+    background-position: center;
+  }
+
   .login-page-container {
     padding: 10px; /* Add padding for better spacing on smaller screens */
   }
@@ -173,6 +196,11 @@
 
 /* Smartphones (max-width: 600px) */
 @media (max-width: 600px) {
+  .login-page::before {
+    background-size: cover; /* Adjust background size for smartphones */
+    background-position: center;
+  }
+
   .login-page-container {
     flex-direction: column; /* Stack items vertically */
     padding: 10px;
