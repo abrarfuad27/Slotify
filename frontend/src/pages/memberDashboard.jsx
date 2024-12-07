@@ -17,8 +17,10 @@ const MemberDashboard = () => {
   const [height, setHeight] = useState(50);
 
   const email = user.email;
+  const max_num_meetings = 5;
   const userData = {
-      email
+      email,
+      max_num_meetings
   };
 
     // on mount, get upcoming appointments from database
@@ -73,19 +75,22 @@ const MemberDashboard = () => {
       }
 
       let data = '';
+      let appointee = '';
+      let organizer = '';
       let divElement = null;
       for (let i=0; i < apptTimes.length; i++){
         console.log(apptTimes[i]);
-        
         data = apptTimes[i];
+        organizer = data.creator===email ? 'You' : data.creator;
+        appointee = data.appointee===email ? 'You' : data.appointee;
         divElement = { 
           'content':(
           <div className='card-content'>
             {/* TODO add logic to display "you" if you are the Organizer, similar for participant */}
             {/* SQL fetch information about the meetings you've organized OR for which you are an attendee */}
             <p>Time: {formatDate(data['timeslotDate'])} from {data['startTime']}-{apptTimes[i]['endTime']}</p>
-            <p>Organizer: {data['creator']}</p>
-            <p>Participant: </p>
+            <p>Organizer: {organizer} </p>
+            <p>Participant: { appointee ? appointee : 'No one yet'} </p>
             <p>Topic: {data['topic']}</p>
             <p>URL:  {data['appointmentURL']} </p>
           </div>
