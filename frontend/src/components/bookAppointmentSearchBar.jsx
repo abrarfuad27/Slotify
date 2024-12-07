@@ -35,7 +35,7 @@ export default function BookAppointmentSearchBar({ url, setURL, onSearch }) {
               borderWidth: "1px", // Specifically target the border
             },
             "&.Mui-focused fieldset": {
-              borderWidth: "1px", // Increase when focused (optional)
+              borderWidth: "1px", // Increase when focused 
             },
           },
         }}

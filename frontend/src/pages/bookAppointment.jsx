@@ -8,7 +8,7 @@ import axios from "axios";
 import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import Modal from "react-modal"; // Import React Modal
+import Modal from "react-modal"; 
 import { useNavigate } from "react-router-dom";
 
 export default function BookAppointment() {
@@ -56,6 +56,7 @@ export default function BookAppointment() {
     setModalIsOpen(false);
   };
 
+  // Fetch available timeslots for the given URL
   const handleSearch = async (searchUrl) => {
     if (!searchUrl) {
       openModal("Please enter a URL", false);
@@ -70,7 +71,7 @@ export default function BookAppointment() {
       );
 
       if (response.data.status === "success") {
-        const { firstName, lastName,creator, course, topic, timeslots } =
+        const { firstName, lastName, creator, course, topic, timeslots } =
           response.data.availableTimeslots;
 
         setCreatorName(`${firstName} ${lastName}`);
@@ -103,6 +104,7 @@ export default function BookAppointment() {
 
   // Filter timeslots by selected date
   const handleDateChange = (newDate) => {
+    setSelectedTimeslot(null); // Reset selected timeslot when date changes
     const selectedDate = newDate.format("YYYY-MM-DD");
     const filteredSlots = availableTimeslots.filter(
       (slot) => dayjs(slot.timeslotDate).format("YYYY-MM-DD") === selectedDate
@@ -111,11 +113,13 @@ export default function BookAppointment() {
     setSelectedDateSlots(filteredSlots);
   };
 
+  // Handle timeslot selection (only one can be selected at a time)
   const handleTimeslotClick = (timeslotId) => {
     setSelectedTimeslot(timeslotId); // Allow only one selection
     return;
   };
 
+  // Book the selected timeslot with the user's email
   const handleBook = async () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(mcgill\.ca|mail\.mcgill\.ca)$/;
 
@@ -235,7 +239,7 @@ export default function BookAppointment() {
             <div className="book-member-container">
               <p>Don't see a timeslot with your availability?</p>
               {
-                <a href="/requests">
+                <a href={`/requests/${creatorEmail}`}>
                   <p>Click here to request a meeting with {creatorName}!</p>
                 </a>
               }

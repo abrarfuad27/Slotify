@@ -56,7 +56,7 @@ const getAvailableTimeslots = (searchUrl) => {
         const queryTimeslots = `
             SELECT timeslotID, timeslotDate, startTime, endTime
             FROM Timeslot
-            WHERE appointmentId = ? AND appointee IS NULL
+            WHERE appointmentId = ? AND appointee IS NULL AND isRequest = 0
           `;
 
         db.all(queryTimeslots, [appointmentId], (err, rows) => {
