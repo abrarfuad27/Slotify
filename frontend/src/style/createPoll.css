@@ -1,38 +1,59 @@
+/* TODO: white box only extends as far down as right below create poll (ex: if no polling slot option added) */
+/* TODO: Responsive design: stack the date, start time and endtime vertically */
+
 .poll-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: Arial, sans-serif;
-  height: 100vh;
   width: 100vw;
   background-color: #fffbf5;
 }
 
+.poll-header {
+  text-align: center;
+  color: #3D0DB2;
+}
+
 .poll-container {
-  max-width: 600px;
-  margin: 20px auto;
+  max-width: 700px;
+  margin: 0 auto 20px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #fff;
   height: auto;
-}
-
-.poll-container h1 {
-  text-align: center;
-  color: #4a4a4a;
+  box-sizing: border-box;
+  flex: 1;
 }
 
 .poll-page label {
   display: block;
   margin: 10px 0 5px;
   font-weight: bold;
+  color: #085A77;
 }
 
-.poll-page input,
-textarea {
+.poll-name-input {
   width: 100%;
-  padding: 0px;
-  margin-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  min-height: 44px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.poll-page
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  min-height: 44px;
+  resize: vertical;
+  box-sizing: border-box;
 }
 
 .poll-options h3 {
@@ -41,7 +62,6 @@ textarea {
 }
 
 .poll-page button {
-  margin: 5px;
   padding: 10px 15px;
   background-color: #085a77;
   color: white;
@@ -68,13 +88,125 @@ textarea {
   margin-bottom: 10px;
 }
 
-.poll-actions {
+.poll-create {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+.poll-options-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.poll-options-row label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+.poll-options-row input {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.poll-options-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 .poll-page body,
 html {
   overflow-x: hidden;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.modal .close-btn {
+  text-align: center;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto 0;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.modal-message {
+  font-size: 16px;
+}
+
+.modal-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal-link:hover {
+  text-decoration: underline;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.poll-error-message {
+  color: red;
+}
+
+.modal-link-container {
+  align-items: center;
+  margin-left: 50px;
+  gap: 8px;
+}
+
+.copy-icon-btn {
+  background: none !important;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.copy-icon-btn:hover {
+  color: #0056b3;
+}
+
+

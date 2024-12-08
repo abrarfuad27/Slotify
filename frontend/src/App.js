@@ -15,8 +15,9 @@ import Appointments from "./pages/appointments";
 import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
 import CreatePoll from "./pages/createPoll";
+import MemberAccessPoll from "./pages/memberPollVote.jsx";
+import UserAccessPoll from "./pages/userPollVote.jsx";
 import BookAppointment from "./pages/bookAppointment.jsx";
-import Requests from "./pages/requests.jsx";
 
 function App() {
   return (
@@ -76,10 +77,10 @@ function App() {
               }
             />
             <Route
-              path="/requests/:email"
+              path="/poll"
               element={
                 <ProtectedRoute>
-                  <Requests />
+                  <MemberAccessPoll />
                 </ProtectedRoute>
               }
             />

@@ -6,6 +6,9 @@ const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
 const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
+const { createPollAndSlots } = require("./utility/createPollAndSlots");
+const { getPollAndSlots } = require("./utility/getPollAndSlots");
+const { votePoll } = require("./utility/votePoll");
 const { getAvailableTimeslots } = require("./utility/getTimeslots");
 const { bookTimeslot } = require("./utility/bookTimeslot");
 
@@ -68,7 +71,43 @@ app.get("/upcomingAppointments", async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error });
   }
-}); // Add a closing curly brace here
+});
+
+app.post("/createPollAndSlots", async (req, res) => {
+  const pollData = req.body;
+  console.log("Received poll data:", pollData);
+  try {
+    const result = await createPollAndSlots(pollData);
+    res.status(201).json({ status: "success", message: result });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error });
+  }
+});
+
+app.get("/pollAndSlots", async (req, res) => {
+  try {
+    const result = await getPollAndSlots(req.query, res); 
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+app.post("/voteOnSlot", async (req, res) => {
+  const { pollSlotId } = req.body;
+
+  if (!pollSlotId) {
+    return res.status(400).json({ message: "Polling slot ID is required." });
+  }
+
+  try {
+    const result = await votePoll(pollSlotId); // Call the function
+    res.status(200).json({ status: "success", message: result });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error });
+  }
+});
+
 
 app.post("/getAvailableTimeslots", async (req, res) => {
   const { searchUrl } = req.body;
