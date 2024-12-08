@@ -47,7 +47,7 @@ const NavBarMember = () => {
           </ul>
         </li>
         <li>
-          <Link to="/history">History</Link>
+          <Link to="/meetingHistory">History</Link>
         </li>
         <li>
           <Link to="/requests">View Requests</Link>

@@ -13,7 +13,7 @@ const db = require('./db');
  * @param {string} appointmentData.appointmentURL - Unique URL for the appointment.
  * @returns {Promise<Object>} Resolves with success message or rejects with error.
  */
-const createAppointment = async (appointmentData) => {
+const createAppointmentOnRequest = async (appointmentData) => {
     const {
         appointmentId,
         mode,
@@ -42,4 +42,4 @@ const createAppointment = async (appointmentData) => {
     });
 };
 
-module.exports = { createAppointment };
+module.exports = { createAppointmentOnRequest };

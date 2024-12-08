@@ -13,7 +13,8 @@ const MeetingHistory = () => {
     const {user} = useAuth();
 
     const email = user.email // Replace this with dynamic user data if available
-    const userData = { email };
+    const max_num_meetings = 1000;
+    const userData = { email, max_num_meetings };
 
     // Fetch appointments on mount
     useEffect(() => {

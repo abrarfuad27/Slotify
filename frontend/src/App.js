@@ -64,14 +64,6 @@ function App() {
               }
             />
             <Route
-              path="/history"
-              element={
-                <ProtectedRoute>
-                  <MeetingHistory />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/userLogin"
               element={
                 <PublicRoute>
@@ -95,14 +87,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* <Route
-              path="/appointments"
-              element={
-                <ProtectedRoute>
-                  <Appointments />
-                </ProtectedRoute>
-              }
-            /> */}
+
             <Route
               path="/meetingHistory"
               element={

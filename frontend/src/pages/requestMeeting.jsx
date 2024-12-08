@@ -79,7 +79,7 @@ const RequestMeeting = () => {
                 };
 
                 // Create Appointment
-                await axios.post("http://localhost:4000/createAppointments", appointmentData);
+                await axios.post("http://localhost:4000/createAppointmentOnRequest", appointmentData);
 
                 const timeslotData = {
                     timeslotID: generateRandomId(11),

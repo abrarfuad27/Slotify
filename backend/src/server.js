@@ -16,6 +16,8 @@ const { createTimeSlot } = require("./utility/createTimeSlot");
 const { getRequests } = require("./utility/getRequests");
 const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
 const {createAppointments } = require("./utility/createAppointments");
+const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
+
 const app = express();
 const PORT = 4000;
 
@@ -186,6 +188,16 @@ app.delete("/handleRequests", async (req, res) => {
   }
 });
 
+app.post("/createAppointmentOnRequest", async (req, res) => {
+  try {
+    const result = await createAppointmentOnRequest(req.body, res); 
+    // console.log(res.json(result));
+    res.status(201).json({ status: "success", message: result });
+
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
 
 // Route to handle appointment creation
 app.post("/createAppointments", async (req, res) => {
