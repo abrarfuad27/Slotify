@@ -6,6 +6,7 @@ import FormComponent from '../components/appointmentForm';
 import NavBarMember from '../components/navbarMember';
 import Footer from "../components/footer";
 import icon from "../assets/create_appt_icon.png";
+import { publicUrl } from "../constants";
 
 const AppointmentCreation = () => {
   const { user } = useAuth();
@@ -91,7 +92,7 @@ const AppointmentCreation = () => {
     console.log('Request data', requestData);
 
     const response = await axios.post(
-      "http://localhost:4000/createAppointments",
+      `${publicUrl}/createAppointments`,
       {...requestData},
       {
         withCredentials: true,

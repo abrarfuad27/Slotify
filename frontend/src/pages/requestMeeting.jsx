@@ -3,6 +3,7 @@ import NavbarMember from "../components/navbarMember";
 import "../style/requestMeeting.css"; // Import your styles
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { publicUrl } from '../constants';
 
 const generateRandomId = (length) => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -79,7 +80,7 @@ const RequestMeeting = () => {
                 };
 
                 // Create Appointment
-                await axios.post("http://localhost:4000/createAppointmentOnRequest", appointmentData);
+                await axios.post(`${publicUrl}/createAppointmentOnRequest`, appointmentData);
 
                 const timeslotData = {
                     timeslotID: generateRandomId(11),
@@ -93,7 +94,7 @@ const RequestMeeting = () => {
                 };
 
                 // Create TimeSlot
-                await axios.post("http://localhost:4000/createTimeSlot", timeslotData);
+                await axios.post(`${publicUrl}/createTimeSlot`, timeslotData);
             }
 
             setRequests([]); // Clear the requests

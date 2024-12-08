@@ -3,6 +3,7 @@ import "../style/userRegister.css"; // Import the CSS file
 import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
 import NavBarUser from "../components/navbarUser";
+import { publicUrl } from "../constants";
 
 Modal.setAppElement("#root");
 
@@ -44,7 +45,7 @@ export default function RegisterPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/userRegister",
+        `${publicUrl}/userRegister`,
         userData
       );
       console.log("Server Response:", response.data); // Display the server response

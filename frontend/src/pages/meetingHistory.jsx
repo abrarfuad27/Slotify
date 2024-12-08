@@ -4,6 +4,7 @@ import "../style/meetingHistory.css";
 import axios from "axios";
 import { parseISO, format } from "date-fns";
 import { useAuth } from '../context/AuthContext';
+import { publicUrl } from '../constants';
 
 const MeetingHistory = () => {
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
@@ -24,13 +25,13 @@ const MeetingHistory = () => {
     const fetchAppointments = async () => {
         try {
             // Fetch upcoming appointments
-            const upcomingResponse = await axios.get("http://localhost:4000/upcomingAppointments", {
+            const upcomingResponse = await axios.get(`${publicUrl}/upcomingAppointments`, {
                 params: userData,
             });
             setUpcomingAppointments(upcomingResponse.data.data || []);
 
             // Fetch previous appointments
-            const previousResponse = await axios.get("http://localhost:4000/meetingHistory", {
+            const previousResponse = await axios.get(`${publicUrl}/meetingHistory`, {
                 params: userData,
             });
             setPreviousAppointments(previousResponse.data.data || []);

@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { publicUrl } from "../constants";
 
 const CreatePoll = () => {
 
@@ -132,7 +133,7 @@ const CreatePoll = () => {
   
     try {
       const response = await axios.post(
-        "http://localhost:4000/createPollAndSlots",
+        `${publicUrl}/createPollAndSlots`,
         requestData,
         { withCredentials: true }
       );
@@ -249,7 +250,7 @@ const CreatePoll = () => {
         <button
           className="close-btn"
           onClick={() =>
-            (window.location.href = "http://localhost:3000/memberDashboard")
+            (window.location.href = `${publicUrl}/memberDashboard`)
           }
         >
           Return To Dashboard

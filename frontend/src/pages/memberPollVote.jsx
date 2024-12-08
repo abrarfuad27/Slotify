@@ -3,6 +3,7 @@ import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
 import '../style/memberPollVote.css';
 import axios from 'axios';
+import { publicUrl } from '../constants';
 
 const PollAccess = () => {
   const [pollUrl, setPollUrl] = useState('');
@@ -40,7 +41,7 @@ const PollAccess = () => {
     }
 
     try {
-      const response = await axios.get('http://localhost:4000/pollAndSlots', {
+      const response = await axios.get(`{${publicUrl}/pollAndSlots`, {
         params: { pollId },
       });
 
@@ -66,7 +67,7 @@ const PollAccess = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/voteOnSlot', {
+      const response = await axios.post(`${publicUrl}/voteOnSlot`, {
         pollSlotId: selectedSlot,
       });
 

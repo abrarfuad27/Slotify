@@ -7,6 +7,7 @@ import { parseISO, format } from 'date-fns';
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/footer";
 import { Link } from 'react-router-dom';
+import { publicUrl } from '../constants';
 
 const MemberDashboard = () => {
   const { user } = useAuth();
@@ -36,7 +37,7 @@ const MemberDashboard = () => {
     // method to get upcoming meetings/appointments
     const getUpcomingAppointments = async () => {
       try{
-        const resp = await axios.get('http://localhost:4000/upcomingAppointments', {
+        const resp = await axios.get(`${publicUrl}/upcomingAppointments`, {
           params: userData
         });
         setApptTimes(resp.data.data);  

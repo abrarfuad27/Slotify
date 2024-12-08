@@ -1,5 +1,3 @@
-import { publicUrl } from "./constants";
-
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -24,16 +22,16 @@ const app = express();
 const PORT = 5000;
 
 const corsOptions = {
-  origin: `${publicUrl}`, // Your React app's URL
+  origin: "https://fall2024-comp307-group06.cs.mcgill.ca/", // Your React app's URL
   credentials: true,
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
 // Route to handle registration
-app.post("/userRegister", async (req, res) => {
+app.post("//userRegister", async (req, res) => {
   const userData = req.body;
   console.log("Received registration data:", userData);
   try {
@@ -45,7 +43,7 @@ app.post("/userRegister", async (req, res) => {
 });
 
 // Route to handle login
-app.post("/userLogin", async (req, res) => {
+app.post("//userLogin", async (req, res) => {
   try {
     const result = await loginUser(req.body, res);
     res.json(result);
@@ -55,13 +53,13 @@ app.post("/userLogin", async (req, res) => {
 });
 
 // Route to handle user logout
-app.post("/userLogout", (req, res) => {
+app.post("//userLogout", (req, res) => {
   res.clearCookie("authToken");
   res.json({ message: "Logged out successfully!" });
 });
 
 // Validation route
-app.get("/validateUser", authenticateToken, (req, res) => {
+app.get("//validateUser", authenticateToken, (req, res) => {
   // If we've made it this far, the user is authenticated
   res.json({
     isLoggedIn: true,
@@ -72,7 +70,7 @@ app.get("/validateUser", authenticateToken, (req, res) => {
   });
 });
 // Route to handle member dashboard page upcoming meetings
-app.get("/upcomingAppointments", async (req, res) => {
+app.get("//upcomingAppointments", async (req, res) => {
   try {
     const result = await getUpcomingAppts(req.query, res);
     res.json(result);
@@ -81,7 +79,7 @@ app.get("/upcomingAppointments", async (req, res) => {
   }
 });
 
-app.post("/createPollAndSlots", async (req, res) => {
+app.post("//createPollAndSlots", async (req, res) => {
   const pollData = req.body;
   console.log("Received poll data:", pollData);
   try {
@@ -92,7 +90,7 @@ app.post("/createPollAndSlots", async (req, res) => {
   }
 });
 
-app.get("/pollAndSlots", async (req, res) => {
+app.get("//pollAndSlots", async (req, res) => {
   try {
     const result = await getPollAndSlots(req.query, res); 
     res.json(result);
@@ -101,7 +99,7 @@ app.get("/pollAndSlots", async (req, res) => {
   }
 });
 
-app.post("/voteOnSlot", async (req, res) => {
+app.post("//voteOnSlot", async (req, res) => {
   const { pollSlotId } = req.body;
 
   if (!pollSlotId) {
@@ -117,7 +115,7 @@ app.post("/voteOnSlot", async (req, res) => {
 });
 
 
-app.post("/getAvailableTimeslots", async (req, res) => {
+app.post("//getAvailableTimeslots", async (req, res) => {
   const { searchUrl } = req.body;
 
   try {
@@ -128,7 +126,7 @@ app.post("/getAvailableTimeslots", async (req, res) => {
   }
 });
 
-app.post("/bookTimeslot", async (req, res) => {
+app.post("//bookTimeslot", async (req, res) => {
   const { timeslotId, email } = req.body;
 
   try {
@@ -140,7 +138,7 @@ app.post("/bookTimeslot", async (req, res) => {
 });
 
 // Route to handle member dashboard page past meetings
-app.get("/meetingHistory", async (req, res) => {
+app.get("//meetingHistory", async (req, res) => {
   try {
     const result = await getMeetingHistory(req.query); // Use req.query instead of req.body for GET requests
     res.json({ data: result }); // Send the resolved data as JSON
@@ -150,7 +148,7 @@ app.get("/meetingHistory", async (req, res) => {
 });
 
 //create TimeSlots
-app.post("/createTimeSlot", async (req, res) => {
+app.post("//createTimeSlot", async (req, res) => {
   try {
     const result = await createTimeSlot(req.body, res);
     res.json(result);
@@ -160,7 +158,7 @@ app.post("/createTimeSlot", async (req, res) => {
 });
 
 //get Requests
-app.get("/requests", async (req, res) => {
+app.get("//requests", async (req, res) => {
   try {
     const result = await getRequests(req.query); // Use req.query instead of req.body for GET requests
     res.json({ data: result }); // Send the resolved data as JSON
@@ -170,7 +168,7 @@ app.get("/requests", async (req, res) => {
 });
 
 //accept Requests
-app.put("/handleRequests", async (req, res) => {
+app.put("//handleRequests", async (req, res) => {
   try {
     const { timeSlotId } = req.body;
     const result = await acceptRequest(timeSlotId); 
@@ -180,7 +178,7 @@ app.put("/handleRequests", async (req, res) => {
   }
 });
 //deny Requests
-app.delete("/handleRequests", async (req, res) => {
+app.delete("//handleRequests", async (req, res) => {
   try {
     const { timeSlotId } = req.body;
     const result = await deleteRequest(timeSlotId); 
@@ -190,7 +188,7 @@ app.delete("/handleRequests", async (req, res) => {
   }
 });
 
-app.post("/createAppointmentOnRequest", async (req, res) => {
+app.post("//createAppointmentOnRequest", async (req, res) => {
   try {
     const result = await createAppointmentOnRequest(req.body, res); 
     // console.log(res.json(result));
@@ -202,7 +200,7 @@ app.post("/createAppointmentOnRequest", async (req, res) => {
 });
 
 // Route to handle appointment creation
-app.post("/createAppointments", async (req, res) => {
+app.post("//createAppointments", async (req, res) => {
   try {
     const result = await createAppointments(req.body, res); 
     // console.log(res.json(result));

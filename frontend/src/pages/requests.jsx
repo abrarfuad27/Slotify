@@ -4,6 +4,7 @@ import NavbarMember from "../components/navbarMember";
 import "../style/requests.css";
 import { useAuth } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
+import { publicUrl } from '../constants';
 
 const Requests = () => {
     const [groupedRequests, setGroupedRequests] = useState([]); // Store grouped requests by appointee
@@ -22,7 +23,7 @@ const Requests = () => {
 
     const fetchRequests = async () => {
         try {
-            const response = await axios.get("http://localhost:4000/requests", {
+            const response = await axios.get(`${publicUrl}/requests`, {
                 params: userData,
             });
             const requests = response.data.data || [];
@@ -58,11 +59,11 @@ const Requests = () => {
         console.log(timeSlotId);
         try {
             if (action === "accept") {
-                await axios.put("http://localhost:4000/handleRequests", {
+                await axios.put(`${publicUrl}/handleRequests`, {
                     timeSlotId,
                 });
             } else if (action === "deny") {
-                await axios.delete("http://localhost:4000/handleRequests", {
+                await axios.delete(`${publicUrl}/handleRequests`, {
                     data: { timeSlotId },
                 });
             }

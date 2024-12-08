@@ -10,6 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import Modal from "react-modal"; 
 import { useNavigate } from "react-router-dom";
+import { publicUrl } from "../constants";
 
 export default function BookAppointment() {
   const { user, isLoading } = useAuth();
@@ -65,7 +66,7 @@ export default function BookAppointment() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/getAvailableTimeslots",
+        `${publicUrl}/getAvailableTimeslots`,
         { searchUrl },
         { withCredentials: true }
       );
@@ -135,7 +136,7 @@ export default function BookAppointment() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/bookTimeslot",
+        `${publicUrl}/bookTimeslot`,
         { email: userEmail, timeslotId: selectedTimeslot },
         { withCredentials: true }
       );
