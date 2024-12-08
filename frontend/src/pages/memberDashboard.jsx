@@ -1,157 +1,147 @@
-
-// import React from "react";
-// import { useAuth } from "../context/AuthContext";
-
-// export default function MemberDashboard() {
-//   const { logout } = useAuth(); // Access the logout function from AuthContext
-
-//   const handleLogout = async () => {
-//     try {
-//       await logout(); // Call the logout function
-//       // Redirect to the home after logging out
-//     } catch (error) {
-//       console.error("Logout failed:", error);
-//     }
-//   };
-
-//   return (
-//     <div className="container">
-//       <h1>Member Dashboard</h1>
-//       <button className="btn btn-primary" onClick={handleLogout}>
-//         Sign Out
-//       </button>
-//     </div>
-//   );
-// }
-
-import React, { useState, useEffect } from 'react';
-import '../style/memberDashboard.css';
-import DashboardCard from '../components/dashboardCard';
-import NavBarMember from '../components/navbarMember';
+import React, { useEffect, useState } from "react";
+import NavbarMember from "../components/navbarMember";
+import "../style/meetingHistory.css";
 import axios from "axios";
-import { parseISO, format } from 'date-fns';
+import { parseISO, format } from "date-fns";
 
-const MemberDashboard = () => {
-  // database information
-  const [apptTimes, setApptTimes] = useState([]);
-  const [apptDivs, setApptDivs] = useState([]);
-  // dynamically change upcoming-meetings-container height
-  const [height, setHeight] = useState(35);
+const MeetingHistory = () => {
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [previousAppointments, setPreviousAppointments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    const email = "student@mcgill.ca"; // Replace this with dynamic user data if available
+    const userData = { email };
 
-  // TODO: replace dummy data
-  const email = 'student@mcgill.ca';
-  const userData = {
-      email
-  };
-
-    // on mount, get upcoming appointments from database
-    useEffect(()=> {
-      getUpcomingAppointments();
+    // Fetch appointments on mount
+    useEffect(() => {
+        fetchAppointments();
     }, []);
 
-    // update the dashboard with the upcoming meetings
-    useEffect(() => { 
-      displayUpcomingAppointments();
-    }, [apptTimes]);
+    const fetchAppointments = async () => {
+        try {
+            // Fetch upcoming appointments
+            const upcomingResponse = await axios.get("http://localhost:4000/upcomingAppointments", {
+                params: userData,
+            });
+            setUpcomingAppointments(upcomingResponse.data.data || []);
 
-    // method to get upcoming meetings/appointments
-    const getUpcomingAppointments = async () => {
-      try{
-        const resp = await axios.get('http://localhost:4000/upcomingAppointments', {
-          params: userData
-        });
-        setApptTimes(resp.data.data);  
-      }catch (error) {
-        console.error('There was an error getting the upcoming appointments.', error);
-      }
+            // Fetch previous appointments
+            const previousResponse = await axios.get("http://localhost:4000/meetingHistory", {
+                params: userData,
+            });
+            setPreviousAppointments(previousResponse.data.data || []);
+
+            setLoading(false);
+        } catch (err) {
+            console.error("Error fetching appointments:", err);
+            setError("Failed to load appointments. Please try again.");
+            setLoading(false);
+        }
     };
 
-    // format date
-    function formatDate(dateString) { 
-      const formattedDate = format(parseISO(dateString), "MMM do, yyyy");
-      return formattedDate; 
+    const formatDate = (dateString) => {
+        return format(parseISO(dateString), "MMM do, yyyy");
+    };
+
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
-  
-    // method to display upcoming meetings/appointments to dashboard
-    const displayUpcomingAppointments = () => {
-      let queryData = [];
-      
-      if (apptTimes.length === 0) {
-        const empty_card = { 
-            'content':(
-            <div className='card-content'>
-                <p>No meetings yet!</p>
-                <p>Start by creating an appointment</p>
-            </div>
-            ),
-            'banner': ''
-        };
-        queryData.push(empty_card);
-          // queryData = [(
-          //     <div className='card-content'>
-          //         <p>No meetings yet!</p>
-          //         <p>Start by creating an appointment</p>
-          //     </div>
-          // )]
-      } else if (apptTimes.length === 2){
-          setHeight(55);
-      } else {
-          setHeight(68);
-      }
 
-      let data = '';
-      let divElement = null;
-      for (let i=0; i < apptTimes.length; i++){
-        console.log(apptTimes[i]);
-        
-        data = apptTimes[i];
-        const divElement = { 
-          'content':(
-          <div className='card-content'>
-            <p>Time: {formatDate(data['timeslotDate'])} from {data['startTime']}-{apptTimes[i]['endTime']}</p>
-            <p>Organizer: {data['creator']}</p>
-            <p>Topic: {data['topic']}</p>
-            <p>URL:  {data['appointmentURL']} </p>
-          </div>
-          ),
-          'banner': data['course']
-        };
-        
-        queryData.push(divElement);
-        
-      }
-      setApptDivs(queryData);
-  };
-  
-  return (
-    <div className='member-dashboard'>
-        <NavBarMember/>
-        <div className='dashboard-content'>
-            <div className='dashboard-background'></div>
-            {/* header */}
-            <div className='dashboard-el'>
-                <h1>Welcome!</h1>
-                <div className='upcoming-meetings-container container-box' style={{height: `${height}vh`}}>
-                    <h2>Your upcoming meetings</h2>
+    if (error) {
+        return <div className="error">{error}</div>;
+    }
 
-                    {/* TODO: set limit to max 3 info-cards showing */}
-                    <div className='info-card-container'>
-                        {apptDivs.map((appt, _)=>(
-                            <DashboardCard content={appt.content} banner={appt.banner}></DashboardCard>
-                        ))}
-                    </div>
+    return (
+        <div className="bg meeting-history-page">
+            <NavbarMember />
+            <div className="container">
+                <h1 className="page-title">History</h1>
+
+                {/* Upcoming Appointments Section */}
+                <div className="appointments-section">
+                    <h2>Upcoming Appointments</h2>
+                    {upcomingAppointments.length > 0 ? (
+                        <table className="appointments-table">
+                            <thead>
+                                <tr>
+                                    <th>Appointee</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Mode</th>
+                                    <th>URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {upcomingAppointments.map((appt, index) => (
+                                    <tr key={index}>
+                                        <td>{appt.creator}</td>
+                                        <td>{formatDate(appt.timeslotDate)}</td>
+                                        <td>
+                                            {appt.startTime} - {appt.endTime}
+                                        </td>
+                                        <td>{appt.course || "One-time"}</td>
+                                        <td>
+                                            <a
+                                                href={appt.appointmentURL}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {appt.appointmentURL}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>No upcoming appointments found.</p>
+                    )}
                 </div>
-                <button type='button' className='create-appt-btn'>Create an Appointment</button>
+
+                {/* Previous Appointments Section */}
+                <div className="appointments-section">
+                    <h2>Previous Appointments</h2>
+                    {previousAppointments.length > 0 ? (
+                        <table className="appointments-table">
+                            <thead>
+                                <tr>
+                                    <th>Appointee</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Mode</th>
+                                    <th>URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {previousAppointments.map((appt, index) => (
+                                    <tr key={index}>
+                                        <td>{appt.creator}</td>
+                                        <td>{formatDate(appt.timeslotDate)}</td>
+                                        <td>
+                                            {appt.startTime} - {appt.endTime}
+                                        </td>
+                                        <td>{appt.course || "One-time"}</td>
+                                        <td>
+                                            <a
+                                                href={appt.appointmentURL}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {appt.appointmentURL}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>No previous appointments found.</p>
+                    )}
+                </div>
             </div>
-
         </div>
-        
-        {/* footer */}
-        <div className='footer-dummy'></div>
-    </div>
-
-  );
+    );
 };
 
-export default MemberDashboard;
+export default MeetingHistory;

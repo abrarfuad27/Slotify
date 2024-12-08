@@ -5,12 +5,10 @@ import { ProtectedRoute, PublicRoute } from "./components/route.jsx";
 
 import RegisterPage from "./pages/userRegister.jsx";
 import LoginPage from "./pages/userLogin.jsx";
-
 import Error404 from "./pages/errorPage.jsx";
 import "./App.css";
 import Landing from "./pages/landing";
 import MemberDashboard from "./pages/memberDashboard";
-
 import Appointments from "./pages/appointments";
 import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
@@ -18,6 +16,8 @@ import CreatePoll from "./pages/createPoll";
 import MemberAccessPoll from "./pages/memberPollVote.jsx";
 import UserAccessPoll from "./pages/userPollVote.jsx";
 import BookAppointment from "./pages/bookAppointment.jsx";
+import RequestMeeting from "./pages/requestMeeting.jsx";
+import Requests from "./pages/requests.jsx";
 
 function App() {
   return (
@@ -81,6 +81,38 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MemberAccessPoll />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/appointments"
+              element={
+                <ProtectedRoute>
+                  <Appointments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/meetingHistory"
+              element={
+                <ProtectedRoute>
+                  <MeetingHistory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requestMeeting"
+              element={
+                <ProtectedRoute>
+                  <RequestMeeting />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requests"
+              element={
+                <ProtectedRoute>
+                  <Requests />
                 </ProtectedRoute>
               }
             />
