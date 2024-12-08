@@ -6,6 +6,8 @@ import { ProtectedRoute, PublicRoute } from "./components/route.jsx";
 import RegisterPage from "./pages/userRegister.jsx";
 import LoginPage from "./pages/userLogin.jsx";
 import Error404 from "./pages/errorPage.jsx";
+
+import AppointmentCreation from "./pages/appointmentCreation.jsx";
 import "./App.css";
 import Landing from "./pages/landing";
 import MemberDashboard from "./pages/memberDashboard";
@@ -18,6 +20,8 @@ import UserAccessPoll from "./pages/userPollVote.jsx";
 import BookAppointment from "./pages/bookAppointment.jsx";
 import RequestMeeting from "./pages/requestMeeting.jsx";
 import Requests from "./pages/requests.jsx";
+import ManagePoll from "./pages/managePoll";
+
 
 function App() {
   return (
@@ -41,7 +45,6 @@ function App() {
                 </PublicRoute>
               }
             />
-            <Route path="/appointments" element={<Appointments />} />
             <Route path="/bookAppointment" element={<BookAppointment />} />
 
             <Route
@@ -49,6 +52,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreatePoll />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/managePoll"
+              element={
+                <ProtectedRoute>
+                  <ManagePoll />
                 </ProtectedRoute>
               }
             />
@@ -84,14 +95,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/appointments"
               element={
                 <ProtectedRoute>
                   <Appointments />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
               path="/meetingHistory"
               element={
@@ -113,6 +124,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Requests />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/appointmentCreation"
+              element={
+                <ProtectedRoute>
+                  <AppointmentCreation />
                 </ProtectedRoute>
               }
             />

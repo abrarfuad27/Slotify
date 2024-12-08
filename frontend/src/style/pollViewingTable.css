@@ -1,0 +1,12 @@
+.poll-table table, th, td {
+    border:1px solid black;
+}
+.poll-table table {
+    width:20vw;
+    height: 20vh;
+}
+
+.poll-table tr { 
+    width: 100%;
+    height: 120%;;
+}

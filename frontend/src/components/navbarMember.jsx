@@ -31,9 +31,7 @@ const NavBarMember = () => {
             <li>
               <Link to="/bookAppointment">Book Appointment</Link>
             </li>
-            <li>
-              <Link to="/create-appointment">Create Appointment</Link>
-            </li>
+            <li><Link to="/appointmentCreation">Create Appointment</Link></li>
           </ul>
         </li>
         <li className="dropdown">
@@ -45,9 +43,7 @@ const NavBarMember = () => {
             <li>
               <Link to="/poll">Access Poll</Link>
             </li>
-            <li>
-              <Link to="/poll-results">See Poll Results</Link>
-            </li>
+            <li><Link to="/managePoll">Manage Poll</Link></li>
           </ul>
         </li>
         <li>
@@ -57,9 +53,10 @@ const NavBarMember = () => {
           <Link to="/requests">View Requests</Link>
         </li>
       </ul>
-      <button className="logout-button" onClick={handleLogout}>
-        Log Out
-      </button>
+
+      <div className="logout-button">
+        <button className="logout-button" onClick={handleLogout}>Log Out</button>
+      </div>
     </nav>
   );
 };

@@ -1,0 +1,27 @@
+.appt-creation {
+    height: 100vh;
+    width: 100vw;
+}
+
+.create-appt-icon {
+    height: 8vh;
+    object-fit: cover;
+}
+.create-appt-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+
+.create-appt-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height : 20%;
+    color: #3d0db2;
+}
