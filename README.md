@@ -7,6 +7,7 @@ COMP 307 Final Project
 
 * On **backend/src/server.js,** uncomment the comment with the localhost with your correct port (whichever port is not used by your computer).
 * When running the backend, use the command `npm run dev`
+* The webapp will be running on your default localhost after `npm start`
 
 ## IF ON SERVER (i.e. running from SOCS's MERN server)
 
