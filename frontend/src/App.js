@@ -11,7 +11,7 @@ import AppointmentCreation from "./pages/appointmentCreation.jsx";
 import "./App.css";
 import Landing from "./pages/landing";
 import MemberDashboard from "./pages/memberDashboard";
-import Appointments from "./pages/appointments";
+// import Appointments from "./pages/appointments";
 import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
 import CreatePoll from "./pages/createPoll";
