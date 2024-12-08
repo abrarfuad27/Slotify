@@ -76,7 +76,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <>
+    <div className="register-page">
       <NavBarUser />
       <div className="register-page-without-nav">
         <div className="register-page-container">
@@ -145,6 +145,6 @@ export default function RegisterPage() {
           </Modal>
         </div>
       </div>
-    </>
+    </div>
   );
 }

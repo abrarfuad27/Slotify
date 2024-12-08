@@ -20,7 +20,7 @@ const NavBarUser = () => {
       </div>
       <ul className={`nav-links ${menuActive ? 'active' : ''}`}>
         <li className="dropdown">
-          <Link to="/appointments">Book Appointment</Link>
+          <Link to="/bookAppointment">Book Appointment</Link>
         </li>
         <li className="dropdown">
           <Link to="/poll">Access Poll</Link>

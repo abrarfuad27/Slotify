@@ -51,7 +51,7 @@ export default function LoginPage() {
   };
 
   return (
-    <>
+    <div className="login-page">
       <NavBarUser />
       <div className="login-page-without-nav">
         <div className="login-page-container">
@@ -100,6 +100,6 @@ export default function LoginPage() {
           </Modal>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -15,6 +15,8 @@ import Appointments from "./pages/appointments";
 import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
 import CreatePoll from "./pages/createPoll";
+import BookAppointment from "./pages/bookAppointment.jsx";
+import Requests from "./pages/requests.jsx";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
               }
             />
             <Route path="/appointments" element={<Appointments />} />
+            <Route path="/bookAppointment" element={<BookAppointment />} />
+
             <Route
               path="/createPoll"
               element={
@@ -68,6 +72,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MemberDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requests/:email"
+              element={
+                <ProtectedRoute>
+                  <Requests />
                 </ProtectedRoute>
               }
             />
