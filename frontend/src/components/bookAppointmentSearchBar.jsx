@@ -1,20 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import "../style/searchBarBook.css";
 
 export default function BookAppointmentSearchBar({ url, setURL, onSearch }) {
+  const [touched, setTouched] = useState(false);
+
+  const handleSearchClick = () => {
+    setTouched(true);
+    onSearch(url);
+  };
+
   return (
     <div className="search-bar-container">
       <TextField
         value={url}
         placeholder="e.g. slotify.com/id1233"
-        onChange={(e) => setURL(e.target.value)}
+        onChange={(e) => {
+          setURL(e.target.value);
+          if (touched && e.target.value) {
+            setTouched(false);
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setTouched(true);
+            onSearch(url);
+          }
+        }}
+        required // This makes the field required
+        error={touched && !url} // Shows error if url is empty and the field has been touched
+        helperText={touched && !url ? "Please enter a URL" : ""} // Helper text based on touched state
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
               <div
-                onClick={() => onSearch(url)} // Trigger search when clicked
+                onClick={handleSearchClick}
                 style={{
                   cursor: "pointer",
                   display: "flex",
@@ -35,7 +56,7 @@ export default function BookAppointmentSearchBar({ url, setURL, onSearch }) {
               borderWidth: "1px", // Specifically target the border
             },
             "&.Mui-focused fieldset": {
-              borderWidth: "1px", // Increase when focused 
+              borderWidth: "1px", // Increase when focused
             },
           },
         }}

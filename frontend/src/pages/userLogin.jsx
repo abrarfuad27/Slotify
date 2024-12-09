@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../style/userLogin.css"; // Import the CSS file
 import NavBarUser from "../components/navbarUser";
+import Footer from "../components/footer";
 import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
@@ -14,18 +15,22 @@ export default function LoginPage() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate(); // Initialize useNavigate
   const { login } = useAuth(); // Access login function from AuthContext
+
+  const validateInputs = () => {
+    const newErrors = { email: "", password: "" };
+    if (!email.trim()) newErrors.email = "Email is required.";
+    if (!password.trim()) newErrors.password = "Password is required.";
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password; // Return true if no errors
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-    if (!email || !password) {
-      setModalMessage("All fields are required.");
-      setIsSuccess(false);
-      setModalIsOpen(true); // Open the modal with the error
-      return;
-    }
+    if (!validateInputs()) return; // Stop submission if inputs are invalid
 
     try {
       // Call the login function from AuthContext
@@ -58,22 +63,65 @@ export default function LoginPage() {
           <h1 className="login-page-header">Already a Member? Log In</h1>
           <div className="form-div">
             <form className="form-container" onSubmit={handleSubmit}>
-              <label>
-                Email :
+              <div className="form-group" style={{ position: "relative" }}>
+                <label>Email:</label>
                 <input
                   type="text"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setErrors((prev) => ({ ...prev, email: "" })); // Clear error on input change
+                  }}
+                  style={{
+                    border: errors.email ? "1px solid red" : undefined, // Apply red border if error exists
+                  }}
                 />
-              </label>
-              <label>
-                Password :
+                {errors.email && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      color: "red",
+                      top: "100%",
+                      fontSize: "8px",
+                      height: "16px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+              <div
+                className="form-group"
+                style={{ position: "relative", marginBottom: "20px" }}
+              >
+                <label>Password:</label>
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setErrors((prev) => ({ ...prev, password: "" })); // Clear error on input change
+                  }}
+                  style={{
+                    border: errors.password ? "1px solid red" : undefined, // Apply red border if error exists
+                  }}
                 />
-              </label>
+                {errors.password && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      color: "red",
+                      top: "100%",
+                      fontSize: "8px",
+                      height: "16px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.password}
+                  </p>
+                )}
+              </div>
               <button type="submit">Log In</button>
             </form>
           </div>
@@ -99,6 +147,9 @@ export default function LoginPage() {
             </button>
           </Modal>
         </div>
+      </div>
+      <div className="login-page-footer-div">
+        <Footer />
       </div>
     </div>
   );

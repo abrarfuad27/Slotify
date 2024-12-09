@@ -1,7 +1,6 @@
 .login-page {
   position: relative;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 .login-page::before {
@@ -18,18 +17,18 @@
 }
 
 .login-page-without-nav {
-  font-family: Inter, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
+  height:100vh;
 }
 
 .login-page-header {
   color: #3d0db2;
   margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .login-page-container {
