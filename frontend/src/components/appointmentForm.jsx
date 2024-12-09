@@ -3,6 +3,9 @@ import '../style/appointmentForm.css';
 
 const AppointmentCreationForm = ({ onSubmit }) => {
 
+  const [curDate, setCurDate] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
   const initialFormData = {
     meeting_mode: 'one-time',
     course: '',
@@ -11,17 +14,25 @@ const AppointmentCreationForm = ({ onSubmit }) => {
     start_date: '',
     end_date: '',
     start_time: '',
-    end_time: ''
+    end_time: '',
+    timeslot_dates: []
   };
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const handleCancel = () => {
-    console.log('Resetting form data')
+  useEffect(() => {
+    const curDate= new Date().toLocaleDateString('en-CA');
+    setCurDate(curDate);
+  },[]);
+
+  const handleReset = () => {
+    console.log('Resetting form data');
     setFormData(initialFormData);
   };
   const handleChange = (e) => {
+    //TOD trim data?
     const { name, value } = e.target;
+    // console.log(name, value);
     setFormData({
       ...formData,
       [name]: value
@@ -34,23 +45,27 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       return;
     }
     console.log('Form data:', formData);
-
+    
     onSubmit(formData);
   };
 
   const validateDates = () => {
+    let result = true;
+    let errorMsg = '';
     const { start_date, end_date, start_time, end_time } = formData;
     if (start_date && end_date && new Date(start_date) > new Date(end_date)) { 
-      alert('Start Date must be before or equal to End Date'); 
-      return false; 
+      errorMsg += 'Start Date must be before or equal to End Date<br>'; 
+      result = false; 
     }
     if (start_time && end_time && start_time >= end_time) { 
-      alert('Start Time must be before End Time'); 
-      return false; 
+      errorMsg += 'Start Time must be before End Time'; 
+      result = false; 
     }
-    return true;
+    console.log(errorMsg);
+    setErrorMsg(errorMsg);
+    return result;
   };
-
+  
   useEffect(() => {
     // Reset day and time period if meeting_mode is one-time
     if (formData.meeting_mode === 'one-time') {
@@ -65,6 +80,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
   
   return (
     <form className="create-appt-form-div container-box" onSubmit={handleSubmit}>
+      <div className='error-msg'>{errorMsg}</div>
       <div className='mode'>
         <p>Mode* :</p>
         <div className="radio-option">
@@ -100,6 +116,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           name="course"
           value={formData.course}
           onChange={handleChange}
+          pattern="^[A-Za-z0-9]+$" placeholder="COMP307"
         />
       </div>
 
@@ -144,6 +161,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           name="start_date"
           value={formData.start_date}
           onChange={handleChange}
+          min={curDate}
           required
         />
         <p>&ensp;to&ensp;</p>
@@ -153,6 +171,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           value={formData.end_date}
           onChange={handleChange}
           disabled={formData.meeting_mode === 'one-time'}
+          min={curDate}
           required={formData.meeting_mode === 'recurring'}
         />
       </div>
@@ -178,7 +197,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
 
       <div className='form-btn'>
         <button type='submit' className='confirm'>Confirm</button>
-        <button type='button' className='cancel' onClick={handleCancel}>Cancel</button>
+        <button type='button' className='cancel' onClick={handleReset}>Reset</button>
       </div>
     </form>
   );

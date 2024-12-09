@@ -11,6 +11,11 @@
     font-weight: bold;
 }
 
+.error-msg {
+    color: red;
+    font-weight: bold;
+    font-size: 1.1em;
+}
 .mode {
     display: flex;
     flex-direction: row;
