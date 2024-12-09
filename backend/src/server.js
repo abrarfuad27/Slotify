@@ -1,4 +1,4 @@
-import { publicUrl } from "./constants";
+const { backendPort, frontendUrl } = require("./constants.js");
 
 const express = require("express");
 const cors = require("cors");
@@ -21,10 +21,10 @@ const {createAppointments } = require("./utility/createAppointments");
 const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
 
 const app = express();
-const PORT = 5000;
+const PORT = backendPort;
 
 const corsOptions = {
-  origin: `${publicUrl}`, // Your React app's URL
+  origin: `${frontendUrl}`, // Your React app's URL
   credentials: true,
 };
 
