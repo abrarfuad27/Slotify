@@ -10,13 +10,13 @@
   align-items: center;
   background-color: #085a77;
   padding: 1vh 4vw;
+  height: 7vh;
 }
 
 .navbar-user .logo {
   display: flex;
   align-items: center;
-  width: 15vw;
-  max-width: 15vw;
+  width: 130px;
   height: auto;
 }
 
