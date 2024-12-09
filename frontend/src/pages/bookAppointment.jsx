@@ -88,7 +88,7 @@ export default function BookAppointment() {
         setTopic(topic);
         setAvailableTimeslots(timeslots);
 
-        if (timeslots.length == 0) {
+        if (timeslots.length === 0) {
           if (user) {
             openModal(
               "This appointment no longer has available timeslots.",
@@ -125,7 +125,7 @@ export default function BookAppointment() {
       setTopic("");
       setCreatorName("");
       setCreatorEmail("");
-      if (error.status == 404) {
+      if (error.status === 404) {
         openModal("Appointment not found. Please enter a valid URL.", false);
       } else {
         openModal("Failed to fetch timeslots. Please try again later.", false);
@@ -173,7 +173,7 @@ export default function BookAppointment() {
       openModal(response.data.message, true);
     } catch (error) {
       console.error("Error booking timeslot:", error);
-      if (error.status == 400) {
+      if (error.status === 400) {
         openModal("Timeslot is no longer available.", false);
       } else {
         openModal("Failed to book the timeslot. Please try again.", false);
