@@ -1,9 +1,10 @@
+/* Page Styling */
 .landing {
   width: 100vw;
   height: 100vh;
 }
 
-/* general text */
+/* General Text Styling */
 .landing h1 {
   color: #3d0db2;
   font-size: 2.5rem;
@@ -27,11 +28,11 @@ p {
   font-family: "Inter", sans-serif;
 }
 
-/* hero */
+/* Hero Styling */
 .hero {
   position: relative;
   width: 100vw;
-  height: 69vh;
+  height: 70vh;
   border : 1px solid #085a77;
   overflow: hidden;
 
@@ -59,6 +60,7 @@ p {
   margin-left: 5%;
 }
 
+/* Button Styling */
 .general-btn {
   width: 15vw;
   height: 8vh;
@@ -77,9 +79,8 @@ p {
   text-decoration: none;
 }
 
-/* content */
+/* Content Styling */
 .content {
-  /* padding-top: 5vh; */
   width: 100vw;
   height: 40vh;
   display: flex;
@@ -103,6 +104,7 @@ p {
   text-align: center;
 }
 
+/* Content Icon Styling */
 .landing img {
   max-height: 90%;
   max-width: 90%;
@@ -111,19 +113,15 @@ p {
   object-fit: cover;
 }
 
-/* footer */
-.footer-dummy {
-  height: 5vh;
-  background-color: #085a77;
-}
-
 /* Laptop (max-width: 1440px) */
 @media (max-width: 1440px) {
+  /* Hero Styling */
   .hero-img {
     transform: translate(12%, 0%);
     background-size: 100%;
-
   }
+
+  /* General Text Styling */
   .landing h1 {
     font-size: 2rem;
   }
@@ -131,6 +129,7 @@ p {
     font-size: 1.6rem;
     width: 50%;
   }
+  /* Button Styling */
   .general-btn {
     width: 18vw;
     height: 6vh;
@@ -140,11 +139,13 @@ p {
 
 /* Laptop (max-width: 1024px) */
 @media (max-width: 1024px) {
+  /* Hero Styling */
   .hero-img {
     transform: translate(8%, 5%);
     background-size: 120%;
 
   }
+  /* Button Styling */
   .general-btn {
     width: 28%;
     height: 6vh;
@@ -154,16 +155,18 @@ p {
 
 /* Tablets (max-width: 768px) */
 @media (max-width: 768px) {
-
+  /* Hero Styling */
   .hero-img {
     transform: translate(8%, 8%);
     width: 100%;
     background-size: 145%;
   }
+  /* Button Styling */
   .general-btn {
     width: 30%;
     font-size: 1rem;
   }
+  /* Content Items Styling */
   .content {
     padding-bottom : 6vh;
   }
@@ -174,12 +177,10 @@ p {
     flex-direction: column;
     align-items: center;
   }
-
   .landing h3 {
     font-size: 1em;
     text-align: center;
   }
-
   .content-item > p {
     font-size: 0.9em;
     text-align: center;
@@ -191,6 +192,7 @@ p {
 
 /* Smartphones (max-width: 575px) */
 @media (max-width: 575px) {
+  /* Hero Styling */
   .hero {
     height: 50%;
   }
@@ -206,6 +208,7 @@ p {
     width: 100%;
     background-size: 190%;
   }
+  /* General Text Styling */
   .landing h1 {
     width : 70%;
     text-align: center;
@@ -214,12 +217,13 @@ p {
     width : 75%;
     text-align: center;
   }
-
+  /* Button Styling */
   .general-btn {
     width: 40%;
     font-size: 1rem;
     margin-left : 0px;
   }
+  /* Content Items Styling */
   .content {
     display: flex;
     flex-direction: column;
