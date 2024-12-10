@@ -12,3 +12,12 @@
 .poll-management-content h1 {
     color: #3d0db2;
 }
+
+.poll-modal .modal-content {
+    width: 90%;
+    height: 90%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -19,7 +19,7 @@ const { getRequests } = require("./utility/getRequests");
 const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
 const {createAppointments } = require("./utility/createAppointments");
 const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
-
+const {getManagedPolls} = require("./utility/getManagedPolls")
 const app = express();
 const PORT = backendPort;
 
@@ -211,7 +211,20 @@ app.post("/createAppointments", async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error });
   }
-});// Add a closing curly brace here
+});
+
+// Route to get managed active/inactive polls
+app.get("/getManagedPolls", async (req, res) => {
+  try {
+    const result = await getManagedPolls(req.query, res); 
+    // console.log(res.json(result));
+    res.json(result);
+    // res.status(201).json({ status: "success", message: result });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+// Add a closing curly brace here
 
 // Start the server
 app.listen(PORT, () => {
