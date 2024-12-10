@@ -20,6 +20,8 @@ const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
 const {createAppointments } = require("./utility/createAppointments");
 const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
 const {getManagedPolls} = require("./utility/getManagedPolls")
+const {endPoll} = require("./utility/endPoll")
+
 const app = express();
 const PORT = backendPort;
 
@@ -213,6 +215,7 @@ app.post("/createAppointments", async (req, res) => {
   }
 });
 
+// TODO PUT THE THING ON the server one
 // Route to get managed active/inactive polls
 app.get("/getManagedPolls", async (req, res) => {
   try {
@@ -220,6 +223,19 @@ app.get("/getManagedPolls", async (req, res) => {
     // console.log(res.json(result));
     res.json(result);
     // res.status(201).json({ status: "success", message: result });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+// Route to handle ending polls
+app.put("/endPoll", async (req, res) => {
+  try {
+    const { pollId } = req.body;
+    const result = await endPoll(pollId, res); 
+    // console.log(res.json(result));
+    res.status(201).json({ status: "success", message: result });
+
   } catch (error) {
     res.status(400).json({ message: error });
   }

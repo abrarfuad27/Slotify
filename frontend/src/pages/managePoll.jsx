@@ -11,6 +11,7 @@ import AxisFormatter from '../components/barChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { barElementClasses } from '@mui/x-charts/BarChart';
 import { parseISO, format } from 'date-fns';
+
 const ManagePoll = () => {
     const {user} = useAuth();
     const email = user.email;
@@ -23,7 +24,11 @@ const ManagePoll = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
+
+    // poll attributes
     const [pollName, setPollName] = useState("");
+    const [pollUrl, setPollUrl] = useState("");
+    const [pollId, setPollId] = useState("");
 
     
     // bar chart data
@@ -87,8 +92,9 @@ const ManagePoll = () => {
                 });
             }
             setDataset(tempDataset);  
-            setPollName(data.pollName);   
-            console.log("THE DATA SET", tempDataset);       
+            setPollName(data.pollName);  
+            setPollUrl(data.pollUrl); 
+            setPollId (data.pollId);
         } else {
             openModal("There was an error :", false);
         }
@@ -121,6 +127,11 @@ const ManagePoll = () => {
         }
     };
 
+    const handleEndPoll = async () => {
+        await axios.put(`${publicUrl}/endPoll`, {
+            pollId,
+        });
+    };
     useEffect(() => {
         getManagedPolls();
 
@@ -209,21 +220,30 @@ const ManagePoll = () => {
                 }}
             >
                 <div className='modal-content'>
-                    <h2>Results for: {pollName}</h2>
-                    <p>{modalMessage}</p>
-                    <AxisFormatter dataset={dataset} chartParams={chartParams}/>
-
-                    <button
+                    <button 
+                    className='close-modal-btn'
                     onClick={() => {
                         if (isSuccess) {
                         window.location.reload(); // Refresh the page
                         } else {
                         closeModal(); // Close the modal if not successful
                         }
-                    }}
+                    }}>
+                        X
+                    </button>
+
+                    <h2>Results for: {pollName}</h2>
+                    <p>{modalMessage}</p>
+                    <AxisFormatter dataset={dataset} chartParams={chartParams}/>
+
+                    <button
+                    className='end-poll-btn'
+                    onClick={handleEndPoll}
                     >
                     End poll
                     </button>
+                    {/* TODO : add the copy function */}
+                    <div className='share-poll'>Share poll token: {pollUrl}</div>
                 </div>
                 
 
