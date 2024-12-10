@@ -26,7 +26,7 @@ const app = express();
 const PORT = backendPort;
 
 const corsOptions = {
-  origin: `${frontendUrl}`, // Your React app's URL
+  origin: `${frontendUrl}`, // React app's URL
   credentials: true,
 };
 
@@ -73,13 +73,14 @@ app.get("/validateUser", authenticateToken, (req, res) => {
     },
   });
 });
-// Route to handle member dashboard page upcoming meetings
+// Route to get member dashboard page's upcoming meetings
 app.get("/upcomingAppointments", async (req, res) => {
   try {
-    const result = await getUpcomingAppts(req.query, res);
+    const result = await getUpcomingAppts(req.query);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
+    console.log(error.message); // log for programmer debugging
   }
 });
 

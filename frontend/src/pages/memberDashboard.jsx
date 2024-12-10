@@ -8,129 +8,183 @@ import { useAuth } from "../context/AuthContext";
 import Footer from "../components/footer";
 import { Link } from 'react-router-dom';
 import { publicUrl } from '../constants';
+import Modal from "react-modal";
 
 const MemberDashboard = () => {
+  // member metadata
   const { user } = useAuth();
+  const email = user.email;
+  const max_num_meetings = 5;
+
   // database information
   const [apptTimes, setApptTimes] = useState([]);
   const [apptDivs, setApptDivs] = useState([]);
-  // dynamically change upcoming-meetings-container height
+
+  // height of upcoming-meetings-container
   const [height, setHeight] = useState(50);
 
-  const email = user.email;
-  const max_num_meetings = 5;
-  const userData = {
+  // modal attributes
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+
+
+  // on mount, get upcoming appointments from database
+  useEffect(() => {
+    // arguments for getUpcomingAppointments
+    const userData = {
       email,
       max_num_meetings
+    };
+    getUpcomingAppointments(userData);
+  }, []);
+
+  // update the dashboard with the upcoming meetings
+  useEffect(() => {
+    displayUpcomingAppointments();
+  }, [apptTimes]);
+
+
+  // method to get upcoming meetings/appointments
+  const getUpcomingAppointments = async (userData) => {
+    try {
+      // database call to get meetings
+      const resp = await axios.get(`${publicUrl}/upcomingAppointments`, {
+        params: userData
+      });
+      // save the meeting times
+      setApptTimes(resp.data.data);
+    } catch (error) {
+      openModal(`There was an error getting the upcoming appointments : Error ${error.status}`, false);
+    }
   };
 
-    // on mount, get upcoming appointments from database
-    useEffect(()=> {
-      getUpcomingAppointments();
-    }, []);
+  // method to display upcoming meetings/appointments to dashboard
+  const displayUpcomingAppointments = () => {
+    let queryData = [];
 
-    // update the dashboard with the upcoming meetings
-    useEffect(() => { 
-      displayUpcomingAppointments();
-    }, [apptTimes]);
-
-    // method to get upcoming meetings/appointments
-    const getUpcomingAppointments = async () => {
-      try{
-        const resp = await axios.get(`${publicUrl}/upcomingAppointments`, {
-          params: userData
-        });
-        setApptTimes(resp.data.data);  
-      }catch (error) {
-        console.error('There was an error getting the upcoming appointments.', error);
-      }
-    };
-
-    // format date
-    function formatDate(dateString) { 
-      const formattedDate = format(parseISO(dateString), "MMM do, yyyy");
-      return formattedDate; 
+    /* dynamically set the height of upcoming-meetings-container, 
+    based on number of meetings */
+    if (apptTimes.length === 0) {
+      const empty_card = {
+        'content': (
+          <div className='card-content empty-card'>
+            <p>No meetings yet!</p>
+            <p>Start by creating an appointment</p>
+          </div>
+        ),
+        'banner': ''
+      };
+      queryData.push(empty_card);
+    } else if (apptTimes.length === 1) {
+      setHeight(48);
+    } else if (apptTimes.length === 2) {
+      setHeight(55);
+    } else {
+      setHeight(70);
     }
-  
-    // method to display upcoming meetings/appointments to dashboard
-    const displayUpcomingAppointments = () => {
-      let queryData = [];
-      
-      if (apptTimes.length === 0 ) {
-        const empty_card = { 
-            'content':(
-            <div className='card-content empty-card'>
-                <p>No meetings yet!</p>
-                <p>Start by creating an appointment</p>
-            </div>
-            ),
-            'banner': ''
-        };
-        queryData.push(empty_card);
-      } else if (apptTimes.length === 1){
-        setHeight(48);
-      } else if (apptTimes.length === 2){
-          setHeight(55);
-      } else {
-          setHeight(70);
-      }
 
-      let data = '';
-      let appointee = '';
-      let organizer = '';
-      let divElement = null;
-      for (let i=0; i < apptTimes.length; i++){
-        console.log(apptTimes[i]);
-        data = apptTimes[i];
-        organizer = data.creator===email ? 'You' : data.creator;
-        appointee = data.appointee===email ? 'You' : data.appointee;
-        divElement = { 
-          'content':(
+    let data = '';
+    let appointee = '';
+    let organizer = '';
+    let divElement = null;
+
+    // creating the content of the meeting cards
+    for (let i = 0; i < apptTimes.length; i++) {
+      console.log(apptTimes[i]);
+      data = apptTimes[i];
+
+      // indicate whether a member is the creator or appointee of the meeting
+      organizer = data.creator === email ? 'You' : data.creator;
+      appointee = data.appointee === email ? 'You' : data.appointee;
+      divElement = {
+        'content': (
           <div className='card-content'>
-            {/* TODO add logic to display "you" if you are the Organizer, similar for participant */}
-            {/* SQL fetch information about the meetings you've organized OR for which you are an attendee */}
             <p>Time: {formatDate(data['timeslotDate'])} from {data['startTime']}-{apptTimes[i]['endTime']}</p>
             <p>Organizer: {organizer} </p>
-            <p>Participant: { appointee ? appointee : 'No one yet'} </p>
+            <p>Participant: {appointee ? appointee : 'No one yet'} </p>
             <p>Topic: {data['topic']}</p>
             <p>URL:  {data['appointmentURL']} </p>
           </div>
-          ),
-          'banner': data['course']
-        };
-        
-        queryData.push(divElement);
-        
-      }
-      setApptDivs(queryData);
+        ),
+        'banner': data['course']
+      };
+      // add content
+      queryData.push(divElement);
+    }
+    setApptDivs(queryData);
   };
-  
-  return (
-    <div className='member-dashboard'>
-        <NavBarMember/>
-        <div className='dashboard-content'>
-            <div className='dashboard-background'></div>
-            {/* header */}
-            <div className='dashboard-el'>
-                <h1>Welcome!</h1>
-                <div className='upcoming-meetings-container container-box' style={{height: `${height}%`}}>
-                    <h2>Your upcoming meetings</h2>
 
-                    {/* TODO: set limit to max 3 info-cards showing */}
-                    <div className='info-card-container'>
-                        {apptDivs.map((appt, _)=>(
-                            <DashboardCard content={appt.content} banner={appt.banner}></DashboardCard>
-                        ))}
-                    </div>
-                </div>
-                <Link to="/appointmentCreation" className='create-appt-btn'>Create an Appointment</Link>
+  function formatDate(dateString) {
+    const formattedDate = format(parseISO(dateString), "MMM do, yyyy");
+    return formattedDate;
+  }
+
+  // modal methods
+  const openModal = (message, success) => {
+    setModalMessage(message);
+    setIsSuccess(success);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  return (
+    <>
+      <div className='member-dashboard'>
+        <NavBarMember />
+        {/* main content */}
+        <div className='dashboard-content'>
+          <div className='dashboard-background'></div>
+
+          {/* dashboard header */}
+          <div className='dashboard-el'>
+            <h1>Welcome!</h1>
+            <div className='upcoming-meetings-container container-box' style={{ height: `${height}%` }}>
+              <h2>Your upcoming meetings</h2>
+
+              {/* upcoming meeting cards */}
+              <div className='info-card-container'>
+                {apptDivs.map((appt, index) => (
+                  <DashboardCard content={appt.content} banner={appt.banner} key={index} />
+                ))}
+              </div>
             </div>
+            {/* button to create appointment */}
+            <Link to="/appointmentCreation" className='create-appt-btn'>Create an Appointment</Link>
+          </div>
 
         </div>
-        {/* footer */}
         <Footer />
-        
-    </div>
+
+        {/* modal for backend error */}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Appointment Creation Status"
+          className="modal"
+          overlayClassName="modal-overlay"
+        >
+          <h2>{isSuccess ? "Success" : "Error"}</h2>
+          <p>{modalMessage}</p>
+
+          <button
+            onClick={() => {
+              if (isSuccess) {
+                window.location.reload(); // Refresh the page
+              } else {
+                closeModal(); // Close the modal if not successful
+              }
+            }}
+          >
+            OK
+          </button>
+
+        </Modal>
+      </div>
+    </>
 
   );
 };

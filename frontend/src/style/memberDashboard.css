@@ -1,9 +1,10 @@
+/* Page Styling */
 .member-dashboard {
     width:100vw;
     height:100vh;
 }
 
-/* general text */
+/* General Text Styling */
 .member-dashboard h1 {
     color: #3d0db2;
     font-size: 2.5rem;
@@ -15,14 +16,13 @@
     border-bottom : 2px solid #085a77;
 }
 
-/* main content */
+/* Dashboard Content Styling*/
 .dashboard-content {
     position: relative;
     width: 100vw; 
     height: 100vh; 
 }
 
-/* dashboard content */
 .dashboard-background {
     height:100vh;
     width: 100vw;
@@ -52,10 +52,7 @@
     margin-top: 1%;
 }
 
-/* dashboard-el > h2 {
-    margin-bottom: 0px;
-} */
-
+/* Upcoming Meetings Section Styling*/
 .upcoming-meetings-container {
     width:50vw;
     display: flex;
@@ -65,7 +62,7 @@
     box-sizing: border-box;
 }
 
-/* scrollbar */
+/* Scrollbar */
 .upcoming-meetings-container::-webkit-scrollbar {
     width: 0.6vw;
 }
@@ -82,14 +79,15 @@
     width: 75%;
 }
 
+/* Meeting Card Styling  */
 .info-card-container {
     height: 100%;
     display: flex; 
     flex-direction: column;
     justify-content: space-evenly;
-    
 }
 
+/* Button Styling */
 .create-appt-btn {
     margin-top: 2%;
     width: 17%;
@@ -110,14 +108,7 @@
     justify-content: center;
 }
 
-/* .member-dashboard .card-content {
-    text-align: left;
-    line-height: 1;
-    margin-left: 6%;
-    color: #085A77;
-    font-weight: bold;
-} */
-
+/* Empty Meeting Card Styling */
 .member-dashboard .empty-card {
     text-align: center;
     margin-left: -5%;
@@ -133,9 +124,6 @@
     .container-box {
         width: 75%;
     }
-    /* .member-dashboard .dashboard-card {
-        width: 50vw;
-    } */
     .create-appt-btn {
         width: 20%;
     }
@@ -143,17 +131,10 @@
 
 /* Laptop (max-width: 1038px) */
 @media (max-width: 1038px) {
-    /* .member-dashboard h2 {
-        margin-bottom: 5%;
-    } */
     .container-box {
         width: 75%;
         height: 120vh;
     }
-    /* .member-dashboard .dashboard-card {
-        height: 95%;
-        margin-bottom: 5%;
-    } */
     .create-appt-btn {
         width: 25%;
     }
@@ -161,12 +142,10 @@
 
 /* Tablets (max-width: 800px) */
 @media (max-width: 800px) {
-    
     .dashboard-background {
         transform: translate(-14%,5%);
         background-size: 130%;
     }
-
     .member-dashboard h2 {
         font-size: x-large;
     }
@@ -189,7 +168,6 @@
         width: 120vw;
         background-size: 150%;
     }
-    
     .container-box {
         width: 90%;
         margin-bottom: 2%;

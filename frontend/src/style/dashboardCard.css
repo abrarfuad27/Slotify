@@ -21,7 +21,10 @@
     color : white;
     text-align: center;
     font-weight: bold;
-    /* font-size: 0.9rem; */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .card-content {
@@ -33,12 +36,6 @@
     margin-left: 6%;
     color: #085A77;
     font-weight: bold;
-}
-
-.card-banner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 /* Laptop (max-width: 1440px) */
