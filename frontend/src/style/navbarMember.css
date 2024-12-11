@@ -180,6 +180,12 @@
   margin-bottom: 1rem;
 }
 
+.down-arrow {
+  cursor: pointer;
+  margin-left: 0px;
+  color: white;
+}
+
 @media (max-width: 1000px) {
   .navbar-member .logo img {
     width: 120px;
@@ -211,6 +217,10 @@
     z-index: 1000;
   }
 
+  .hamburger-content .dropdown-menu.active {
+    display: block;
+  }
+
   .hamburger-content .dropdown-menu li {
     display: block;
   }
@@ -228,11 +238,6 @@
   .hamburger-content .dropdown-menu li a:hover {
     background-color: #f0f0f0;
   }
-
-  .hamburger-content .dropdown:hover .dropdown-menu {
-    display: block;
-  }
-  
 }
 
 @media (max-width: 700px) {

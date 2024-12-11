@@ -8,10 +8,29 @@ const NavBarMember = () => {
   const { logout } = useAuth(); // Access the logout function from AuthContext
 
   const [toggle, setToggle] = useState(false);
+  const [dropdownToggle, setDropdownToggle] = useState({
+    appointments: false,
+    poll: false,
+  });
 
   // function to toggle the hamburger menu
   const handleHamburgerToggle = () => {
     setToggle(!toggle);
+    setDropdownToggle({
+      appointments: false,
+      poll: false,
+    });
+  };
+
+  // function to toggle dropdown menus
+  const handleDropdownToggle = (menu) => {
+    setDropdownToggle((prevState) => {
+      const newState = Object.keys(prevState).reduce((acc, key) => {
+        acc[key] = key === menu ? !prevState[key] : false;
+        return acc;
+      }, {});
+      return newState;
+    });
   };
 
   // Side effect to add/remove no-scroll class on body
@@ -48,12 +67,15 @@ const NavBarMember = () => {
             <Link to="/bookAppointment">
               Appointments <span className="down-arrow">&#9662;</span>
             </Link>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu ">
               <li>
                 <Link to="/bookAppointment">Book Appointment</Link>
               </li>
               <li>
                 <Link to="/appointmentCreation">Create Appointment</Link>
+              </li>
+              <li>
+                <Link to="/upcomingAppointments">Upcoming Appointments</Link>
               </li>
             </ul>
           </li>
@@ -98,23 +120,40 @@ const NavBarMember = () => {
         </div>
         <Link to="/memberDashboard">Home</Link>
         <div className="dropdown">
-          <Link to="/bookAppointment">
-            Appointments <span className="down-arrow">&#9662;</span>
-          </Link>
-          <ul className="dropdown-menu">
+          <Link to="/bookAppointment">Appointments </Link>
+          <span
+            className="down-arrow"
+            onClick={() => handleDropdownToggle("appointments")}
+          >
+            &#9662;
+          </span>
+          <ul
+            className={`dropdown-menu ${
+              dropdownToggle.appointments ? "active" : ""
+            }`}
+          >
             <li>
               <Link to="/bookAppointment">Book Appointment</Link>
             </li>
             <li>
               <Link to="/appointmentCreation">Create Appointment</Link>
             </li>
+            <li>
+              <Link to="/upcomingAppointments">Upcoming Appointments</Link>
+            </li>
           </ul>
         </div>
         <div className="dropdown">
-          <Link to="/poll">
-            Poll <span className="down-arrow">&#9662;</span>
-          </Link>
-          <ul className="dropdown-menu">
+          <Link to="/poll">Poll </Link>
+          <span
+            className="down-arrow"
+            onClick={() => handleDropdownToggle("poll")}
+          >
+            &#9662;
+          </span>
+          <ul
+            className={`dropdown-menu ${dropdownToggle.poll ? "active" : ""}`}
+          >
             <li>
               <Link to="/createPoll">Create Poll</Link>
             </li>
