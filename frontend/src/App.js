@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.js";
 import { ProtectedRoute, PublicRoute } from "./components/route.jsx";
 
@@ -12,11 +12,9 @@ import "./App.css";
 import Landing from "./pages/landing";
 import MemberDashboard from "./pages/memberDashboard";
 // import Appointments from "./pages/appointments";
-import MeetingRequests from "./pages/meetingRequests";
 import MeetingHistory from "./pages/meetingHistory";
 import CreatePoll from "./pages/createPoll";
-import MemberAccessPoll from "./pages/memberPollVote.jsx";
-import UserAccessPoll from "./pages/userPollVote.jsx";
+import PollAccess from "./pages/pollAccess.jsx";
 import BookAppointment from "./pages/bookAppointment.jsx";
 import RequestMeeting from "./pages/requestMeeting.jsx";
 import Requests from "./pages/requests.jsx";
@@ -55,6 +53,12 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route 
+              path="/poll" 
+              element={
+                <PollAccess />
+              }  
+            />
             <Route
               path="/managePoll"
               element={
@@ -79,15 +83,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/poll"
-              element={
-                <ProtectedRoute>
-                  <MemberAccessPoll />
-                </ProtectedRoute>
-              }
-            />
-
             <Route
               path="/meetingHistory"
               element={
