@@ -1,11 +1,7 @@
-.requests-page {
-    padding: 20px;
-}
-
 .requests-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 2.5rem;
 }
 
 .requests-table th,
@@ -16,7 +12,7 @@
 }
 
 .requests-table th {
-    background-color: #2c3e50;
+    background-color: #085A77;
     color: white;
 }
 
@@ -86,4 +82,84 @@
     margin-top: 20px;
     width: 100%;
     text-align: center;
+}
+
+/* Responsive Design */
+
+/* Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+    .requests-table th,
+    .requests-table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .details-modal {
+        padding: 20px;
+    }
+}
+
+/* Mobile (max-width: 520px) */
+@media (max-width: 520px) {
+    .requests-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .requests-table thead {
+        display: none; /* Hide headers */
+    }
+
+    .requests-table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc; /* Add a nice border around each row */
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a light shadow for better visual appeal */
+        padding: 10px; /* Add padding inside the box */
+    }
+
+    .requests-table tbody td {
+        display: block;
+        text-align: left;
+        font-size: 0.85rem;
+        border: none;
+        padding: 8px;
+        position: relative;
+    }
+
+    .requests-table tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        display: inline-block;
+        margin-right: 10px;
+        color: #085A77;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+}
+
+/* Extra small screens (max-width: 425px) */
+@media (max-width: 425px) {
+    .requests-table tbody td {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .close-details-button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .requests-table tbody tr {
+        margin-bottom: 10px;
+        padding: 8px; /* Adjust padding */
+        border: 1px solid #ddd; /* Add an outline for a clear separation */
+        background-color: #fff; /* Keep it clean and professional */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Slightly enhance shadow */
+    }
 }

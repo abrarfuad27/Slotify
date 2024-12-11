@@ -7,8 +7,8 @@ import { useAuth } from '../context/AuthContext';
 import { publicUrl } from '../constants';
 
 const MeetingHistory = () => {
-    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const [previousAppointments, setPreviousAppointments] = useState([]);
+    const [previousCreatorAppointments, setPreviousCreatorAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const {user} = useAuth();
@@ -25,16 +25,16 @@ const MeetingHistory = () => {
     const fetchAppointments = async () => {
         try {
             // Fetch upcoming appointments
-            const upcomingResponse = await axios.get(`${publicUrl}/upcomingAppointments`, {
-                params: userData,
-            });
-            setUpcomingAppointments(upcomingResponse.data.data || []);
-
-            // Fetch previous appointments
             const previousResponse = await axios.get(`${publicUrl}/meetingHistory`, {
                 params: userData,
             });
             setPreviousAppointments(previousResponse.data.data || []);
+
+            // Fetch previous appointments
+            const previousCreatorResponse = await axios.get(`${publicUrl}/meetingCreatorHistory`, {
+                params: userData,
+            });
+            setPreviousCreatorAppointments(previousCreatorResponse.data.data || []);
 
             setLoading(false);
         } catch (err) {
@@ -58,93 +58,93 @@ const MeetingHistory = () => {
 
     return (
         <div className="bg meeting-history-page">
-            <NavbarMember />
-            <div className="container">
-                <h1 className="page-title">History</h1>
+        <NavbarMember />
+        <div className="container">
+            <h1 className="page-title">History</h1>
 
-                {/* Upcoming Appointments Section */}
-                <div className="appointments-section">
-                    <h2>Upcoming Appointments</h2>
-                    {upcomingAppointments.length > 0 ? (
-                        <table className="appointments-table">
-                            <thead>
-                                <tr>
-                                    <th>Appointment with:</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Mode</th>
-                                    <th>URL</th>
+            {/* Upcoming Appointments Section */}
+            <div className="appointments-section">
+                <h2>Previous Appointments</h2>
+                {previousAppointments.length > 0 ? (
+                    <table className="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Appointment with:</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Mode</th>
+                                <th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {previousAppointments.map((appt, index) => (
+                                <tr key={index}>
+                                    <td data-label="Appointment with:">{appt.creator}</td>
+                                    <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
+                                    <td data-label="Time">
+                                        {appt.startTime} - {appt.endTime}
+                                    </td>
+                                    <td data-label="Mode">{appt.course || "One-time"}</td>
+                                    <td data-label="URL">
+                                        <a
+                                            href={appt.appointmentURL}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {appt.appointmentURL}
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {upcomingAppointments.map((appt, index) => (
-                                    <tr key={index}>
-                                        <td>{appt.creator}</td>
-                                        <td>{formatDate(appt.timeslotDate)}</td>
-                                        <td>
-                                            {appt.startTime} - {appt.endTime}
-                                        </td>
-                                        <td>{appt.course || "One-time"}</td>
-                                        <td>
-                                            <a
-                                                href={appt.appointmentURL}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                {appt.appointmentURL}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>No upcoming appointments found.</p>
-                    )}
-                </div>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>No previous appointments found.</p>
+                )}
+            </div>
 
-                {/* Previous Appointments Section */}
-                <div className="appointments-section">
-                    <h2>Previous Appointments</h2>
-                    {previousAppointments.length > 0 ? (
-                        <table className="appointments-table">
-                            <thead>
-                                <tr>
-                                    <th>Appointment with:</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Mode</th>
-                                    <th>URL</th>
+            {/* Previous Appointments Section */}
+            <div className="appointments-section">
+                <h2>Previous Created Appointments</h2>
+                {previousCreatorAppointments.length > 0 ? (
+                    <table className="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Appointee:</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Mode</th>
+                                <th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {previousCreatorAppointments.map((appt, index) => (
+                                <tr key={index}>
+                                    <td data-label="Appointee:">{appt.appointee}</td>
+                                    <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
+                                    <td data-label="Time">
+                                        {appt.startTime} - {appt.endTime}
+                                    </td>
+                                    <td data-label="Mode">{appt.course || "One-time"}</td>
+                                    <td data-label="URL">
+                                        <a
+                                            href={appt.appointmentURL}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {appt.appointmentURL}
+                                        </a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {previousAppointments.map((appt, index) => (
-                                    <tr key={index}>
-                                        <td>{appt.creator}</td>
-                                        <td>{formatDate(appt.timeslotDate)}</td>
-                                        <td>
-                                            {appt.startTime} - {appt.endTime}
-                                        </td>
-                                        <td>{appt.course || "One-time"}</td>
-                                        <td>
-                                            <a
-                                                href={appt.appointmentURL}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                {appt.appointmentURL}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>No previous appointments found.</p>
-                    )}
-                </div>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>No previous created appointments found.</p>
+                )}
             </div>
         </div>
+    </div>
     );
 };
 
