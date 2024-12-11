@@ -12,3 +12,35 @@
 .poll-management-content h1 {
     color: #3d0db2;
 }
+
+/* Modal Styling */
+.poll-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.poll-modal .modal-content {
+    width: 90%;
+    height: 90%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+/* Modal Button Styling */
+.poll-modal .end-poll-btn {
+    background-color: #CF1C13;
+    width: 15%;
+}
+.poll-modal .close-modal-btn {
+    background: none;
+    border: none;
+    color: black;
+    align-self: flex-end;
+    margin-top: 0px;
+    margin-left: 0px;
+}

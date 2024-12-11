@@ -3,7 +3,6 @@ import axios from "axios";
 import NavbarMember from "../components/navbarMember";
 import "../style/requests.css";
 import { useAuth } from "../context/AuthContext";
-import { useParams } from "react-router-dom";
 import { publicUrl } from '../constants';
 
 const Requests = () => {
@@ -14,7 +13,6 @@ const Requests = () => {
     const { user } = useAuth();
     const email = user.email;
     const userData = { email };
-    const { creatorEmail } = useParams();
 
     // Fetch and group requests
     useEffect(() => {
@@ -97,35 +95,42 @@ const Requests = () => {
     return (
         <div className="requests-page">
             <NavbarMember />
-            <div className="container">
+            <div className="container containerRequest">
                 <h1 className="page-title">Review Requested Time Slots</h1>
 
-                {/* Table of Requests */}
-                <table className="requests-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {groupedRequests.map((appointee, index) => (
-                            <tr key={index}>
-                                <td>{appointee.firstName} {appointee.lastName}</td>
-                                <td>{appointee.appointee}</td>
-                                <td>
-                                    <button
-                                        className="view-details-button"
-                                        onClick={() => setSelectedAppointee(appointee)}
-                                    >
-                                        View Details
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                {/* Show message if no requests */}
+                {groupedRequests.length === 0 ? (
+                    <h4>No pending requests.</h4>
+                ) : (
+                    <>
+                        {/* Table of Requests */}
+                        <table className="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {groupedRequests.map((appointee, index) => (
+                                    <tr key={index}>
+                                        <td>{appointee.firstName} {appointee.lastName}</td>
+                                        <td>{appointee.appointee}</td>
+                                        <td>
+                                            <button
+                                                className="view-details-button"
+                                                onClick={() => setSelectedAppointee(appointee)}
+                                            >
+                                                View Details
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </>
+                )}
 
                 {/* Modal for Selected Appointee */}
                 {selectedAppointee && (

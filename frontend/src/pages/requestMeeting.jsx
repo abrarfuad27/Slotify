@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import NavbarMember from "../components/navbarMember";
-import "../style/requestMeeting.css"; // Import your styles
+import "../style/requestMeeting.css";
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { useParams, useNavigate } from "react-router-dom";
 import { publicUrl } from '../constants';
 
 const generateRandomId = (length) => {
@@ -23,29 +24,37 @@ const RequestMeeting = () => {
     const [topic, setTopic] = useState("");
     const [course, setCourse] = useState("");
     const [success, setSuccess] = useState(false);
-    const {user} = useAuth();
+    const [error, setError] = useState(null);
+    const { user } = useAuth();
+    const { creatorEmail } = useParams();
+    const navigate = useNavigate();
+    const creator = "salomon.lavyperez@mail.mcgill.ca";
 
     // Add a new request
     const handleAdd = () => {
+        setError(null); // Clear previous error
+
         if (requests.length >= 4) {
-            alert("You can only add up to 4 requests.");
+            setError("You can only add up to 4 requests.");
             return;
         }
         if (!date || !startTime || !endTime || !topic) {
-            alert("Please fill in all fields before adding a request.");
+            setError("Please fill in all fields before adding a request.");
             return;
         }
+
         const now = new Date();
         const selectedDate = new Date(date + "T" + startTime);
 
         if (startTime >= endTime) {
-            alert("Start time must be earlier than end time.");
+            setError("Start time must be earlier than end time.");
             return;
         }
         if (selectedDate < now) {
-            alert("Start time must be in the future.");
+            setError("Start time must be in the future.");
             return;
         }
+
         const newRequest = { date, startTime, endTime, topic, course };
         setRequests([...requests, newRequest]);
         setDate("");
@@ -63,8 +72,6 @@ const RequestMeeting = () => {
 
     // Submit the requests
     const handleSubmit = async () => {
-        const creator = "joseph@mcgill.ca"; // Replace with the actual creator email
-
         try {
             for (const request of requests) {
                 const appointmentId = generateRandomId(11);
@@ -84,11 +91,11 @@ const RequestMeeting = () => {
 
                 const timeslotData = {
                     timeslotID: generateRandomId(11),
-                    appointmentId, // Use the generated appointmentId
+                    appointmentId,
                     startTime: request.startTime,
                     endTime: request.endTime,
                     timeslotDate: request.date,
-                    appointee: user.email, // Replace with actual appointee email
+                    appointee: user.email,
                     isRequest: 1,
                     requestStatus: "pending",
                 };
@@ -97,8 +104,8 @@ const RequestMeeting = () => {
                 await axios.post(`${publicUrl}/createTimeSlot`, timeslotData);
             }
 
-            setRequests([]); // Clear the requests
-            setSuccess(true); // Show success message
+            setRequests([]);
+            setSuccess(true);
         } catch (error) {
             console.error("Error submitting requests:", error);
             alert("There was an error processing your request. Please try again.");
@@ -108,60 +115,61 @@ const RequestMeeting = () => {
     return (
         <div className="request-meeting-page">
             <NavbarMember />
-            <div className="container">
+            <div className="container containerRequest">
                 <h1 className="page-title">Request Meeting</h1>
                 <p className="page-subtitle">
-                    Request alternative time slots from Prof. Joseph Vybhial's appointment (maximum 4).
+                    Request alternative time slots (maximum 4).
                 </p>
 
-                {/* Form Section */}
                 {!success ? (
                     <>
+                        {error && <p className="error-message">{error}</p>}
+
                         <div className="request-form">
-                            <label>
-                                Date:
+                            <div className="form-row">
+                                <label>Date:</label>
                                 <input
                                     type="date"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
                                     required
                                 />
-                            </label>
-                            <label>
-                                Start:
+                            </div>
+                            <div className="form-row">
+                                <label>Start:</label>
                                 <input
                                     type="time"
                                     value={startTime}
                                     onChange={(e) => setStartTime(e.target.value)}
                                     required
                                 />
-                            </label>
-                            <label>
-                                End:
+                            </div>
+                            <div className="form-row">
+                                <label>End:</label>
                                 <input
                                     type="time"
                                     value={endTime}
                                     onChange={(e) => setEndTime(e.target.value)}
                                     required
                                 />
-                            </label>
-                            <label>
-                                Topic:
+                            </div>
+                            <div className="form-row">
+                                <label>Topic:</label>
                                 <input
                                     type="text"
                                     value={topic}
                                     onChange={(e) => setTopic(e.target.value)}
                                     required
                                 />
-                            </label>
-                            <label>
-                                Course:
+                            </div>
+                            <div className="form-row">
+                                <label>Course:</label>
                                 <input
                                     type="text"
                                     value={course}
                                     onChange={(e) => setCourse(e.target.value)}
                                 />
-                            </label>
+                            </div>
                             <div className="button-group">
                                 <button className="add-button" onClick={handleAdd}>
                                     Add
@@ -178,8 +186,6 @@ const RequestMeeting = () => {
                                 </button>
                             </div>
                         </div>
-
-                        {/* Added Requests */}
                         <div className="requests-list">
                             {requests.map((request, index) => (
                                 <div key={index} className="request-item">
@@ -201,7 +207,6 @@ const RequestMeeting = () => {
                             ))}
                         </div>
 
-                        {/* Submit Button */}
                         <button
                             className="submit-button"
                             onClick={handleSubmit}
@@ -211,16 +216,17 @@ const RequestMeeting = () => {
                         </button>
                     </>
                 ) : (
-                    <div className="success-message">
-                        <h2>Thank you for responding! Your answer has been recorded.</h2>
-                        <button
-                            className="back-button"
-                            onClick={() => {
-                                setSuccess(false);
-                            }}
-                        >
-                            Back to Home
-                        </button>
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <h2>Request Sent Successfully!</h2>
+                            <p>Your meeting requests have been sent.</p>
+                            <button
+                                className="close-modal"
+                                onClick={() => navigate("/memberDashboard")}
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../style/appointmentCreation.css';
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
@@ -7,72 +7,97 @@ import NavBarMember from '../components/navbarMember';
 import Footer from "../components/footer";
 import icon from "../assets/create_appt_icon.png";
 import { publicUrl } from "../constants";
+import Modal from "react-modal"; 
+import copy_icon from "../assets/copy_icon.png";
 
 const AppointmentCreation = () => {
   const { user } = useAuth();
   const email = user.email;
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [apptLink, setApptLink] = useState('');
+
+
+
+  const openModal = (message, success) => {
+    setModalMessage(message);
+    setIsSuccess(success);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   const createRequestData = (formData) => {
     if (formData.meeting_mode === 'one-time') {
       formData.end_date = formData.start_date;
     }
 
-    const requestData = {};
-    const timeslot_dates = createTimeslotDates(formData);
+    let requestData = {};
+    // const timeslot_dates = createTimeslotDates(formData);
     const timeslotIds = [];
-    for (let i = 0; i < timeslot_dates.length; i++) { 
+    for (let i = 0; i < formData.timeslot_dates.length; i++) { 
       timeslotIds.push('time' + generateUniqueString(11)); 
     }
-    requestData.appointment_data = {
+    requestData = {
       ...formData,
       'creator': email,
       'appointmentId' : 'appt'+ generateUniqueString(11),
-      'appointmentURL': 'http://slotify.com/'+generateUniqueString(11)
-    };
-    requestData.timeslot_data = {
+      'appointmentURL': generateUniqueString(11),
       'timeslotIds' : timeslotIds,
-      'timeslot_dates' : timeslot_dates
     }
+    // requestData.appointment_data = {
+    //   ...formData,
+    //   'creator': email,
+    //   'appointmentId' : 'appt'+ generateUniqueString(11),
+    //   'appointmentURL': generateUniqueString(11)
+    // };
+    // requestData.timeslot_data = {
+    //   'timeslotIds' : timeslotIds,
+    //   'timeslot_dates' : formData.timeslot_dates
+    // }
 
     return requestData;
   };
 
 
-  // warning : ensure that times are set in correct timezone
-  const createTimeslotDates = (formData) => {
-    if (formData.meeting_mode === 'one-time'){
-      return [new Date(formData.start_date)];
-    }
-    const result = [];
+  // // warning : ensure that times are set in correct timezone
+  // const createTimeslotDates = (formData) => {
+  //   if (formData.meeting_mode === 'one-time'){
+  //     return [new Date(formData.start_date)];
+  //   }
+  //   const result = [];
     
-    const startDateParts = formData.start_date.split('-');
-    const endDateParts = formData.end_date.split('-');
+  //   const startDateParts = formData.start_date.split('-');
+  //   const endDateParts = formData.end_date.split('-');
 
-    let curr_date = new Date(
-      startDateParts[0],
-      startDateParts[1] - 1,
-      startDateParts[2]
-    );
+  //   let curr_date = new Date(
+  //     startDateParts[0],
+  //     startDateParts[1] - 1,
+  //     startDateParts[2]
+  //   );
 
-    const end_date = new Date(
-      endDateParts[0],
-      endDateParts[1] - 1,
-      endDateParts[2]
-    )
-    let timeslot = '';
-    while (curr_date <= end_date){
-      if (curr_date.getDay() === Number(formData.day)){
-        timeslot = curr_date.toISOString().slice(0, 10);
-        result.push(timeslot);
-      }
-      curr_date.setDate(curr_date.getDate() + 1);
-    }
-    const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday']
-    if (!result.length){
-      alert(`Invalid start/end date range. The time window is too narrow, and no ${days[formData.day]} falls within the specified period for a recurring meeting.`);
-    }
-    return result;
-  };
+  //   const end_date = new Date(
+  //     endDateParts[0],
+  //     endDateParts[1] - 1,
+  //     endDateParts[2]
+  //   )
+  //   let timeslot = '';
+  //   while (curr_date <= end_date){
+  //     if (curr_date.getDay() === Number(formData.day)){
+  //       timeslot = curr_date.toISOString().slice(0, 10);
+  //       result.push(timeslot);
+  //     }
+  //     curr_date.setDate(curr_date.getDate() + 1);
+  //   }
+  //   const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday']
+  //   if (!result.length){
+  //     alert(`Invalid start/end date range. The time window is too narrow, and no ${days[formData.day]} falls within the specified period for a recurring meeting.`);
+  //   }
+  //   return result;
+  // };
 
   //TODO : extract as function
   const generateUniqueString = (length) => {
@@ -86,8 +111,11 @@ const AppointmentCreation = () => {
   }
 
   const handleSubmit = async (formData) => {
-
-    console.log('Form data:', formData);
+    if (!formData){
+      // alert("NO BUENO");
+      return;
+    }
+    console.log('HEREREE:', formData);
     const requestData = createRequestData(formData);
     console.log('Request data', requestData);
 
@@ -98,12 +126,20 @@ const AppointmentCreation = () => {
         withCredentials: true,
       }
     );
-    console.log(requestData.appointment_data.appointmentURL);
-    alert("Appointment created! Save the URL :" +  requestData.appointment_data.appointmentURL);
+    // console.log(requestData.appointment_data.appointmentURL);
+    if (response.data.status === "success") {
+      setApptLink(requestData.appointmentURL);
+      openModal("Appointment created! Save the appointment token: "+requestData.appointmentURL, true);
+    } else {
+      openModal("There was an error :", false);
+    }
+    // alert("Appointment created! Save the URL :" +  requestData.appointmentURL);
     // alert("Server Response:", response.data); 
-    console.log("Server Response:", response.data.message);
+    // console.log("Server Response:", response.data.message);
   };
-  
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
   return (
     <div className='appt-creation'>
       <NavBarMember/>
@@ -115,6 +151,34 @@ const AppointmentCreation = () => {
         <FormComponent onSubmit={handleSubmit}/>
       </div>
       <Footer/>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Appointment Creation Status"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <h2>{isSuccess ? "Success" : "Error"}</h2>
+        <p>{modalMessage}</p>
+        <button
+          className="copy-icon-btn"
+          onClick={() => copyToClipboard(apptLink)}
+        >
+          <img src={copy_icon}/>
+        </button>
+        <button
+          onClick={() => {
+            if (isSuccess) {
+              window.location.reload(); // Refresh the page
+            } else {
+              closeModal(); // Close the modal if not successful
+            }
+          }}
+        >
+        OK
+        </button>
+
+      </Modal>
     </div>
     );
 };
