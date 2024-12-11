@@ -13,6 +13,7 @@
     "@mui/material": "^6.1.9",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styled-engine-sc": "^6.1.9",
+    "@mui/x-charts": "^7.23.1",
     "@mui/x-date-pickers": "^7.23.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

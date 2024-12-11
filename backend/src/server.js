@@ -17,16 +17,17 @@ const { getMeetingHistory } = require("./utility/meetingHistory");
 const { createTimeSlot } = require("./utility/createTimeSlot");
 const { getRequests } = require("./utility/getRequests");
 const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
-const { createAppointments } = require("./utility/createAppointments");
-const {
-  createAppointmentOnRequest,
-} = require("./utility/createAppointmentOnRequest");
+const {createAppointments } = require("./utility/createAppointments");
+const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
+const {getManagedPolls} = require("./utility/getManagedPolls")
+const {endPoll} = require("./utility/endPoll")
+
 
 const app = express();
 const PORT = backendPort;
 
 const corsOptions = {
-  origin: `${frontendUrl}`, // Your React app's URL
+  origin: `${frontendUrl}`, // React app's URL
   credentials: true,
 };
 
@@ -73,13 +74,14 @@ app.get("/validateUser", authenticateToken, (req, res) => {
     },
   });
 });
-// Route to handle member dashboard page upcoming meetings
+// Route to get member dashboard page's upcoming meetings
 app.get("/upcomingAppointments", async (req, res) => {
   try {
-    const result = await getUpcomingAppts(req.query, res);
+    const result = await getUpcomingAppts(req.query);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
+    console.log(error.message); // log for programmer debugging
   }
 });
 
@@ -210,7 +212,35 @@ app.post("/createAppointments", async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error });
   }
-}); // Add a closing curly brace here
+});
+
+// TODO PUT THE THING ON the server one
+// Route to get managed active/inactive polls
+app.get("/getManagedPolls", async (req, res) => {
+  try {
+    const result = await getManagedPolls(req.query, res); 
+    // console.log(res.json(result));
+    res.json(result);
+    // res.status(201).json({ status: "success", message: result });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+// Route to handle ending polls
+app.put("/endPoll", async (req, res) => {
+  try {
+    const { pollId } = req.body;
+    const result = await endPoll(pollId, res); 
+    // console.log(res.json(result));
+    res.status(201).json({ status: "success", message: result });
+
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+// Add a closing curly brace here
+
 
 // Start the server
 app.listen(PORT, () => {

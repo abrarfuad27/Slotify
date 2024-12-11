@@ -1,14 +1,19 @@
 import React from 'react';
 import '../style/pollViewingTable.css';
 
-const PollViewingTable = () => {
+const PollViewingTable = ({content}) => {
     return (
         <table className='poll-table'>
-            <tr>
-                <th>Poll name</th>
-                <th>Poll ID</th>
-                <th>Details</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Poll name</th>
+                    <th>Poll ID</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {content}
+            </tbody>
         </table>
     );
 };

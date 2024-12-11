@@ -1,13 +1,10 @@
 import React from 'react';
-// import axios from 'axios';
 import NavBarUser from '../components/navbarUser';
 import Footer from '../components/footer';
 import schedule_icon from '../assets/schedule_icon.png';
 import meeting_icon from '../assets/meeting_icon.png';
 import appointment_icon from '../assets/appointment_icon.png';
 import { Link } from 'react-router-dom';
-
-
 import '../style/landing.css';
 
 const Landing = () => {
@@ -15,9 +12,10 @@ const Landing = () => {
   return (
     <div className='landing'>
         <NavBarUser />
+
+        {/* Hero Section */}
         <div className='hero'>
             <div className='hero-img'></div>
-
             <div className='hero-txt'>
                 <h1>Simplify Your Appointments Today</h1>
                 <h2>Perfect for office hours, meetings, and one-on-one sessions.</h2>
@@ -25,8 +23,7 @@ const Landing = () => {
             </div>
         </div>
         
-
-        {/* content section */}
+        {/* Content Section */}
         <div className='content'>
             <div className='content-item' id='item1'>
                 <img src={schedule_icon}></img>
