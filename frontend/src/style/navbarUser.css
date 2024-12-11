@@ -164,7 +164,7 @@
   overflow: hidden;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .navbar-user .nav-links,
   .navbar-user .auth-buttons {
     display: none;
