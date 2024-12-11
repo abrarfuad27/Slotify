@@ -2,63 +2,107 @@
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     min-height: 100vh;
-    padding: 20px;
 }
 
-.container {
+.containerRequest {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 1.5rem auto;
     text-align: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
 }
 
 .page-title {
-    font-size: 2rem;
-    color: #4a4a4a;
+    font-size: 2.5rem;
+    color: #085A77;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .page-subtitle {
-    font-size: 1.1rem;
-    color: #666;
+    font-size: 1.2rem;
+    color: #555;
     margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.request-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    gap: 20px; /* Increased spacing for better layout */
+}
+
+.request-form .form-row {
+    display: flex;
+    justify-content: center; /* Center the row content */
+    align-items: center;
+    width: 100%; /* Ensure the rows stretch to fit the form width */
+    gap: 15px; /* Adjusted gap between label and input */
 }
 
 .request-form label {
-    display: block;
-    margin-bottom: 10px;
     font-size: 1rem;
-    color: #333;
+    font-weight: bold;
+    color: #085A77;
+    flex: 0 0 120px; /* Fixed width for label, ensuring alignment */
 }
 
-input[type="date"],
-input[type="time"] {
-    display: block;
-    width: 100%;
-    max-width: 300px;
-    padding: 8px;
-    margin: 0 auto 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.request-form input[type="date"],
+.request-form input[type="time"],
+.request-form input[type="text"] {
+    flex: 1;
+    max-width: 300px; /* Limit the width of the input for better alignment */
+    padding: 10px; /* Slightly increased padding for a clean look */
+    border: 1px solid #ddd;
+    border-radius: 6px;
     font-size: 1rem;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+
+}
+.request-form .form-row {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Ensure inputs align to the left of the row */
+    width: 100%;
+    max-width: 500px; /* Limit the row width for better layout */
+    gap: 10px;
+}
+.request-form input:focus {
+    outline: none;
+    border-color: #085A77;
+    box-shadow: 0 0 5px rgba(8, 90, 119, 0.5);
 }
 
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .add-button,
 .reset-button,
 .submit-button,
 .back-button {
-    background-color: #007bff;
+    background-color: #085A77;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .reset-button {
@@ -69,35 +113,140 @@ input[type="time"] {
 .reset-button:hover,
 .submit-button:hover,
 .back-button:hover {
-    opacity: 0.9;
+    opacity: 0.8;
+    transform: scale(1.02);
 }
 
 .requests-list {
     margin: 20px 0;
+    text-align: left;
 }
 
 .request-item {
-    background-color: #007bff;
+    background-color: #085A77;
     color: white;
-    padding: 10px;
+    padding: 15px;
     margin: 10px 0;
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.request-item span {
+    flex: 1;
 }
 
 .delete-button {
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: white;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.success-message {
-    color: green;
-    font-size: 1.5rem;
+.delete-button:hover {
+    color: #f44336;
+    transform: scale(1.2);
+}
+
+.success-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
     text-align: center;
-    margin-top: 50px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #085A77;
+    margin-bottom: 15px;
+}
+
+.modal-message {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-button {
+    background-color: #085A77;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-button:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .request-form label {
+        font-size: 0.9rem;
+    }
+
+    input[type="date"],
+    input[type="time"],
+    input[type="text"] {
+        max-width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .add-button,
+    .reset-button,
+    .submit-button {
+        width: 100%;
+    }
+
+    .requests-list {
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
 }

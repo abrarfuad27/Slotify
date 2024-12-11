@@ -7,14 +7,14 @@ const { authenticateToken } = require("./utility/authenticate"); // Import the a
 const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
-const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
+const { getUpcomingAppts, getCreatorUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const { createPollAndSlots } = require("./utility/createPollAndSlots");
 const { getPollAndSlots } = require("./utility/getPollAndSlots");
 const { votePoll } = require("./utility/votePoll");
 const { getAvailableTimeslots } = require("./utility/getTimeslots");
 const { bookTimeslot } = require("./utility/bookTimeslot");
-const { getMeetingHistory } = require("./utility/meetingHistory");
-const { createTimeSlot } = require("./utility/createTimeSlot");
+const { getMeetingHistory, getCreatorMeetingHistory } = require("./utility/meetingHistory"); 
+const { createTimeSlot } = require("./utility/createTimeSlot"); 
 const { getRequests } = require("./utility/getRequests");
 const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
 const {createAppointments } = require("./utility/createAppointments");
@@ -85,6 +85,15 @@ app.get("/upcomingAppointments", async (req, res) => {
   }
 });
 
+app.get("/upcomingCreatorAppointments", async (req, res) => {
+  try {
+    const result = await getCreatorUpcomingAppts(req.query, res);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
 app.post("/createPollAndSlots", async (req, res) => {
   const pollData = req.body;
   console.log("Received poll data:", pollData);
@@ -146,6 +155,17 @@ app.post("/bookTimeslot", async (req, res) => {
 app.get("/meetingHistory", async (req, res) => {
   try {
     const result = await getMeetingHistory(req.query); // Use req.query instead of req.body for GET requests
+    console.log(req)
+    res.json({ data: result }); // Send the resolved data as JSON
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+app.get("/meetingCreatorHistory", async (req, res) => {
+  try {
+    const result = await getCreatorMeetingHistory(req.query); // Use req.query instead of req.body for GET requests
+    console.log(req)
     res.json({ data: result }); // Send the resolved data as JSON
   } catch (error) {
     res.status(400).json({ message: error });

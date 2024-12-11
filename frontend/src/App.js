@@ -21,6 +21,7 @@ import BookAppointment from "./pages/bookAppointment.jsx";
 import RequestMeeting from "./pages/requestMeeting.jsx";
 import Requests from "./pages/requests.jsx";
 import ManagePoll from "./pages/managePoll";
+import UpcomingAppointments from "./pages/upcomingAppointments.jsx";
 
 
 function App() {
@@ -93,6 +94,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MeetingHistory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/upcomingAppointments"
+              element={
+                <ProtectedRoute>
+                  <UpcomingAppointments />
                 </ProtectedRoute>
               }
             />
