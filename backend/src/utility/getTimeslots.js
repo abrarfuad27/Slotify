@@ -11,6 +11,23 @@ const getAvailableTimeslots = (searchUrl) => {
       return reject({ status: 400, message: "URL is required" });
     }
 
+    // Get current date and time
+    const now = new Date();
+
+    // Extract YYYY-MM-DD in local time
+    const curDate =
+      now.getFullYear() +
+      "-" +
+      String(now.getMonth() + 1).padStart(2, "0") + // Month is zero-based
+      "-" +
+      String(now.getDate()).padStart(2, "0");
+
+    // Extract HH:mm in local time
+    const curTime =
+      String(now.getHours()).padStart(2, "0") +
+      ":" +
+      String(now.getMinutes()).padStart(2, "0");
+
     // Step 1: Query the database to find the appointmentId and creator using the URL
     const findAppointmentQuery = `
         SELECT appointmentId, creator, course, topic
@@ -56,35 +73,45 @@ const getAvailableTimeslots = (searchUrl) => {
         const queryTimeslots = `
             SELECT timeslotID, timeslotDate, startTime, endTime
             FROM Timeslot
-            WHERE appointmentId = ? AND appointee IS NULL AND isRequest = 0
+            WHERE appointmentId = ? AND appointee IS NULL AND isRequest = 0 AND (
+                  timeslotDate > ? OR
+                  (timeslotDate = ? AND startTime >= ?)
+              )
           `;
 
-        db.all(queryTimeslots, [appointmentId], (err, rows) => {
-          if (err) {
-            console.error(
-              "Database error while fetching timeslots:",
-              err.message
-            );
-            return reject({ status: 500, message: "Internal server error" });
-          }
+        db.all(
+          queryTimeslots,
+          [appointmentId, curDate, curDate, curTime],
+          (err, rows) => {
+            if (err) {
+              console.error(
+                "Database error while fetching timeslots:",
+                err.message
+              );
+              return reject({ status: 500, message: "Internal server error" });
+            }
 
-          if (rows.length === 0) {
-            return reject({
-              status: 405,
-              message: "This appointment no longer has available timeslots",
-            });
-          }
+            // Always return the creator details
+            const response = {
+              firstName,
+              lastName,
+              creator, // Email of the professor
+              course,
+              topic,
+              timeslots: rows || [], // Return an empty array if no timeslots are available
+            };
 
-          // Resolve with the available timeslots and creator details
-          resolve({
-            firstName,
-            lastName,
-            creator, //email of the prof
-            course,
-            topic,
-            timeslots: rows,
-          });
-        });
+            if (rows.length === 0) {
+              return resolve({
+                ...response,
+                message: "This appointment no longer has available timeslots",
+              });
+            }
+
+            // If timeslots exist
+            resolve(response);
+          }
+        );
       });
     });
   });

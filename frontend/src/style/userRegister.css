@@ -17,7 +17,6 @@
 }
 
 .register-page-without-nav {
-  font-family: Inter, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
@@ -29,6 +28,7 @@
 .register-page-header {
   color: #3d0db2;
   margin-bottom: 1.5rem;
+  margin-top: 0;
 }
 
 .register-page-container {
@@ -149,6 +149,19 @@
 
 .modal button:hover {
   background-color: #034459;
+}
+
+.form-container div {
+  position: relative;
+}
+
+.form-container p {
+  position: "absolute";
+  color: "red";
+  top: "100%";
+  font-size: "8px";
+  height: "16px";
+  margin-top: "4px";
 }
 
 /* Tablets (max-width: 800px) */

@@ -3,12 +3,13 @@ import { useAuth } from "../context/AuthContext";
 import NavBarMember from "../components/navbarMember";
 import NavBarUser from "../components/navbarUser";
 import "../style/bookAppointment.css";
+import Footer from "../components/footer";
 import BookAppointmentSearchBar from "../components/bookAppointmentSearchBar";
 import axios from "axios";
 import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import Modal from "react-modal"; 
+import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { publicUrl } from "../constants";
 
@@ -26,8 +27,10 @@ export default function BookAppointment() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const navigate = useNavigate();
   const [previousUserState, setPreviousUserState] = useState(null);
+  const [userEmailError, setUserEmailError] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -47,8 +50,13 @@ export default function BookAppointment() {
     setPreviousUserState(user);
   }, [user, isLoading, navigate, previousUserState]);
 
-  const openModal = (message, success) => {
-    setModalMessage(message);
+  const openModal = (message, success, additionalContent = null) => {
+    setModalMessage(
+      <React.Fragment>
+        <p>{message}</p>
+        {additionalContent}
+      </React.Fragment>
+    );
     setIsSuccess(success);
     setModalIsOpen(true);
   };
@@ -60,7 +68,6 @@ export default function BookAppointment() {
   // Fetch available timeslots for the given URL
   const handleSearch = async (searchUrl) => {
     if (!searchUrl) {
-      openModal("Please enter a URL", false);
       return;
     }
 
@@ -80,6 +87,31 @@ export default function BookAppointment() {
         setCourse(course);
         setTopic(topic);
         setAvailableTimeslots(timeslots);
+
+        if (timeslots.length === 0) {
+          if (user) {
+            openModal(
+              "This appointment no longer has available timeslots.",
+              false,
+              <a href={`/requests/${creator}`}>
+                <p>
+                  Click here to request a meeting with{" "}
+                  {`${firstName} ${lastName}`}!
+                </p>
+              </a>
+            );
+          } else {
+            openModal(
+              "This appointment no longer has available timeslots.",
+              false,
+              <p className="login-or-register">
+                <a href="/userLogin">Log In</a> or{" "}
+                <a href="/userRegister">Register</a> to request alternate
+                timeslots.
+              </p>
+            );
+          }
+        }
       } else {
         openModal(response.data.message || "Error fetching timeslots", false);
       }
@@ -93,10 +125,8 @@ export default function BookAppointment() {
       setTopic("");
       setCreatorName("");
       setCreatorEmail("");
-      if (error.status == 404) {
+      if (error.status === 404) {
         openModal("Appointment not found. Please enter a valid URL.", false);
-      } else if (error.status == 405) {
-        openModal("This appointment no longer has available timeslots.", false);
       } else {
         openModal("Failed to fetch timeslots. Please try again later.", false);
       }
@@ -125,7 +155,7 @@ export default function BookAppointment() {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(mcgill\.ca|mail\.mcgill\.ca)$/;
 
     if (!emailRegex.test(userEmail)) {
-      openModal("Please enter a valid McGill email address.", false);
+      setUserEmailError(true);
       return;
     }
 
@@ -143,7 +173,7 @@ export default function BookAppointment() {
       openModal(response.data.message, true);
     } catch (error) {
       console.error("Error booking timeslot:", error);
-      if (error.status == 400) {
+      if (error.status === 400) {
         openModal("Timeslot is no longer available.", false);
       } else {
         openModal("Failed to book the timeslot. Please try again.", false);
@@ -152,7 +182,7 @@ export default function BookAppointment() {
   };
 
   return (
-    <>
+    <div className="book-appointment-page">
       {user ? <NavBarMember /> : <NavBarUser />}
       <div className="book-appointment-container">
         <h1 className="header">Book an Appointment</h1>
@@ -222,10 +252,26 @@ export default function BookAppointment() {
               <p>Ready to book?</p>
               <input
                 type="text"
-                placeholder="Enter your email:"
+                placeholder="Enter your McGill email:"
                 value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
+                onChange={(e) => {
+                  setUserEmail(e.target.value);
+                  setUserEmailError(false);
+                }}
               />
+              {userEmailError && (
+                <p
+                  className="email-error"
+                  style={{
+                    color: "red",
+                    marginTop: "5px",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Please enter a valid McGill email.
+                </p>
+              )}
               <button onClick={handleBook}>Book Meeting</button>
               <p className="alternate-meeting-text">
                 Alternative meeting timeslots can only be requested by members.
@@ -270,6 +316,7 @@ export default function BookAppointment() {
           </button>
         </Modal>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }

@@ -1,5 +1,5 @@
-const { backendPort, frontendUrl } = require("./constants.js");
 
+const { backendPort, frontendUrl } = require("./constants.js");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -13,12 +13,14 @@ const { getPollAndSlots } = require("./utility/getPollAndSlots");
 const { votePoll } = require("./utility/votePoll");
 const { getAvailableTimeslots } = require("./utility/getTimeslots");
 const { bookTimeslot } = require("./utility/bookTimeslot");
-const { getMeetingHistory } = require("./utility/meetingHistory"); 
-const { createTimeSlot } = require("./utility/createTimeSlot"); 
+const { getMeetingHistory } = require("./utility/meetingHistory");
+const { createTimeSlot } = require("./utility/createTimeSlot");
 const { getRequests } = require("./utility/getRequests");
 const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
-const {createAppointments } = require("./utility/createAppointments");
-const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
+const { createAppointments } = require("./utility/createAppointments");
+const {
+  createAppointmentOnRequest,
+} = require("./utility/createAppointmentOnRequest");
 
 const app = express();
 const PORT = backendPort;
@@ -94,7 +96,7 @@ app.post("/createPollAndSlots", async (req, res) => {
 
 app.get("/pollAndSlots", async (req, res) => {
   try {
-    const result = await getPollAndSlots(req.query, res); 
+    const result = await getPollAndSlots(req.query, res);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
@@ -115,7 +117,6 @@ app.post("/voteOnSlot", async (req, res) => {
     res.status(500).json({ status: "error", message: error });
   }
 });
-
 
 app.post("/getAvailableTimeslots", async (req, res) => {
   const { searchUrl } = req.body;
@@ -173,7 +174,7 @@ app.get("/requests", async (req, res) => {
 app.put("/handleRequests", async (req, res) => {
   try {
     const { timeSlotId } = req.body;
-    const result = await acceptRequest(timeSlotId); 
+    const result = await acceptRequest(timeSlotId);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
@@ -183,7 +184,7 @@ app.put("/handleRequests", async (req, res) => {
 app.delete("/handleRequests", async (req, res) => {
   try {
     const { timeSlotId } = req.body;
-    const result = await deleteRequest(timeSlotId); 
+    const result = await deleteRequest(timeSlotId);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
@@ -192,10 +193,9 @@ app.delete("/handleRequests", async (req, res) => {
 
 app.post("/createAppointmentOnRequest", async (req, res) => {
   try {
-    const result = await createAppointmentOnRequest(req.body, res); 
+    const result = await createAppointmentOnRequest(req.body, res);
     // console.log(res.json(result));
     res.status(201).json({ status: "success", message: result });
-
   } catch (error) {
     res.status(400).json({ message: error });
   }
@@ -204,14 +204,13 @@ app.post("/createAppointmentOnRequest", async (req, res) => {
 // Route to handle appointment creation
 app.post("/createAppointments", async (req, res) => {
   try {
-    const result = await createAppointments(req.body, res); 
+    const result = await createAppointments(req.body, res);
     // console.log(res.json(result));
     res.status(201).json({ status: "success", message: result });
-
   } catch (error) {
     res.status(400).json({ message: error });
   }
-});// Add a closing curly brace here
+}); // Add a closing curly brace here
 
 // Start the server
 app.listen(PORT, () => {

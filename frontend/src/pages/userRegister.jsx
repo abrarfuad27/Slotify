@@ -3,6 +3,7 @@ import "../style/userRegister.css"; // Import the CSS file
 import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
 import NavBarUser from "../components/navbarUser";
+import Footer from "../components/footer";
 import { publicUrl } from "../constants";
 
 Modal.setAppElement("#root");
@@ -12,29 +13,41 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const validateInputs = () => {
+    const newErrors = { firstName: "", lastName: "", email: "", password: "" };
+    if (!firstName.trim()) {
+      newErrors.firstName = "First name is required.";
+    }
+    if (!lastName.trim()) {
+      newErrors.lastName = "Last name is required.";
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(mcgill\.ca|mail\.mcgill\.ca)$/;
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Please enter a valid McGill email address.";
+    }
+    if (!password.trim()) {
+      newErrors.password = "Password is required.";
+    }
+    setErrors(newErrors);
+    return !Object.values(newErrors).some((error) => error); // Return true if no errors
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-    // Basic field validation
-    if (!firstName || !lastName || !email || !password) {
-      setModalMessage("All fields are required.");
-      setIsSuccess(false);
-      setModalIsOpen(true); // Open the modal with the error
-      return;
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@(mcgill\.ca|mail\.mcgill\.ca)$/;
-    if (!emailRegex.test(email)) {
-      setModalMessage("Please enter a valid McGill email address.");
-      setIsSuccess(false);
-      setModalIsOpen(true); // Open the modal with the error
-      return;
-    }
+    if (!validateInputs()) return;
 
     const userData = {
       firstName,
@@ -44,10 +57,7 @@ export default function RegisterPage() {
     };
 
     try {
-      const response = await axios.post(
-        `${publicUrl}/userRegister`,
-        userData
-      );
+      const response = await axios.post(`${publicUrl}/userRegister`, userData);
       console.log("Server Response:", response.data); // Display the server response
 
       setModalMessage(response.data.message); // Set success message from server
@@ -84,38 +94,134 @@ export default function RegisterPage() {
           <h1 className="register-page-header">Create a Slotify Account</h1>
           <div className="form-div">
             <form className="form-container" onSubmit={handleSubmit}>
-              <label>
-                First name :
+              <div
+                style={{
+                  position: "relative",
+                }}
+              >
+                <label>First Name:</label>
                 <input
                   type="text"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    setErrors((prev) => ({ ...prev, firstName: "" }));
+                  }}
+                  style={{
+                    border: errors.firstName ? "1px solid red" : undefined,
+                  }}
                 />
-              </label>
-              <label>
-                Last name :
+                {errors.firstName && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      color: "red",
+                      top: "100%",
+                      fontSize: "8px",
+                      height: "16px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.firstName}
+                  </p>
+                )}
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                }}
+              >
+                <label>Last Name:</label>
                 <input
                   type="text"
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    setErrors((prev) => ({ ...prev, lastName: "" }));
+                  }}
+                  style={{
+                    border: errors.lastName ? "1px solid red" : undefined,
+                  }}
                 />
-              </label>
-              <label>
-                Email :
+                {errors.lastName && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      color: "red",
+                      top: "100%",
+                      fontSize: "8px",
+                      height: "16px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.lastName}
+                  </p>
+                )}
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                }}
+              >
+                <label>Email:</label>
                 <input
                   type="text"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setErrors((prev) => ({ ...prev, email: "" }));
+                  }}
+                  style={{
+                    border: errors.email ? "1px solid red" : undefined,
+                  }}
                 />
-              </label>
-              <label>
-                Password :
+                {errors.email && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      color: "red",
+                      top: "100%",
+                      fontSize: "8px",
+                      height: "16px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                }}
+              >
+                <label>Password:</label>
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setErrors((prev) => ({ ...prev, password: "" }));
+                  }}
+                  style={{
+                    border: errors.password ? "1px solid red" : undefined,
+                  }}
                 />
-              </label>
+                {errors.password && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      color: "red",
+                      top: "100%",
+                      fontSize: "8px",
+                      height: "16px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {errors.password}
+                  </p>
+                )}
+              </div>
               <button type="submit">Register now</button>
             </form>
             <p>
@@ -146,6 +252,7 @@ export default function RegisterPage() {
           </Modal>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
