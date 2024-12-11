@@ -1,3 +1,5 @@
+const { backendPort, frontendUrl } = require("./constants.js");
+
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -19,14 +21,14 @@ const {createAppointments } = require("./utility/createAppointments");
 const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
 
 const app = express();
-const PORT = 5000;
+const PORT = backendPort;
 
 const corsOptions = {
-  origin: "https://fall2024-comp307-group06.cs.mcgill.ca/", // Your React app's URL
+  origin: `${frontendUrl}`, // Your React app's URL
   credentials: true,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
