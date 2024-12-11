@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
-import '../style/memberPollVote.css';
+import '../style/pollAccess.css';
 import axios from 'axios';
 import { publicUrl } from '../constants';
 

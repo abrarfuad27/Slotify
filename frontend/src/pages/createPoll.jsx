@@ -1,6 +1,3 @@
-// TODO: put red star beside poll name and question
-// TODO: implement multiple errors to appear in error message (array usestate?)
-
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
@@ -62,8 +59,8 @@ const CreatePoll = () => {
 
     const now = dayjs();
     const selectedDateTime = date.hour(startTime.hour()).minute(startTime.minute());
-    if (selectedDateTime.diff(now, 'hour') < 24) {
-      showError('The selected date and time must be at least 24 hours from now.');
+    if (selectedDateTime.diff(now, 'minute') < 2) {
+      showError('The selected date and time must be at least 1 minute from the current time.');
       return;
     }
 
@@ -92,13 +89,22 @@ const CreatePoll = () => {
   };
 
   const handleSubmit = async () => {
-    if (!pollName.trim() || !pollQuestion.trim()) {
-      showError("Poll name and question are required.");
-      return;
+    const errors = [];
+
+    if (!pollName.trim()) {
+      errors.push("Poll name is required.");
     }
-  
+
+    if (!pollQuestion.trim()) {
+      errors.push("Poll question is required.");
+    }
+
     if (pollOptions.length === 0 || pollOptions.length === 1) {
-      showError("At least two timeslot options are required.");
+      errors.push("At least two timeslot options are required.");
+    }
+
+    if (errors.length > 0) {
+      setErrorMessage(errors.join(' '));
       return;
     }
   
@@ -109,12 +115,25 @@ const CreatePoll = () => {
     const slots = pollOptions.map((option) => {
       const [datePart, timePart] = option.split(' | ');
       const [start, end] = timePart.split(' - ');
-      const pollingSlotDate = datePart.split(' ')[1];
+
+      // Extract and clean the date from the datePart to revert back to YYYY-MM-DD format
+      const dateRegex = /(\w{3}) (\d+)(?:st|nd|rd|th), (\d{4})/;
+      const match = datePart.match(dateRegex);
+
+      let pollingSlotDate = '';
+      if (match) {
+        const [, month, day, year] = match;
+        pollingSlotDate = dayjs(`${month} ${day}, ${year}`, 'MMM D, YYYY').format('YYYY-MM-DD');
+      } else {
+        console.error("Invalid date format:", datePart);
+      }
+      const formattedStartTime = dayjs(start, 'h:mm A').format('HH:mm');
+      const formattedEndTime = dayjs(end, 'h:mm A').format('HH:mm');
   
       return {
         pollSlotId: generateRandomId(),
-        startTime: start.trim(),
-        endTime: end.trim(),
+        startTime: formattedStartTime.trim(),
+        endTime: formattedEndTime.trim(),
         pollingSlotDate: pollingSlotDate.trim(),
       };
     });
@@ -162,7 +181,7 @@ const CreatePoll = () => {
         <form>
         {errorMessage && <p className="poll-error-message">{errorMessage}</p>}
           <label>
-            Poll name:
+            Poll name: <span style={{ color: 'red' }}>*</span>
             <input
               className="poll-name-input"
               type="text"
@@ -172,7 +191,7 @@ const CreatePoll = () => {
             />
           </label>
           <label>
-            Poll question:
+            Poll question: <span style={{ color: 'red' }}>*</span>
             <textarea
               value={pollQuestion}
               onChange={(e) => setPollQuestion(e.target.value)}
@@ -201,9 +220,14 @@ const CreatePoll = () => {
               </label>
             </div>
             <div className="poll-options-actions">
-              <button type="button" onClick={handleAddOption}>
-                Add
-              </button>
+            <button 
+              type="button" 
+              onClick={handleAddOption} 
+              disabled={pollOptions.length >= 4} 
+              style={{ backgroundColor: pollOptions.length >= 4 ? '#cccccc' : '#085a77', cursor: pollOptions.length >= 4 ? 'not-allowed' : 'pointer' }}
+            >
+              Add
+            </button>
             </div>
           </div>
           <div className="options-list">
