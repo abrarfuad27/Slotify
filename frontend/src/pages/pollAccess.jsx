@@ -1,16 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from "../context/AuthContext";
 import NavbarMember from '../components/navbarMember';
+import NavbarUser from "../components/navbarUser";
 import Footer from '../components/footer';
 import '../style/pollAccess.css';
 import axios from 'axios';
-import { publicUrl } from '../constants';
+import { useNavigate } from "react-router-dom";
+import { publicUrl } from "../constants";
 
 const PollAccess = () => {
+  const { user, isLoading } = useAuth();
+  const [userEmail, setUserEmail] = useState("");
+  const [previousUserState, setPreviousUserState] = useState(null);
+
   const [pollUrl, setPollUrl] = useState('');
   const [pollData, setPollData] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      setUserEmail(user.email); // Automatically populate email when user logs in
+    } else {
+      setUserEmail("");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    // If the user logs out (previously logged in but now null), redirect to login
+    if (!isLoading && previousUserState && !user) {
+      navigate("/userLogin", { replace: true });
+    }
+
+    // Update the previous user state
+    setPreviousUserState(user);
+  }, [user, isLoading, navigate, previousUserState]);
 
   const extractPollId = (url) => {
     const match = url.match(/slotify\.com\/poll\/([A-Za-z0-9]{11})/);
@@ -40,9 +67,11 @@ const PollAccess = () => {
       return;
     }
 
+    console.log('Poll ID:', pollId);
+
     try {
-      const response = await axios.get(`{${publicUrl}/pollAndSlots`, {
-        params: { pollId },
+      const response = await axios.get(`${publicUrl}/getPollAndSlots`, {
+        params: { pollId: pollId },
       });
 
       if (response.status === 200) {
@@ -87,7 +116,7 @@ const PollAccess = () => {
 
   return (
     <div className="poll-access-page">
-      <NavbarMember />
+      {user ? <NavbarMember /> : <NavbarUser />}
       <h1 className="poll-header">Vote on a Poll!</h1>
       <div className="poll-container">
         <h3>Enter the poll URL or ID</h3>
