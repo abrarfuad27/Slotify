@@ -237,7 +237,7 @@ app.post("/createAppointments", async (req, res) => {
 // Route to get managed active/inactive polls
 app.get("/getManagedPolls", async (req, res) => {
   try {
-    const result = await getManagedPolls(req.query, res); 
+    const result = await getManagedPolls(req.query); 
     // console.log(res.json(result));
     res.json(result);
     // res.status(201).json({ status: "success", message: result });

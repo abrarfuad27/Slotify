@@ -14,35 +14,50 @@ import { parseISO, format } from 'date-fns';
 import copy_icon from "../assets/copy_icon.png";
 
 const ManagePoll = () => {
+    // Member meta data
     const {user} = useAuth();
     const email = user.email;
     const userData = { email};
+
+    // Poll information attributes
     const [polls, setPolls] = useState([]);
     const [activePolls, setActivePolls] = useState(null);
     const [inactivePolls, setInactivePolls] = useState(null);
+    const [pollName, setPollName] = useState('');
+    const [pollUrl, setPollUrl] = useState('');
+    const [pollId, setPollId] = useState('');
 
-    //confirmation modal
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
-    const [isSuccess, setIsSuccess] = useState(false);
-    //used for the modal display
+    //Poll modal display attribute
     const[displayModalSection, setDisplayModalSection] = useState('');
 
-    // modal attributes
+    // Poll modal attributes
     const [pollModalIsOpen, setPollModalIsOpen] = useState(false);
     const [pollModalMessage, setPollModalMessage] = useState('');
     const [isSuccessPoll, setIsSuccessPoll] = useState(false);
     const [pollLink, setPollLink] = useState('');
 
-    // poll attributes
-    const [pollName, setPollName] = useState('');
-    const [pollUrl, setPollUrl] = useState('');
-    const [pollId, setPollId] = useState('');
-
+    // Confirmation modal attributes
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);    
     
-    // bar chart data
+    // Bar chart data
     const [dataset, setDataset] = useState([]);
 
+    //Error modal attributes
+    const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
+    const [errorModalMessage, setErrorModalMessage] = useState("");
+
+    // Error modal methods
+    const openErrorModal = (message) => {
+        setErrorModalMessage(message);
+        setErrorModalIsOpen(true);
+    };
+
+    const closeErrorModal = () => {
+        setErrorModalIsOpen(false);
+    };
+    
 
     //confirmation modal methods
     const openModal = (message, success) => {
@@ -56,17 +71,18 @@ const ManagePoll = () => {
     };
 
 
+    // Poll modal methods
     const openModalPoll = (message, success) => {
         setPollModalMessage(message);
         setIsSuccessPoll(success);
         setPollModalIsOpen(true);
       };
     
-      const closeModalPoll = () => {
-        setPollModalIsOpen(false);
-      };
+    const closeModalPoll = () => {
+    setPollModalIsOpen(false);
+    };
 
-    // method to get polls
+    // Method to get polls
     const getManagedPolls = async () => {
         try{
           const resp = await axios.get(`${publicUrl}/getManagedPolls`, {
@@ -76,6 +92,7 @@ const ManagePoll = () => {
           setPolls(resp.data.data);
            
         }catch (error) {
+          openErrorModal('There was an error getting the polls.');
           console.error('There was an error getting the polls.', error);
         }
     };
@@ -102,7 +119,6 @@ const ManagePoll = () => {
         console.log(response);
         if (response.status === 200) {
             const data = response.data;
-            openModalPoll(data.pollQuestion, true);
             const tempDataset = [];
             for (let i = 0; i< data.slots.length; i++) {
                 let d = data.slots[i];
@@ -112,29 +128,26 @@ const ManagePoll = () => {
                     vote_count: d.voteCount 
                 });
             }
-            const isActivePoll = data.isActive ? 'display' : 'do-not-display';
-            console.log("YOOOD " , isActivePoll);
-            setDisplayModalSection(isActivePoll);
+            const display_mode = data.isActive ? 'display' : 'do-not-display';
+            openModalPoll(data.pollQuestion, true);
+            setDisplayModalSection(display_mode);
             setDataset(tempDataset);  
             setPollName(data.pollName);  
             setPollUrl(data.pollUrl); 
             setPollId (data.pollId);
             setPollLink(data.pollUrl);
         } else {
-            //??
-            openModal("There was an error :", false);
+            openErrorModal('There was an error getting the details of this poll');
         }
         // open modal
         }catch (error) {
-            console.error('There was an error getting the polls.', error);
+            openErrorModal('There was an error getting the details of this poll');
         }
     };
     const showPolls = (isActive) => {
         let filteredPolls = polls.filter((poll) => {
-            console.log("IN", poll.isActive == isActive);
-            return poll.isActive == isActive;
+            return poll.isActive === isActive;
         });
-        console.log("FILTER" , filteredPolls);
         let mapPolls = filteredPolls.map((poll, index) => (
             <tr key={index}>
                 <td>{poll.pollId}</td>
@@ -157,10 +170,13 @@ const ManagePoll = () => {
     }
 
     const handleEndPoll = async () => {
-        await axios.put(`${publicUrl}/endPoll`, {
-            pollId,
-        });
-        //open another modal
+        try {
+            await axios.put(`${publicUrl}/endPoll`, {
+                pollId,
+            });
+        }catch(err){
+            openErrorModal('There was an error when ending the poll.');
+        }    
     };
     useEffect(() => {
         getManagedPolls();
@@ -172,15 +188,9 @@ const ManagePoll = () => {
         showPolls(0);
     }, [polls])
 
-    // if (loading) {
-    //     return <div className="loading">Loading...</div>;
-    // }
-
-
-
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
-      };
+    };
     const chartParams = {
         yAxis: [
           {
@@ -283,14 +293,14 @@ const ManagePoll = () => {
                                 onClick={() => copyToClipboard(pollLink)}
                             >
                             {/* when styling add class name */}
-                                <img src={copy_icon}/>
+                                <img src={copy_icon} alt='Copy icon'/>
                             </button>
                         </div>
                     </div>
                 </div>
             </Modal>
 
-            {/* confirmation modal, to end poll */}
+            {/* Confirmation modal, to end poll */}
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -324,9 +334,28 @@ const ManagePoll = () => {
 
             </Modal>
 
-            {/* error message modal */}
-            
-            
+            {/* Error message modal */}
+            <Modal
+                isOpen={errorModalIsOpen}
+                onRequestClose={closeErrorModal }
+                contentLabel="Manage Poll Status"
+                className="modal"
+                overlayClassName="modal-overlay"
+            >
+                {/* Modal content */}
+                <h2>Error</h2>
+                <p>{errorModalMessage}</p>
+
+                {/* Modal closing button */}
+                <button
+                onClick={() => {
+                    window.location.reload();
+                    closeErrorModal();
+                }}
+                >
+                OK
+                </button>
+            </Modal>
         </div>
     );
 };
