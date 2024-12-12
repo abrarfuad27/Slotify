@@ -89,6 +89,7 @@ export default function RegisterPage() {
   return (
     <div className="register-page">
       <NavBarUser />
+      <div className="hero-img-register"> </div>
       <div className="register-page-without-nav">
         <div className="register-page-container">
           <h1 className="register-page-header">Create a Slotify Account</h1>

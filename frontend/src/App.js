@@ -21,7 +21,6 @@ import Requests from "./pages/requests.jsx";
 import ManagePoll from "./pages/managePoll";
 import UpcomingAppointments from "./pages/upcomingAppointments.jsx";
 
-
 function App() {
   return (
     <AuthProvider>
@@ -45,6 +44,10 @@ function App() {
               }
             />
             <Route path="/bookAppointment" element={<BookAppointment />} />
+            {/* <Route
+              path="/bookAppointment/:idofAppointment"
+              element={<BookAppointment />}
+            /> */}
 
             <Route
               path="/createPoll"
@@ -54,12 +57,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route 
-              path="/poll" 
-              element={
-                <PollAccess />
-              }  
-            />
+            <Route path="/poll" element={<PollAccess />} />
             <Route
               path="/managePoll"
               element={
@@ -101,7 +99,7 @@ function App() {
               }
             />
             <Route
-              path="/requestMeeting"
+              path="/requestMeeting/:email"
               element={
                 <ProtectedRoute>
                   <RequestMeeting />

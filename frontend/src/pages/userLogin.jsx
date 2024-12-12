@@ -58,6 +58,7 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <NavBarUser />
+      <div className="hero-img-login"> </div>
       <div className="login-page-without-nav">
         <div className="login-page-container">
           <h1 className="login-page-header">Already a Member? Log In</h1>
