@@ -268,7 +268,12 @@ const CreatePoll = () => {
                 required
               />
             </div>
-            <button type="button" onClick={handleAddOption} disabled={pollOptions.length >= 4}>
+            <button 
+              type="button" 
+              onClick={handleAddOption} 
+              disabled={pollOptions.length >= 4}
+              style={{ backgroundColor: pollOptions.length >= 4 ? '#cccccc' : '#085a77', cursor: pollOptions.length >= 4 ? 'not-allowed' : 'pointer' }}
+            >
               Add
             </button>
           </div>
