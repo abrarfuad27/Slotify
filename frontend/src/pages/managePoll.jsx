@@ -11,6 +11,7 @@ import AxisFormatter from '../components/barChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { barElementClasses } from '@mui/x-charts/BarChart';
 import { parseISO, format } from 'date-fns';
+import copy_icon from "../assets/copy_icon.png";
 
 const ManagePoll = () => {
     const {user} = useAuth();
@@ -20,29 +21,49 @@ const ManagePoll = () => {
     const [activePolls, setActivePolls] = useState(null);
     const [inactivePolls, setInactivePolls] = useState(null);
 
-    // modal attributes
+    //confirmation modal
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
+    //used for the modal display
+    const[displayModalSection, setDisplayModalSection] = useState('');
+
+    // modal attributes
+    const [pollModalIsOpen, setPollModalIsOpen] = useState(false);
+    const [pollModalMessage, setPollModalMessage] = useState('');
+    const [isSuccessPoll, setIsSuccessPoll] = useState(false);
+    const [pollLink, setPollLink] = useState('');
 
     // poll attributes
-    const [pollName, setPollName] = useState("");
-    const [pollUrl, setPollUrl] = useState("");
-    const [pollId, setPollId] = useState("");
+    const [pollName, setPollName] = useState('');
+    const [pollUrl, setPollUrl] = useState('');
+    const [pollId, setPollId] = useState('');
 
     
     // bar chart data
     const [dataset, setDataset] = useState([]);
 
 
+    //confirmation modal methods
     const openModal = (message, success) => {
         setModalMessage(message);
         setIsSuccess(success);
         setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+    };
+
+
+    const openModalPoll = (message, success) => {
+        setPollModalMessage(message);
+        setIsSuccessPoll(success);
+        setPollModalIsOpen(true);
       };
     
-      const closeModal = () => {
-        setModalIsOpen(false);
+      const closeModalPoll = () => {
+        setPollModalIsOpen(false);
       };
 
     // method to get polls
@@ -81,7 +102,7 @@ const ManagePoll = () => {
         console.log(response);
         if (response.status === 200) {
             const data = response.data;
-            openModal(data.pollQuestion, true);
+            openModalPoll(data.pollQuestion, true);
             const tempDataset = [];
             for (let i = 0; i< data.slots.length; i++) {
                 let d = data.slots[i];
@@ -91,18 +112,22 @@ const ManagePoll = () => {
                     vote_count: d.voteCount 
                 });
             }
+            const isActivePoll = data.isActive ? 'display' : 'do-not-display';
+            console.log("YOOOD " , isActivePoll);
+            setDisplayModalSection(isActivePoll);
             setDataset(tempDataset);  
             setPollName(data.pollName);  
             setPollUrl(data.pollUrl); 
             setPollId (data.pollId);
+            setPollLink(data.pollUrl);
         } else {
+            //??
             openModal("There was an error :", false);
         }
         // open modal
         }catch (error) {
             console.error('There was an error getting the polls.', error);
         }
-        
     };
     const showPolls = (isActive) => {
         let filteredPolls = polls.filter((poll) => {
@@ -115,7 +140,7 @@ const ManagePoll = () => {
                 <td>{poll.pollId}</td>
                 <td>{poll.pollName}</td>
                 <td>
-                    <div id={poll.pollId} onClick={handleClick}>View Details</div>
+                    <div id={poll.pollId} className='link' onClick={handleClick}>View Details</div>
                   
                 </td>
             </tr>
@@ -127,10 +152,15 @@ const ManagePoll = () => {
         }
     };
 
+    const handleConfirmation = () => {
+        openModal("Are you sure you want to close the poll?", true);
+    }
+
     const handleEndPoll = async () => {
         await axios.put(`${publicUrl}/endPoll`, {
             pollId,
         });
+        //open another modal
     };
     useEffect(() => {
         getManagedPolls();
@@ -148,11 +178,16 @@ const ManagePoll = () => {
 
 
 
-
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+      };
     const chartParams = {
         yAxis: [
           {
             label: 'Vote Count',
+            labelStyle: {
+                fontSize: 20
+            }
           },
         ],
         series: [
@@ -189,65 +224,108 @@ const ManagePoll = () => {
           },
         }
       };
+      
     return (
         <div className='poll-management'>
             <NavBarMember/>
             <div className='poll-management-content'>
                 <h1>Manage my polls</h1>
                 <div className='active-polls'>
-                    <h3>Active poll(s)</h3>
+                    <h2>Active poll(s)</h2>
                     <PollViewingTable content={activePolls ? activePolls : <tr>No upcoming appointments found.</tr>}/>
                 </div>
                 
                 <div className='closed-polls'>
-                    <h3>Closed poll(s)</h3>
+                    <h2>Closed poll(s)</h2>
                     <PollViewingTable content={inactivePolls}/>
                 </div>
             </div>
             <Footer/>
             <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Appointment Creation Status"
-                className="modal poll-modal"
+                isOpen={pollModalIsOpen}
+                onRequestClose={closeModalPoll}
+                contentLabel="Poll Result"
+                className="poll-modal"
                 overlayClassName="modal-overlay"
-                style={{
-                    content: {
-                        width: '65vw',
-                        height: '80vh',
-                        maxWidth: 'none',
-                    }
-                }}
             >
                 <div className='modal-content'>
                     <button 
                     className='close-modal-btn'
                     onClick={() => {
-                        if (isSuccess) {
+                        if (isSuccessPoll) {
                         window.location.reload(); // Refresh the page
                         } else {
-                        closeModal(); // Close the modal if not successful
+                        closeModalPoll(); // Close the modal if not successful
                         }
                     }}>
                         X
                     </button>
 
                     <h2>Results for: {pollName}</h2>
-                    <p>{modalMessage}</p>
+                    <p>{pollModalMessage}</p>
                     <AxisFormatter dataset={dataset} chartParams={chartParams}/>
 
-                    <button
-                    className='end-poll-btn'
-                    onClick={handleEndPoll}
-                    >
-                    End poll
-                    </button>
-                    {/* TODO : add the copy function */}
-                    <div className='share-poll'>Share poll token: {pollUrl}</div>
+                    {/* this section is only visible for active polls */}
+                    <div className={`${displayModalSection} active-poll-info`}>
+                        <p className='poll-ended-msg'>Poll has ended </p>
+                        <button
+                        className='end-poll-btn'
+                        // onClick={handleEndPoll}
+                        onClick={handleConfirmation}
+                        >
+                        End poll
+                        </button>
+
+                        <div className='share-poll-section'>
+                            Share poll token: <p className='link'>{pollUrl}</p>
+                            <button
+                                className="copy-icon-btn"
+                                onClick={() => copyToClipboard(pollLink)}
+                            >
+                            {/* when styling add class name */}
+                                <img src={copy_icon}/>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                
+            </Modal>
+
+            {/* confirmation modal, to end poll */}
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Appointment Creation Status"
+                className="modal"
+                overlayClassName="modal-overlay"
+            >
+                <h3>{modalMessage}</h3>
+                <button
+                onClick={() => {
+
+                    if (isSuccess) {
+                    handleEndPoll(); //end the poll
+                    setDisplayModalSection('do-not-display')
+                    closeModal();
+                    } else {
+                    closeModal(); // Close the modal if not successful
+                    }
+                }}
+                >
+                Yes
+                </button>
+
+                <button
+                onClick={() => {
+                    closeModal();
+                }}
+                >
+                No
+                </button>
 
             </Modal>
+
+            {/* error message modal */}
+            
             
         </div>
     );

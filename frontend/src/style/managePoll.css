@@ -2,6 +2,11 @@
     width: 100vw;
     height: 100vh;
 }
+
+.poll-management h2 {
+    color: #3d0db2;
+}
+
 .poll-management-content {
     height: 100%;
     width: 100%;
@@ -10,7 +15,7 @@
     align-items: center;
 }
 .poll-management-content h1 {
-    color: #3d0db2;
+    color: #085A77;
 }
 
 /* Modal Styling */
@@ -20,21 +25,45 @@
     justify-content: center;
     align-items: center;
 
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 45%;
+    height: 80vh;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 }
+
+.poll-modal .end-poll-btn, .poll-modal .close-modal-btn{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #085a77;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.poll-modal .end-poll-btn:hover, .poll-modal .close-modal-btn:hover{
+    background-color: #034459;
+}
+
 .poll-modal .modal-content {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0px;
+    box-shadow: none;
 }
 
 /* Modal Button Styling */
 .poll-modal .end-poll-btn {
     background-color: #CF1C13;
-    width: 15%;
+    width: 23%;
+
 }
 .poll-modal .close-modal-btn {
     background: none;
@@ -43,4 +72,41 @@
     align-self: flex-end;
     margin-top: 0px;
     margin-left: 0px;
+}
+
+/* Active Poll Modal Information Styling */
+.active-poll-info { 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.share-poll-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Inctive Poll Modal Information Styling  */
+.do-not-display button, .do-not-display div{
+    display: none;
+}
+.do-not-display p {
+    display: block;
+}
+
+.link {
+    text-decoration: underline;
+}
+.link:hover{
+    cursor: pointer;
+}
+/* Copy Icon Styling */
+.copy-icon-btn {
+    width: 2vw;
+}
+.copy-icon-btn img {
+    width:100%;
+    height:auto;
+    margin-left:20%;
 }

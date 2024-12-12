@@ -2,6 +2,8 @@
 COMP 307 Final Project
 
 ## How to run the app:
+Browser : use Chrome
+Note about the meeting/polling URL
 
 ### IF ON LOCAL:
 

@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+
+//https://mui.com/material-ui/customization/typography/
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
 
 
 //https://mui.com/x/react-charts/tooltip/
@@ -65,8 +70,11 @@ const colors = ['#81B5D1'];
 export default function AxisFormatter({dataset, chartParams}) {
   return (
     <BarChart
+      className='my-bar-chart'
+      borderRadius={10}
       xAxis={[
         {
+          categoryGapRatio: 0.7,
           scaleType: 'band',
           dataKey: 'option',
           valueFormatter: (option, context) =>
@@ -74,7 +82,9 @@ export default function AxisFormatter({dataset, chartParams}) {
               ? option
               : `Date: ${dataset.find((d) => d.option === option)?.date} (${option})`,
               
-        },
+        },{
+          labelStyle:{fontSize:20}
+        }
       ]}
       colors={colors}
       {...chartParams}
