@@ -10,7 +10,7 @@ import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { publicUrl } from "../constants";
 
 export default function BookAppointment() {
@@ -31,6 +31,7 @@ export default function BookAppointment() {
   const [userEmailError, setUserEmailError] = useState(false);
 
   const navigate = useNavigate();
+  // const { idofAppointment } = useParams();
 
   useEffect(() => {
     if (user) {
@@ -49,6 +50,12 @@ export default function BookAppointment() {
     // Update the previous user state
     setPreviousUserState(user);
   }, [user, isLoading, navigate, previousUserState]);
+
+  // useEffect(() => {
+  //   if (idofAppointment) {
+  //     handleSearch(idofAppointment);
+  //   }
+  // }, [idofAppointment]);
 
   const openModal = (message, success, additionalContent = null) => {
     setModalMessage(
