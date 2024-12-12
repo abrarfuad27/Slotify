@@ -93,7 +93,9 @@ export default function BookAppointment() {
             openModal(
               "This appointment no longer has available timeslots.",
               false,
-              <a href={`/requests/${creator}`}>
+              <a
+                href={`/requestMeeting/${creator}?name=${firstName} ${lastName}`}
+              >
                 <p>
                   Click here to request a meeting with{" "}
                   {`${firstName} ${lastName}`}!
@@ -286,7 +288,9 @@ export default function BookAppointment() {
             <div className="book-member-container">
               <p>Don't see a timeslot with your availability?</p>
               {
-                <a href={`/requests/${creatorEmail}`}>
+                <a
+                  href={`/requestMeeting/${creatorEmail}?name=${creatorName}`}
+                >
                   <p>Click here to request a meeting with {creatorName}!</p>
                 </a>
               }

@@ -5,7 +5,7 @@
   align-items: center; /* Centers all content horizontally */
   margin: 0; /* Remove default margin */
   padding: 0;
-  background-color: #f9f1ec;
+  background-color: #fffbf5;
   min-height: 110vh; /* Ensures the container takes up the full height of the viewport */
 }
 

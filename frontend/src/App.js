@@ -101,7 +101,7 @@ function App() {
               }
             />
             <Route
-              path="/requestMeeting"
+              path="/requestMeeting/:email"
               element={
                 <ProtectedRoute>
                   <RequestMeeting />
