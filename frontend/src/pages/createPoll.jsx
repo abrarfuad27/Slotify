@@ -1,86 +1,108 @@
-import React, { useState } from 'react';
-import NavbarMember from '../components/navbarMember';
-import Footer from '../components/footer';
-import '../style/createPoll.css';
-import dayjs from 'dayjs';
+import React, { useState, useEffect } from "react";
+import NavbarMember from "../components/navbarMember";
+import Footer from "../components/footer";
+import "../style/createPoll.css";
 import axios from "axios";
-import { useAuth } from '../context/AuthContext';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { useAuth } from "../context/AuthContext";
 import { publicUrl } from "../constants";
+import copy_icon from "../assets/copy-icon.png";
 
 const CreatePoll = () => {
-
   const { user } = useAuth();
   const email = user.email;
 
   const [pollOptions, setPollOptions] = useState([]);
-  const [pollName, setPollName] = useState('');
-  const [pollQuestion, setPollQuestion] = useState('');
-  const [date, setDate] = useState(dayjs());
-  const [startTime, setStartTime] = useState(dayjs());
-  const [endTime, setEndTime] = useState(dayjs().add(1, 'hour'));
-  const [errorMessage, setErrorMessage] = useState('');
+  const [pollName, setPollName] = useState("");
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [date, setDate] = useState("");
+  const [curDate, setCurDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  const [pollLink, setPollLink] = useState('');
+  const [pollLink, setPollLink] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const generateRandomId = (length = 11) => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
   };
 
   const getOrdinal = (day) => {
-    if (day > 3 && day < 21) return 'th';
+    if (day > 3 && day < 21) return "th";
     switch (day % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
     }
   };
 
+  useEffect(() => {
+    const curDate = new Date().toISOString().split("T")[0];
+    setCurDate(curDate);
+  }, []);
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+    .then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    })
+    .catch(() => {
+      console.error('Failed to copy text');
+    });
+  };
+
   const handleAddOption = () => {
+    setErrorMessage("");
 
     if (pollOptions.length >= 4) {
-      showError('You can only add up to 4 options.');
+      setErrorMessage("You can only add up to 4 options.");
       return;
     }
 
     if (!date || !startTime || !endTime) {
-      showError('Please fill in all date and time fields.');
+      setErrorMessage("Please fill in all date and time fields.");
       return;
     }
 
-    if (endTime.isBefore(startTime)) {
-      showError('End time cannot be earlier than start time.');
+    const startDateTime = new Date(`${date}T${startTime}`);
+    const endDateTime = new Date(`${date}T${endTime}`);
+    const now = new Date();
+
+    if (startDateTime < now) {
+      setErrorMessage("The start time must be in the future.");
       return;
     }
 
-    const now = dayjs();
-    const selectedDateTime = date.hour(startTime.hour()).minute(startTime.minute());
-    if (selectedDateTime.diff(now, 'minute') < 2) {
-      showError('The selected date and time must be at least 1 minute from the current time.');
+    if (endDateTime <= startDateTime) {
+      setErrorMessage("End time must be later than start time.");
       return;
     }
 
-    const day = date.date();
-    const month = date.format('MMM');
-    const year = date.format('YYYY');
+    const day = startDateTime.getDate();
+    const month = startDateTime.toLocaleString("default", { month: "short" });
+    const year = startDateTime.getFullYear();
     const formattedDate = `${month} ${day}${getOrdinal(day)}, ${year}`;
-    
-    // Format start and end times in 12-hour format with AM/PM
-    const formattedStartTime = startTime.format('h:mm A');
-    const formattedEndTime = endTime.format('h:mm A');
-    const newOption = `Date: ${formattedDate} | ${formattedStartTime} - ${formattedEndTime}`;
-    setPollOptions([...pollOptions, newOption]);
-    setDate(null);
-    setStartTime(null);
-    setEndTime(null);
-  };
+    const formattedStartTime = startDateTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+    const formattedEndTime = endDateTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
-  const showError = (message) => {
-    setErrorMessage(message);
+    const newOption = `Date: ${formattedDate} | ${formattedStartTime} - ${formattedEndTime}`;
+
+    if (pollOptions.includes(newOption)) {
+      setErrorMessage("This date and time range already exists in your options.");
+      return;
+    }
+
+    setPollOptions([...pollOptions, newOption]);
+    setDate("");
+    setStartTime("");
+    setEndTime("");
   };
 
   const handleRemoveOption = (index) => {
@@ -90,21 +112,21 @@ const CreatePoll = () => {
 
   const handleSubmit = async () => {
     const errors = [];
-
+  
     if (!pollName.trim()) {
       errors.push("Poll name is required.");
     }
-
+  
     if (!pollQuestion.trim()) {
       errors.push("Poll question is required.");
     }
-
-    if (pollOptions.length === 0 || pollOptions.length === 1) {
+  
+    if (pollOptions.length < 2) {
       errors.push("At least two timeslot options are required.");
     }
-
+  
     if (errors.length > 0) {
-      setErrorMessage(errors.join(' '));
+      setErrorMessage(errors.join(" "));
       return;
     }
   
@@ -113,28 +135,55 @@ const CreatePoll = () => {
     const creator = email;
   
     const slots = pollOptions.map((option) => {
-      const [datePart, timePart] = option.split(' | ');
-      const [start, end] = timePart.split(' - ');
+      const [datePart, timePart] = option.split(" | ");
+      const [start, end] = timePart.split(" - ");
+  
+      const startTime = start.trim();
+      const endTime = end.trim();
 
-      // Extract and clean the date from the datePart to revert back to YYYY-MM-DD format
-      const dateRegex = /(\w{3}) (\d+)(?:st|nd|rd|th), (\d{4})/;
-      const match = datePart.match(dateRegex);
-
-      let pollingSlotDate = '';
-      if (match) {
-        const [, month, day, year] = match;
-        pollingSlotDate = dayjs(`${month} ${day}, ${year}`, 'MMM D, YYYY').format('YYYY-MM-DD');
-      } else {
-        console.error("Invalid date format:", datePart);
+      function convertToMilitaryTime(timeString) {
+        // Regex to match time in "HH:MM AM/PM" format
+        const timeRegex = /^(\d{1,2}):(\d{2})\s?(AM|PM)$/i;
+      
+        // Perform regex match
+        const match = timeRegex.exec(timeString);
+        if (!match) {
+          throw new Error("Invalid time format. Expected 'HH:MM AM/PM'.");
+        }
+      
+        // Extract parts
+        let [, hours, minutes, period] = match;
+      
+        // Convert hour to 24-hour format if it's PM
+        hours = parseInt(hours, 10);
+        if (period.toUpperCase() === 'PM' && hours !== 12) {
+          hours += 12; // add 12 hours to PM times except for 12 PM itself
+        } else if (period.toUpperCase() === 'AM' && hours === 12) {
+          hours = 0; // 12 AM is midnight in 24-hour time
+        }
+      
+        // Format the military time string
+        const militaryTime = `${hours.toString().padStart(2, '0')}:${minutes}`;
+        return militaryTime;
       }
-      const formattedStartTime = dayjs(start, 'h:mm A').format('HH:mm');
-      const formattedEndTime = dayjs(end, 'h:mm A').format('HH:mm');
+
+      const formattedStartTime = convertToMilitaryTime(startTime);
+      const formattedEndTime = convertToMilitaryTime(endTime);
+  
+      // Parse the date part correctly
+      const dateRegex = /\b(\w{3} \d{1,2}(?:st|nd|rd|th)?, \d{4})\b/;
+      const dateMatch = datePart.match(dateRegex);
+      let dateStr = dateMatch ? dateMatch[1] : "";
+  
+      // Convert date string to a standard format
+      dateStr = dateStr.replace(/(\d{1,2})(st|nd|rd|th),/, "$1,");
+      const pollingSlotDate = new Date(dateStr).toISOString().split("T")[0];
   
       return {
         pollSlotId: generateRandomId(),
-        startTime: formattedStartTime.trim(),
-        endTime: formattedEndTime.trim(),
-        pollingSlotDate: pollingSlotDate.trim(),
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+        pollingSlotDate,
       };
     });
   
@@ -151,26 +200,28 @@ const CreatePoll = () => {
     };
   
     try {
-      const response = await axios.post(
-        `${publicUrl}/createPollAndSlots`,
-        requestData,
-        { withCredentials: true }
-      );
-  
+      const response = await axios.post(`${publicUrl}/createPollAndSlots`, requestData, { withCredentials: true });
       if (response.status === 201) {
         setPollLink(pollUrl);
         setShowPopup(true);
       } else {
-        showError('Error creating poll. Please try again.');
+        setErrorMessage("Error creating poll. Please try again.");
       }
     } catch (error) {
       console.error(error);
-      showError('Error creating poll. Please try again.');
+      setErrorMessage("Error creating poll. Please try again.");
     }
   };
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
+  const resetForm = () => {
+    setPollName("");
+    setPollQuestion("");
+    setPollOptions([]);
+    setDate("");
+    setStartTime("");
+    setEndTime("");
+    setErrorMessage("");
+    setShowPopup(false);
   };
 
   return (
@@ -179,9 +230,9 @@ const CreatePoll = () => {
       <h1 className="poll-header">Create a Poll</h1>
       <div className="poll-container">
         <form>
-        {errorMessage && <p className="poll-error-message">{errorMessage}</p>}
+          {errorMessage && <p className="poll-error-message">{errorMessage}</p>}
           <label>
-            Poll name: <span style={{ color: 'red' }}>*</span>
+            Poll name: <span style={{ color: "red" }}>*</span>
             <input
               className="poll-name-input"
               type="text"
@@ -191,44 +242,35 @@ const CreatePoll = () => {
             />
           </label>
           <label>
-            Poll question: <span style={{ color: 'red' }}>*</span>
-            <textarea
-              value={pollQuestion}
-              onChange={(e) => setPollQuestion(e.target.value)}
-            />
+            Poll question: <span style={{ color: "red" }}>*</span>
+            <textarea value={pollQuestion} onChange={(e) => setPollQuestion(e.target.value)} />
           </label>
           <div className="poll-options">
             <h3>Add options (maximum 4):</h3>
-            <div className="poll-options-row">
-              <label>
-                Date:
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker value={date} onChange={setDate} />
-                </LocalizationProvider>
-              </label>
-              <label>
-                Start Time:
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimePicker value={startTime} onChange={setStartTime} />
-                </LocalizationProvider>
-              </label>
-              <label>
-                End Time:
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimePicker value={endTime} onChange={setEndTime} />
-                </LocalizationProvider>
-              </label>
+            <div className="poll-options-row-std">
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                min={curDate}
+                required
+              />
+              <input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                required
+              />
+              <input
+                type="time"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                required
+              />
             </div>
-            <div className="poll-options-actions">
-            <button 
-              type="button" 
-              onClick={handleAddOption} 
-              disabled={pollOptions.length >= 4} 
-              style={{ backgroundColor: pollOptions.length >= 4 ? '#cccccc' : '#085a77', cursor: pollOptions.length >= 4 ? 'not-allowed' : 'pointer' }}
-            >
+            <button type="button" onClick={handleAddOption} disabled={pollOptions.length >= 4}>
               Add
             </button>
-            </div>
           </div>
           <div className="options-list">
             {pollOptions.map((option, index) => (
@@ -240,53 +282,51 @@ const CreatePoll = () => {
               </div>
             ))}
           </div>
-          <div className="poll-create">
-            <button type="button" onClick={handleSubmit}>
-              Create Poll
-            </button>
-          </div>
+          <button type="button" onClick={handleSubmit}>
+            Create Poll
+          </button>
         </form>
       </div>
       {showPopup && (
-  <div className="modal-overlay">
-    <div className="modal">
-      <div className="modal-title">Poll Created Successfully!</div>
-      <div className="modal-message">
-        Your poll has been created. Click the link below to view your poll:
-      </div>
-      <div className="modal-link-container">
-        <a
-          href={pollLink}
-          className="modal-link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {pollLink}
-        </a>
-        <button
-          className="copy-icon-btn"
-          onClick={() => copyToClipboard(pollLink)}
-        >
-          📋
-        </button>
-      </div>
-      <div className="modal-buttons">
-        <button
-          className="close-btn"
-          onClick={() =>
-            (window.location.href = `${publicUrl}/memberDashboard`)
-          }
-        >
-          Return To Dashboard
-        </button>
-        <button className="close-btn" onClick={() => setShowPopup(false)}>
-          Create Another Poll
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-title">Poll Created Successfully!</div>
+            <div className="modal-message">
+              Your poll has been created. Click the link below to view your poll:
+            </div>
+            <div className="modal-link-container">
+              <a
+                href={pollLink}
+                className="modal-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {pollLink}&nbsp; &nbsp; 
+              </a>
+              <button
+                className="copy-icon-btn"
+                onClick={() => copyToClipboard(pollLink)}
+              >
+                <img src={copy_icon} className="copy-icon-img" alt="Copy Icon" />
+              </button>
+            </div>
+            {copied && <label className="copy-confirmation">Link Copied!</label>}
+            <div className="modal-buttons">
+              <button
+                className="close-btn"
+                onClick={() =>
+                  (window.location.href = `/memberDashboard`)
+                }
+              >
+                Return To Dashboard
+              </button>
+              <button className="close-btn" onClick={() => resetForm()}>
+                Create Another Poll
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
