@@ -226,8 +226,7 @@ app.post("/createAppointmentOnRequest", async (req, res) => {
 // Route to handle appointment creation
 app.post("/createAppointments", async (req, res) => {
   try {
-    const result = await createAppointments(req.body, res);
-    // console.log(res.json(result));
+    const result = await createAppointments(req.body);
     res.status(201).json({ status: "success", message: result });
   } catch (error) {
     res.status(400).json({ message: error });

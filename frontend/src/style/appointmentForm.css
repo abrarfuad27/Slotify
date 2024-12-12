@@ -6,7 +6,9 @@
     justify-content: space-between;
     padding: 2% 5% 2%;
 }
-
+.create-appt-form-div .error-msg {
+    height: 5%;
+}
 .create-appt-form-div p{
     font-weight: bold;
 }
