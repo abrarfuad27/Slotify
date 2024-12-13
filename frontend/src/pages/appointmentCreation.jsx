@@ -52,6 +52,7 @@ const [apptLink, setApptLink] = useState('');
 
       // Create structured request data
       const requestData = createRequestData(formData);
+      // const requestData = null; //TODO remove
   
       // Create appointment in database
       const response = await axios.post(
@@ -65,7 +66,7 @@ const [apptLink, setApptLink] = useState('');
       // Set modal message based on response
       if (response.data.status === "success") {
         setApptLink(requestData.appointmentURL);
-        openModal("Appointment created! Save the appointment token: "+requestData.appointmentURL, true);
+        openModal("Appointment created! Save the appointment URL: ", true);
       } 
       else {
         console.log(response.data);
@@ -111,7 +112,7 @@ const [apptLink, setApptLink] = useState('');
     navigator.clipboard.writeText(text);
   };
   return (
-    <div className='appt-creation'>
+    <div className='appt-creation bg'>
       <NavBarMember/>
 
       {/* Main content */}
@@ -133,16 +134,29 @@ const [apptLink, setApptLink] = useState('');
       >
         {/* Modal content */}
         <h2>{isSuccess ? "Success" : "Error"}</h2>
-        <p>{modalMessage}</p>
+       
 
         {/* Modal button to copy Url */}
-        <button
+        <p>{modalMessage}</p>
+        <div className='created-appt-url-section'>
+          <a
+          href={apptLink}
+          className="modal-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          >
+            {apptLink}
+          </a>
+          <button
           className="copy-icon-btn"
           onClick={() => copyToClipboard(apptLink)}
-        >
-          <img src={copy_icon} alt='Copy icon'/>
-        </button>
+          style={{display: apptLink ? 'inline-flex' : 'none'}}
+          >
+            <img src={copy_icon} alt='Copy icon'/>
+          </button>
 
+        </div>
+        
         {/* Modal closing button */}
         <button
           onClick={() => {

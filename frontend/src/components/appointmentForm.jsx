@@ -152,14 +152,15 @@ const AppointmentCreationForm = ({ onSubmit }) => {
   };
   
   return (
-    <form className="create-appt-form-div container-box" onSubmit={handleSubmit}>
+    <form className="create-appt-form-div" onSubmit={handleSubmit}>
       {/* Error message */}
       <div className='error-msg'>{errorMsg}</div>
 
       {/* Form fields */}
       <div className='mode'>
         {/* Meeting mode */}
-        <p>Mode* :</p>
+        <p>Mode: <span style={{ color: 'red' }}>*</span>
+        </p>
         <div className="radio-option">
           <input
             type="radio"
@@ -187,7 +188,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
 
       {/* Course field */}
       <div className='course'>
-        <p>Course (optional) :</p>
+        <p>Course (optional):</p>
         <input
           type="text"
           name="course"
@@ -199,7 +200,9 @@ const AppointmentCreationForm = ({ onSubmit }) => {
 
       {/* Topic field */}
       <div className='topic'>
-        <p>Topic* :</p>
+        <p>Topic: <span style={{ color: 'red' }}>*</span>
+
+        </p>
         <input
           type="text"
           name="topic"
@@ -209,9 +212,39 @@ const AppointmentCreationForm = ({ onSubmit }) => {
         />
       </div>
 
+      {/* Time period field */}
+      <div className='time-period'>
+        <label>
+          <p>Start Date: <span style={{ color: 'red' }}>*</span></p>
+          <input
+          type="date"
+          name="start_date"
+          value={formData.start_date}
+          onChange={handleChange}
+          min={curDate}
+          required
+          />
+        </label>
+        
+        <label>
+          <p>End Date: <span style={{ color: 'red' }}>*</span></p>
+          <input
+          type="date"
+          name="end_date"
+          value={formData.end_date}
+          onChange={handleChange}
+          disabled={formData.meeting_mode === 'one-time'}
+          min={curDate}
+          required={formData.meeting_mode === 'recurring'}
+          />
+        </label>
+        
+      </div>
+
       {/* Day field - only appears when you select 'recurring' meetings*/}
       <div className='day'>
-        <p>Day (only for recurring)* :</p>
+        <p>Day: <span style={{ color: 'red' }}>*</span>
+        </p>
         
         <select
           name='day'
@@ -232,47 +265,28 @@ const AppointmentCreationForm = ({ onSubmit }) => {
         </select>
       </div>
 
-      {/* Time period field */}
-      <div className='time-period'>
-        <p>Time period* :</p>
-        <input
-          type="date"
-          name="start_date"
-          value={formData.start_date}
-          onChange={handleChange}
-          min={curDate}
-          required
-        />
-        <p>&ensp;to&ensp;</p>
-        <input
-          type="date"
-          name="end_date"
-          value={formData.end_date}
-          onChange={handleChange}
-          disabled={formData.meeting_mode === 'one-time'}
-          min={curDate}
-          required={formData.meeting_mode === 'recurring'}
-        />
-      </div>
-
       {/* Time of day field */}
       <div className='time-of-day'>
-        <p>Start* :</p>
-        <input
-          type="time"
-          name="start_time"
-          value={formData.start_time}
-          onChange={handleChange}
-          required
-        />
-        <p>End* :</p>
-        <input
-          type="time"
-          name="end_time"
-          value={formData.end_time}
-          onChange={handleChange}
-          required
-        />
+        <label><p>Start Time: <span style={{ color: 'red' }}>*</span></p>
+          <input
+            type="time"
+            name="start_time"
+            value={formData.start_time}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        
+        <label><p>End Time: <span style={{ color: 'red' }}>*</span></p>
+          <input
+            type="time"
+            name="end_time"
+            value={formData.end_time}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        
       </div>
 
       {/* Form buttons */}
