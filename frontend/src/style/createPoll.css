@@ -133,7 +133,7 @@ textarea {
 .poll-page .poll-options-row-std label {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   font-weight: bold;
 }
 
@@ -273,9 +273,7 @@ footer {
 }
 
 .poll-page .input-group {
-  display: flex;
   flex-direction: column;
-  align-items: center;
   flex: 1 1 30%; /* Default behavior: each input group takes 30% width */
   min-width: 120px;
 }

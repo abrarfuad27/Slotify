@@ -249,7 +249,7 @@ const CreatePoll = () => {
             <h3>Add options (maximum 4):</h3>
             <div className="poll-options-row-std">
               <div id="date-input-group" className="input-group">
-                <label htmlFor="date-input" className="poll-label">Date</label>
+                <label htmlFor="date-input" className="poll-label">Date:&nbsp;<span style={{ color: "red" }}>*</span></label>
                 <input
                   id="date-input"
                   type="date"
@@ -260,7 +260,7 @@ const CreatePoll = () => {
                 />
               </div>
               <div className="input-group">
-                <label htmlFor="start-time-input" className="poll-label">Start Time</label>
+                <label htmlFor="start-time-input" className="poll-label">Start Time:&nbsp;<span style={{ color: "red" }}>*</span></label>
                 <input
                   id="start-time-input"
                   type="time"
@@ -270,7 +270,7 @@ const CreatePoll = () => {
                 />
               </div>
               <div className="input-group">
-                <label htmlFor="end-time-input" className="poll-label">End Time</label>
+                <label htmlFor="end-time-input" className="poll-label">End Time:&nbsp;<span style={{ color: "red" }}>*</span></label>
                 <input
                   id="end-time-input"
                   type="time"
