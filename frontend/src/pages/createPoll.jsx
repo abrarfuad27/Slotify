@@ -248,25 +248,37 @@ const CreatePoll = () => {
           <div className="poll-options">
             <h3>Add options (maximum 4):</h3>
             <div className="poll-options-row-std">
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                min={curDate}
-                required
-              />
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                required
-              />
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                required
-              />
+              <div className="input-group">
+                <label htmlFor="date-input" className="poll-label">Date</label>
+                <input
+                  id="date-input"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  min={curDate}
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="start-time-input" className="poll-label">Start Time</label>
+                <input
+                  id="start-time-input"
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="end-time-input" className="poll-label">End Time</label>
+                <input
+                  id="end-time-input"
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  required
+                />
+              </div>
             </div>
             <button 
               type="button" 

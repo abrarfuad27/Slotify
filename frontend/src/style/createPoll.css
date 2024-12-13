@@ -272,6 +272,19 @@ footer {
   font-family: Arial, sans-serif;
 }
 
+.poll-page .input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.poll-page .poll-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+  padding-left: 2px;
+}
+
+
 @media (max-width: 768px) {
   .poll-page .poll-options-row label {
     flex: 1 1 100%;
