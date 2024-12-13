@@ -4,7 +4,8 @@
 }
 
 .poll-management h2 {
-    color: #3d0db2;
+    color: #085A77;
+    text-align: center;
 }
 
 .poll-management-content {
@@ -15,10 +16,10 @@
     align-items: center;
 }
 .poll-management-content h1 {
-    color: #085A77;
+    color: #3d0db2;
 }
 
-/* Modal Styling */
+/* Poll Modal Styling */
 .poll-modal {
     display: flex;
     flex-direction: column;
@@ -26,7 +27,8 @@
     align-items: center;
 
     background: white;
-    padding: 20px;
+    padding: 26px;
+    padding-top: 42px;
     border-radius: 10px;
     width: 45%;
     height: 80vh;
@@ -43,6 +45,9 @@
     cursor: pointer;
     font-size: 16px;
 }
+.poll-modal .close-modal-btn {
+    margin-top: 60px;
+}
 
 .poll-modal .end-poll-btn:hover, .poll-modal .close-modal-btn:hover{
     background-color: #034459;
@@ -57,6 +62,46 @@
     align-items: center;
     padding: 0px;
     box-shadow: none;
+}
+
+/* Confirmation Modal Styling */
+.confirmation-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    height: 20%;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.confirmation-modal button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #085a77;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.confirmation-modal .confirm-no {
+    background-color: #CF1C13;
+}
+
+.confirmation-modal .confirm-yes {
+    margin-right: 5%;
+}
+/* General Text Styling */
+.poll-modal .modal-content h2 {
+    color: #085A77;
+}
+
+.poll-modal .modal-content h3 {
+    color: #085A77;
+    font-size: large;
 }
 
 /* Modal Button Styling */
@@ -86,16 +131,33 @@
     flex-direction: row;
     align-items: center;
 }
-.display p {
+.share-poll-section .modal-link {
+    font-size: small;
+}
+.share-poll-section .copy-icon-btn {
+    min-width: 25px;
+}
+.share-poll-section .copy-icon-btn img {
+    border-radius: 5px;
+    width: 100%;
+    height: auto;
+}
+.share-poll-section .copy-icon-btn img:hover{
+    background-color:  rgb(216, 211, 211);
+}
+.display .poll-ended-msg {
     display: none;
 }
 
-/* Inctive Poll Modal Information Styling  */
+/* Inactive Poll Modal Information Styling  */
 .do-not-display button, .do-not-display div{
     display: none;
 }
 .do-not-display p {
     display: block;
+    color: red;
+    font-weight: bold;
+    font-size: medium;
 }
 
 .link {
@@ -108,8 +170,31 @@
 .poll-modal .copy-icon-btn {
     width: 2vw;
 }
+.poll-modal .copy-icon-btn:hover{
+    cursor: pointer;
+}
 .poll-modal .copy-icon-btn img {
     width:100%;
     height:auto;
     margin-left:20%;
+}
+.poll-modal .copy-icon-btn:hover {
+  color: #0056b3;
+}
+
+@media (max-width: 1200px) {
+    .poll-modal, .modal-content{
+        width: 65%;
+    }
+}
+
+@media (max-width: 900px) {
+    .poll-modal, .modal-content{
+        width: 80%;
+    }
+}
+@media (max-width: 800px) {
+    .poll-modal, .modal-content{
+        width: 90%;
+    }
 }

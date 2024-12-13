@@ -8,8 +8,6 @@ import { publicUrl } from "../constants";
 import { useAuth } from '../context/AuthContext';
 import Modal from "react-modal"; 
 import AxisFormatter from '../components/barChart';
-import { axisClasses } from '@mui/x-charts/ChartsAxis';
-import { barElementClasses } from '@mui/x-charts/BarChart';
 import { parseISO, format } from 'date-fns';
 import copy_icon from "../assets/copy_icon.png";
 
@@ -191,49 +189,6 @@ const ManagePoll = () => {
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
     };
-    const chartParams = {
-        yAxis: [
-          {
-            label: 'Vote Count',
-            labelStyle: {
-                fontSize: 20
-            }
-          },
-        ],
-        series: [
-          {
-          //   label: 'GDP',
-            dataKey: 'vote_count',
-            valueFormatter: (v) =>
-              `${v} votes`,
-          },
-        ],
-        slotProps: { 
-            legend: { hidden: true }},
-        dataset,
-        width: 600,
-        height: 400,
-        sx: {
-            [`.${barElementClasses.root}`]: { 
-                '&:hover': { fill: '#085A77', 
-                stroke: '#085A77',
-                }, 
-
-            },
-          [`.${axisClasses.left} .${axisClasses.label}`]: {
-            transform: 'translate(-20px, 0)',
-          },
-          [`.${axisClasses.root}`]: {
-            [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-              stroke: '#085A77',
-              strokeWidth: 5,
-            },
-            [`.${axisClasses.tickLabel}`]: {
-              fill: '#085A77',
-            },
-          },
-        }
-      };
       
     return (
         <div className='poll-management'>
@@ -257,8 +212,7 @@ const ManagePoll = () => {
                 className="poll-modal"
                 overlayClassName="modal-overlay"
             >
-                <div className='modal-content'>
-                    <button 
+                <button 
                     className='close-modal-btn'
                     onClick={() => {
                         if (isSuccessPoll) {
@@ -268,25 +222,34 @@ const ManagePoll = () => {
                         }
                     }}>
                         X
-                    </button>
-
+                </button>
+                <div className='modal-content'>
+                    
                     <h2>Results for: {pollName}</h2>
-                    <p>{pollModalMessage}</p>
-                    <AxisFormatter dataset={dataset} chartParams={chartParams}/>
+                    <h3>{pollModalMessage}</h3>
+                    <AxisFormatter dataset={dataset}/>
 
                     {/* this section is only visible for active polls */}
                     <div className={`${displayModalSection} active-poll-info`}>
                         <p className='poll-ended-msg'>Poll has ended </p>
                         <button
                         className='end-poll-btn'
-                        // onClick={handleEndPoll}
                         onClick={handleConfirmation}
                         >
                         End poll
                         </button>
 
                         <div className='share-poll-section'>
-                            Share poll token: <p className='link'>{pollUrl}</p>
+                            <p> Share poll token: &nbsp; 
+                                <a
+                                href={pollLink}
+                                className="modal-link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >
+                                    {pollUrl}
+                                </a>
+                            </p>
                             <button
                                 className="copy-icon-btn"
                                 onClick={() => copyToClipboard(pollLink)}
@@ -304,11 +267,12 @@ const ManagePoll = () => {
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
                 contentLabel="Appointment Creation Status"
-                className="modal"
+                className="confirmation-modal"
                 overlayClassName="modal-overlay"
             >
                 <h3>{modalMessage}</h3>
                 <button
+                className='confirm-yes'
                 onClick={() => {
 
                     if (isSuccess) {
@@ -324,6 +288,7 @@ const ManagePoll = () => {
                 </button>
 
                 <button
+                className='confirm-no'
                 onClick={() => {
                     closeModal();
                 }}

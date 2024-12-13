@@ -3,6 +3,7 @@ import '../style/pollViewingTable.css';
 
 const PollViewingTable = ({content}) => {
     return (
+        <div className='poll-table-div'>
         <table className='poll-table'>
             <thead>
                 <tr>
@@ -15,6 +16,7 @@ const PollViewingTable = ({content}) => {
                 {content}
             </tbody>
         </table>
+        </div>
     );
 };
 export default PollViewingTable;
