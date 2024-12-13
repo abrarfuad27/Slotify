@@ -275,6 +275,9 @@ footer {
 .poll-page .input-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  flex: 1 1 30%; /* Default behavior: each input group takes 30% width */
+  min-width: 120px;
 }
 
 .poll-page .poll-label {
@@ -293,6 +296,14 @@ footer {
 
   .poll-page .poll-options-row-std {
     flex-wrap: wrap;
+  }
+
+  .poll-page .poll-container {
+    margin: 0 30px;
+  }
+
+  .poll-page .input-group {
+    flex: 1 1 100%;
   }
 }
 

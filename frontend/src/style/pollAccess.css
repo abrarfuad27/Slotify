@@ -128,7 +128,7 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  width: 25%;
+  width: 150px;
 }
 
 .poll-access-page .poll-submit-vote-btn:hover {

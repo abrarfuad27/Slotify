@@ -248,7 +248,7 @@ const CreatePoll = () => {
           <div className="poll-options">
             <h3>Add options (maximum 4):</h3>
             <div className="poll-options-row-std">
-              <div className="input-group">
+              <div id="date-input-group" className="input-group">
                 <label htmlFor="date-input" className="poll-label">Date</label>
                 <input
                   id="date-input"
