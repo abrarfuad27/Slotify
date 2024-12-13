@@ -242,12 +242,11 @@ const ManagePoll = () => {
                 <h1>Manage my polls</h1>
                 <div className='active-polls'>
                     <h2>Active poll(s)</h2>
-                    <PollViewingTable content={activePolls ? activePolls : <tr>No upcoming appointments found.</tr>}/>
+                    <PollViewingTable content={activePolls && activePolls.length !== 0 ? activePolls : <tr><td colSpan='3'>No polls found.</td></tr>}/>
                 </div>
-                
                 <div className='closed-polls'>
                     <h2>Closed poll(s)</h2>
-                    <PollViewingTable content={inactivePolls}/>
+                    <PollViewingTable content={inactivePolls && inactivePolls.length !== 0 ? inactivePolls : <tr><td colSpan='3'>No polls found.</td></tr>}/>
                 </div>
             </div>
             <Footer/>
