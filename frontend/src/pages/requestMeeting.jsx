@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useParams, useNavigate } from "react-router-dom";
 import { publicUrl } from '../constants';
+import Footer from '../components/footer';
 
 const generateRandomId = (length) => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -28,8 +29,7 @@ const RequestMeeting = () => {
     const { user } = useAuth();
     const { creatorEmail } = useParams();
     const navigate = useNavigate();
-    const creator = "salomon.lavyperez@mail.mcgill.ca";
-
+    console.log(creatorEmail)
     // Add a new request
     const handleAdd = () => {
         setError(null); // Clear previous error
@@ -78,12 +78,12 @@ const RequestMeeting = () => {
                 const appointmentData = {
                     appointmentId,
                     mode: "one-time",
-                    creator,
+                    creatorEmail,
                     startDate: request.date,
                     endDate: request.date,
                     topic: request.topic,
                     course: request.course,
-                    appointmentURL: "http://slotify.com/" + generateRandomId(11),
+                    appointmentURL: "slotify.com/" + generateRandomId(11),
                 };
 
                 // Create Appointment
@@ -158,6 +158,7 @@ const RequestMeeting = () => {
                                 <input
                                     type="text"
                                     value={topic}
+                                    placeholder="Office Hours"
                                     onChange={(e) => setTopic(e.target.value)}
                                     required
                                 />
@@ -166,7 +167,9 @@ const RequestMeeting = () => {
                                 <label>Course:</label>
                                 <input
                                     type="text"
+                                    name="course"
                                     value={course}
+                                    pattern="^[A-Za-z0-9]+$" title="Letters and numbers only - no space" placeholder="COMP307"
                                     onChange={(e) => setCourse(e.target.value)}
                                 />
                             </div>
@@ -230,6 +233,7 @@ const RequestMeeting = () => {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 };

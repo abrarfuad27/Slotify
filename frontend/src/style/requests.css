@@ -1,7 +1,19 @@
+.requests-page {
+    display: flex;
+    flex-direction: column; /* Arrange content vertically */
+    min-height: 103vh; /* Full viewport height */
+    margin-bottom: 0;
+}
+
+footer {
+    margin-top: auto; /* Push the footer to the bottom */
+}
 .requests-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 2.5rem;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .requests-table th,

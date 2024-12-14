@@ -5,7 +5,7 @@ import axios from "axios";
 import { parseISO, format } from "date-fns";
 import { useAuth } from '../context/AuthContext';
 import { publicUrl } from '../constants';
-
+import Footer from '../components/footer';
 
 const UpcomingAppointments = () => {
    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
@@ -109,7 +109,7 @@ const UpcomingAppointments = () => {
                        </tbody>
                    </table>
                ) : (
-                   <p>No upcoming appointments found.</p>
+                   <p className="err">No upcoming appointments found.</p>
                )}
            </div>
 
@@ -150,10 +150,11 @@ const UpcomingAppointments = () => {
                        </tbody>
                    </table>
                ) : (
-                   <p>No upcoming created appointments found.</p>
+                   <p className="err">No upcoming created appointments found.</p>
                )}
            </div>
        </div>
+       <Footer />
    </div>
    );
 };

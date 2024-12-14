@@ -6,11 +6,12 @@
 
 } */
 /* Meeting History Page */
-.meeting-history-page {
+.meeting-history {
     padding: 0;
     margin: 0;
     width: 100vw;
     font-family: Arial, sans-serif;
+    min-height: 103vh;
 }
 
 /* Container */
@@ -42,12 +43,17 @@
     font-size: 1.5rem;
     color: #085A77;
 }
+.err {
+    text-align: center;
+}
 
 /* Table Styling */
 .appointments-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 1rem; /* Default font size */
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .appointments-table th,

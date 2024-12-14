@@ -4,6 +4,7 @@ import NavbarMember from "../components/navbarMember";
 import "../style/requests.css";
 import { useAuth } from "../context/AuthContext";
 import { publicUrl } from '../constants';
+import Footer from '../components/footer';
 
 const Requests = () => {
     const [groupedRequests, setGroupedRequests] = useState([]); // Store grouped requests by appointee
@@ -179,6 +180,7 @@ const Requests = () => {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 };

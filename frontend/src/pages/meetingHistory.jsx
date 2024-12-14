@@ -5,6 +5,7 @@ import axios from "axios";
 import { parseISO, format } from "date-fns";
 import { useAuth } from '../context/AuthContext';
 import { publicUrl } from '../constants';
+import Footer from '../components/footer';
 
 const MeetingHistory = () => {
     const [previousAppointments, setPreviousAppointments] = useState([]);
@@ -57,7 +58,7 @@ const MeetingHistory = () => {
     }
 
     return (
-        <div className="bg meeting-history-page">
+        <div className="bg meeting-history">
         <NavbarMember />
         <div className="container">
             <h1 className="page-title">History</h1>
@@ -99,7 +100,7 @@ const MeetingHistory = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <p>No previous appointments found.</p>
+                    <p className="err">No previous appointments found.</p>
                 )}
             </div>
 
@@ -140,10 +141,11 @@ const MeetingHistory = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <p>No previous created appointments found.</p>
+                    <p className="err">No previous created appointments found.</p>
                 )}
             </div>
         </div>
+        <Footer />
     </div>
     );
 };
