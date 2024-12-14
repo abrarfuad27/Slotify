@@ -1,4 +1,5 @@
  /* Christina Chen */
+ /* Main Page Styling */
 .appt-creation {
     height: 130vh;
     width: 100vw;
@@ -13,7 +14,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
     align-items: center;
 }
 
@@ -30,13 +30,13 @@
 /* Success Modal Styling */
 .created-appt-url-section {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 .created-appt-url-section .copy-icon-btn {
-    width: 5vw;
-    min-width: 70px;
+    width: 3vw;
+    min-width: 60px;
     margin:0px;
 }
 .created-appt-url-section .copy-icon-btn:hover{
@@ -46,14 +46,18 @@
     width:100%;
     height:auto;
 }
-.created-appt-url-section .copy-icon-btn img:hover {
-  background-color: rgb(216, 211, 211);
-  color: white;
-}
 
-.created-appt-url-section a {
-    height:10%;
-}
 .created-appt-url-section img {
     border-radius: 5px;
 }
+p.appt-url{
+    color: #007bff;
+    font-weight: bold;
+}
+
+.modal .appt-copy-confirmation {
+    color: #5EE044;
+    font-weight: bold;
+    min-height: 18px;
+}
+

@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 import Modal from "react-modal";
 import PollBarChart from '../components/barChart';
 import { parseISO, format } from 'date-fns';
-import copy_icon from "../assets/copy_icon.png";
+import copy_icon from "../assets/copy-icon.png";
 
 // Page to manage a member's active/inactive polls
 const ManagePoll = () => {
@@ -40,6 +40,7 @@ const ManagePoll = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     // Bar chart data
     const [dataset, setDataset] = useState([]);
@@ -104,7 +105,7 @@ const ManagePoll = () => {
             // Set the list of polls
             setPolls(resp.data.data);
 
-        } 
+        }
         // Open error modal
         catch (error) {
             openErrorModal('There was an error getting the polls.');
@@ -137,13 +138,13 @@ const ManagePoll = () => {
                 }
 
                 const display_mode = data.isActive ? 'display' : 'do-not-display';
-                
+
                 openModalPoll(data.pollQuestion, true); // show bar chart
                 setDisplayModalSection(display_mode); // display bar chart informations based on poll status 
                 setDataset(tempDataset); //set the dataset for bar chart
 
                 // set barchart information
-                setPollName(data.pollName); 
+                setPollName(data.pollName);
                 setPollUrl(data.pollUrl);
                 setPollId(data.pollId);
                 setPollLink(data.pollUrl);
@@ -151,7 +152,7 @@ const ManagePoll = () => {
                 // Open error modal
                 openErrorModal('There was an error getting the details of this poll');
             }
-        // Open error modal
+            // Open error modal
         } catch (error) {
             openErrorModal('There was an error getting the details of this poll');
         }
@@ -196,7 +197,7 @@ const ManagePoll = () => {
             await axios.put(`${publicUrl}/endPoll`, {
                 pollId,
             });
-        } 
+        }
         // Open error modal
         catch (err) {
             openErrorModal('There was an error when ending the poll.');
@@ -204,8 +205,14 @@ const ManagePoll = () => {
     };
 
     // Method to copy poll Url to clipboard
-    const copyToClipboard = (text) => {
-        navigator.clipboard.writeText(text);
+    const copyToClipboard = async (text) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error('Could not copy text:', error);
+        }
     };
 
     // Method to format date and time for the poll bar chart
@@ -234,12 +241,12 @@ const ManagePoll = () => {
                 {/* Tables that shows active polls */}
                 <div className='active-polls'>
                     <h2>Active poll(s)</h2>
-                    <PollViewingTable content={activePolls && activePolls.length !== 0 ? activePolls : <tr><td colSpan='3'>No polls yet</td></tr>} />
+                    <PollViewingTable content={activePolls && activePolls.length !== 0 ? activePolls : <tr><td colSpan='3' style={{ border: 'none' }}>No polls yet</td></tr>} />
                 </div>
-                 {/* Tables that shows closed polls */}
+                {/* Tables that shows closed polls */}
                 <div className='closed-polls'>
                     <h2>Closed poll(s)</h2>
-                    <PollViewingTable content={inactivePolls && inactivePolls.length !== 0 ? inactivePolls : <tr><td colSpan='3'>No polls yet</td></tr>} />
+                    <PollViewingTable content={inactivePolls && inactivePolls.length !== 0 ? inactivePolls : <tr><td colSpan='3' style={{ border: 'none' }}>No polls yet</td></tr>} />
                 </div>
             </div>
             {/* Footer */}
@@ -287,16 +294,10 @@ const ManagePoll = () => {
 
                         {/* Section with poll Url that member can share */}
                         <div className='share-poll-section'>
-                            <p> Share poll token: &nbsp;
-                                <a
-                                    href={pollLink}
-                                    className="modal-link"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
+                            Share poll token: &nbsp;
+                                <p className='poll-url'>
                                     {pollUrl}
-                                </a>
-                            </p>
+                                </p>
                             {/* Button that allows user to copy Url */}
                             <button
                                 className="copy-icon-btn"
@@ -305,6 +306,7 @@ const ManagePoll = () => {
                                 <img src={copy_icon} alt='Copy icon' />
                             </button>
                         </div>
+                        <div className="copy-confirmation">{copied && "Link Copied!"}</div>
                     </div>
                 </div>
             </Modal>

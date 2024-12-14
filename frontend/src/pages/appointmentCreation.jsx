@@ -9,7 +9,7 @@ import Footer from "../components/footer";
 import icon from "../assets/create_appt_icon.png";
 import { publicUrl } from "../constants";
 import Modal from "react-modal";
-import copy_icon from "../assets/copy_icon.png";
+import copy_icon from "../assets/copy-icon.png";
 const AppointmentCreation = () => {
   const { user } = useAuth();
   const email = user.email;
@@ -17,7 +17,7 @@ const AppointmentCreation = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [apptLink, setApptLink] = useState('');
-
+  const [copied, setCopied] = useState(false);
 
   // Error modal methods
   const openModal = (message, success) => {
@@ -99,17 +99,24 @@ const AppointmentCreation = () => {
       ...formData,
       'creator': email,
       'appointmentId': 'appt' + generateUrl(11),
-      'appointmentURL': 'slotify.com/' + generateUrl(11),
+      'appointmentURL': 'slotify.com/appt/' + generateUrl(11),
       'timeslotIds': timeslotIds,
     }
 
     return requestData;
   };
 
-  // Copy url to clipboard
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
+  // Method to copy poll Url to clipboard
+  const copyToClipboard = async (text) => {
+    try {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+        console.error('Could not copy text:', error);
+    }
   };
+
   return (
     <div className='appt-creation bg'>
       <NavBarMember />
@@ -138,14 +145,9 @@ const AppointmentCreation = () => {
         {/* Modal button to copy Url */}
         <p>{modalMessage}</p>
         <div className='created-appt-url-section'>
-          <a
-            href={apptLink}
-            className="modal-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <p className='appt-url'>
             {apptLink}
-          </a>
+          </p>
           <button
             className="copy-icon-btn"
             onClick={() => copyToClipboard(apptLink)}
@@ -153,8 +155,9 @@ const AppointmentCreation = () => {
           >
             <img src={copy_icon} alt='Copy icon' />
           </button>
-
         </div>
+        <div className="appt-copy-confirmation">{copied && "Link Copied!"}</div>
+
 
         {/* Modal closing button */}
         <button

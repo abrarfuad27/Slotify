@@ -26,6 +26,7 @@
 
 /* Main Content Styling */
 .poll-management-content {
+    background-color: #FFFBF5;
     height: 100%;
     width: 100%;
     display: flex;
@@ -79,6 +80,10 @@
     box-shadow: none;
 }
 
+p.poll-url{
+    color: #007bff;
+    font-weight: bold;
+}
 /* Confirmation Modal Styling */
 .confirmation-modal {
     background: white;
@@ -134,22 +139,23 @@
 }
 .share-poll-section {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
+    flex-wrap: wrap;
     align-items: center;
 }
 .share-poll-section .modal-link {
     font-size: small;
 }
 .share-poll-section .copy-icon-btn {
-    min-width: 25px;
+    width: 3vw;
+    min-width: 20px;
+    margin:0px;
 }
-.share-poll-section .copy-icon-btn img {
-    border-radius: 5px;
-    width: 100%;
-    height: auto;
-}
-.share-poll-section .copy-icon-btn img:hover{
-    background-color:  rgb(216, 211, 211);
+
+.active-poll-info .copy-confirmation {
+    color: #5EE044;
+    font-weight: bold;
+    min-height: 20px;
 }
 .display .poll-ended-msg {
     display: none;
@@ -181,12 +187,9 @@
     cursor: pointer;
 }
 .poll-modal .copy-icon-btn img {
-    width:100%;
+    width:70%;
     height:auto;
     margin-left:20%;
-}
-.poll-modal .copy-icon-btn:hover {
-  color: #0056b3;
 }
 
 /* Responsive Styling */
