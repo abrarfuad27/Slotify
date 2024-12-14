@@ -7,11 +7,11 @@ import { useAuth } from "../context/AuthContext";
 const NavBarMember = () => {
   const { logout } = useAuth(); // Access the logout function from AuthContext
 
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false); // state to keep track of hamburger
   const [dropdownToggle, setDropdownToggle] = useState({
     appointments: false,
     poll: false,
-  });
+  }); // state to keep track of dropdown menus on mobile screens (can't rely on hover to drop down the dropdown menus)
 
   // function to toggle the hamburger menu
   const handleHamburgerToggle = () => {
@@ -28,7 +28,7 @@ const NavBarMember = () => {
       const newState = Object.keys(prevState).reduce((acc, key) => {
         acc[key] = key === menu ? !prevState[key] : false;
         return acc;
-      }, {});
+      }, {}); // {} as the initial value of the accumulator
       return newState;
     });
   };
@@ -149,7 +149,7 @@ const NavBarMember = () => {
             className="down-arrow"
             onClick={() => handleDropdownToggle("poll")}
           >
-            &#9662;
+            &#9662; {/* Unicode for down arrow */}
           </span>
           <ul
             className={`dropdown-menu ${dropdownToggle.poll ? "active" : ""}`}

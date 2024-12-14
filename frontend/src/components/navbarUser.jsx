@@ -38,7 +38,7 @@ const NavBarUser = () => {
           </li>
         </ul>
         <div className="auth-buttons">
-          <Link to="/userLogin" className="auth-button login-button">
+          <Link to="/userLogin" window className="auth-button login-button">
             Log In
           </Link>
           <Link to="/userRegister" className="auth-button signup-button">

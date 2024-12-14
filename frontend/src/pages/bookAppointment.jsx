@@ -87,7 +87,7 @@ export default function BookAppointment() {
         setCourse(course);
         setTopic(topic);
         setAvailableTimeslots(timeslots);
-
+        // If no timeslots available, inform the user and provide a link to request a meeting if member, or login/register if user
         if (timeslots.length === 0) {
           if (user) {
             openModal(
