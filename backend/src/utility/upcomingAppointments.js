@@ -32,7 +32,7 @@ const getUpcomingAppts = async (userData) => {
               WHERE (t.appointee = ? OR a.creator = ?) 
                   AND (t.appointee IS NOT NULL)
                   AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
-                  AND (t.timeslotDate || ' ' || t.endTime) > datetime('now')
+                  AND datetime(t.timeslotDate || 'T' || t.endTime) > datetime('now','localtime')
               ORDER BY t.timeslotDate, t.endTime
               LIMIT ?`, 
               [email, email, max_num_meetings], (err, rows) => {
@@ -68,7 +68,7 @@ const getCreatorUpcomingAppts = async (userData, res) => {
             WHERE (a.creator = ?) 
                 AND (t.appointee IS NOT NULL)
                 AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
-                AND (t.timeslotDate || ' ' || t.endTime) > datetime('now')
+                AND datetime(t.timeslotDate || 'T' || t.endTime) > datetime('now','localtime')
             ORDER BY t.timeslotDate, t.endTime`, 
             [email], async (err, rows) => {
       if (err) {

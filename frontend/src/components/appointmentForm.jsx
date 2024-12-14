@@ -38,9 +38,9 @@ const AppointmentCreationForm = ({ onSubmit }) => {
   // Form submission method
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    formData.topic = formData.topic.trim();
     // Prevent form submission when topic entered is an empty string
-    if (!formData.topic.trim()){
+    if (!formData.topic){
       setErrorMsg('Topic is required.');
       return;
     }
@@ -70,7 +70,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
 
     // Create only 1 timeslot for 'one-time' meetings
     if (formData.meeting_mode === 'one-time'){
-      result = [new Date(formData.start_date)];
+      result = [formData.start_date];
     }
     // Create multiple timeslots for 'recurring' meetings
     else {

@@ -32,7 +32,7 @@ const [apptLink, setApptLink] = useState('');
   // Generate url for meetings and polls
   const generateUrl = (urlLength) => {
     const tokens = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let url = 'slotify.com/';
+    let url = '';
 
     // Randomly generate a string of length === urlLength
     for (let i = 0; i < urlLength; i++) {
@@ -92,7 +92,7 @@ const [apptLink, setApptLink] = useState('');
 
     // Generate one meeting Url per timeslot
     for (let i = 0; i < formData.timeslot_dates.length; i++) { 
-      timeslotIds.push('time' + generateUrl(11)); 
+      timeslotIds.push('time'+generateUrl(11)); 
     }
 
     // Structure request data
@@ -100,7 +100,7 @@ const [apptLink, setApptLink] = useState('');
       ...formData,
       'creator': email,
       'appointmentId' : 'appt'+ generateUrl(11),
-      'appointmentURL': generateUrl(11),
+      'appointmentURL': 'slotify.com/' + generateUrl(11),
       'timeslotIds' : timeslotIds,
     }
 
