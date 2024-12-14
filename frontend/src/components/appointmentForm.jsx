@@ -23,7 +23,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
   useEffect(() => {
     const curDate = new Date().toLocaleDateString('en-CA');
     setCurDate(curDate);
-  },[]);
+  }, []);
 
   // Reset 'day' and 'time period' when user toggles form to 'one-time' mode
   useEffect(() => {
@@ -41,28 +41,28 @@ const AppointmentCreationForm = ({ onSubmit }) => {
     e.preventDefault();
     formData.topic = formData.topic.trim();
     // Prevent form submission when topic entered is an empty string
-    if (!formData.topic){
+    if (!formData.topic) {
       setErrorMsg('Topic is required.');
       return;
     }
     // Prevent form submission when dates are invalid
-    if (!validateDates()){
+    if (!validateDates()) {
       return;
     }
     // Create meeting timeslots
     const timeslot_dates = createTimeslotDates();
 
     // Prevent form submission when there are no timeslots generated
-    if (timeslot_dates.length === 0){
+    if (timeslot_dates.length === 0) {
       return;
     }
 
     // Set timeslot in form data
     formData.timeslot_dates = timeslot_dates;
     console.log('Form data:', formData);
-    
+
     // Submit form
-    onSubmit({...formData});
+    onSubmit({ ...formData });
   };
 
   // Method to create meeting timeslots
@@ -70,7 +70,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
     let result = [];
 
     // Create only 1 timeslot for 'one-time' meetings
-    if (formData.meeting_mode === 'one-time'){
+    if (formData.meeting_mode === 'one-time') {
       result = [formData.start_date];
     }
     // Create multiple timeslots for 'recurring' meetings
@@ -92,8 +92,8 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       let timeslot = [];
 
       // Look for timeslot dates within the selected timeframe
-      while (curr_date <= end_date){
-        if (curr_date.getDay() === Number(formData.day)){
+      while (curr_date <= end_date) {
+        if (curr_date.getDay() === Number(formData.day)) {
           timeslot = curr_date.toISOString().slice(0, 10);
           result.push(timeslot);
         }
@@ -101,20 +101,22 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       }
 
       // Error handling - when no dates fall within the specified timeframe
-      const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday']
-      if (!result.length){
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      if (!result.length) {
         setErrorMsg(`Invalid start/end date range. No ${days[formData.day]} falls within the specified period.`);
-      } 
+      }
     }
-    
+
     // Error handling - invalid start time
-    if (result.length === 1){
+    if (result.length === 1) {
       const today = new Date().toLocaleDateString('en-CA');
-      const curr_time = new Date().toLocaleTimeString('en-CA', 
-                                                      { hour: '2-digit', 
-                                                      minute: '2-digit', 
-                                                      hour12: false  });
-      if (formData.start_date === today && formData.start_time < curr_time){
+      const curr_time = new Date().toLocaleTimeString('en-CA',
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        });
+      if (formData.start_date === today && formData.start_time < curr_time) {
         setErrorMsg('Invalid start time. Start time must be now or later.');
         result = [];
       }
@@ -125,12 +127,12 @@ const AppointmentCreationForm = ({ onSubmit }) => {
   // Method to validate input dates
   const validateDates = () => {
     const { start_date, end_date, start_time, end_time } = formData;
-    if (start_date && end_date && new Date(start_date) >= new Date(end_date)) { 
-      setErrorMsg('Start date must be earlier than end date.'); 
-      return false; 
+    if (start_date && end_date && new Date(start_date) >= new Date(end_date)) {
+      setErrorMsg('Start date must be earlier than end date.');
+      return false;
     }
-    if (start_time && end_time && start_time >= end_time) { 
-      setErrorMsg('Start time must be earlier than end time.'); 
+    if (start_time && end_time && start_time >= end_time) {
+      setErrorMsg('Start time must be earlier than end time.');
       return false;
     }
     // Set error message for Modal
@@ -151,7 +153,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
       [name]: value
     });
   };
-  
+
   return (
     <form className="create-appt-form-div" onSubmit={handleSubmit}>
       {/* Error message */}
@@ -170,7 +172,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
             value="one-time"
             onChange={handleChange}
             required
-            checked = {formData.meeting_mode === 'one-time'}
+            checked={formData.meeting_mode === 'one-time'}
           />
           <label htmlFor="one-time">One-Time</label>
         </div>
@@ -181,7 +183,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
             name="meeting_mode"
             value="recurring"
             onChange={handleChange}
-            checked = {formData.meeting_mode === 'recurring'}
+            checked={formData.meeting_mode === 'recurring'}
           />
           <label htmlFor="recurring">Recurring</label><br />
         </div>
@@ -218,35 +220,35 @@ const AppointmentCreationForm = ({ onSubmit }) => {
         <label>
           <p>Start Date: <span style={{ color: 'red' }}>*</span></p>
           <input
-          type="date"
-          name="start_date"
-          value={formData.start_date}
-          onChange={handleChange}
-          min={curDate}
-          required
+            type="date"
+            name="start_date"
+            value={formData.start_date}
+            onChange={handleChange}
+            min={curDate}
+            required
           />
         </label>
-        
+
         <label>
           <p>End Date: <span style={{ color: 'red' }}>*</span></p>
           <input
-          type="date"
-          name="end_date"
-          value={formData.end_date}
-          onChange={handleChange}
-          disabled={formData.meeting_mode === 'one-time'}
-          min={curDate}
-          required={formData.meeting_mode === 'recurring'}
+            type="date"
+            name="end_date"
+            value={formData.end_date}
+            onChange={handleChange}
+            disabled={formData.meeting_mode === 'one-time'}
+            min={curDate}
+            required={formData.meeting_mode === 'recurring'}
           />
         </label>
-        
+
       </div>
 
       {/* Day field - only appears when you select 'recurring' meetings*/}
       <div className='day'>
         <p>Day: <span style={{ color: 'red' }}>*</span>
         </p>
-        
+
         <select
           name='day'
           value={formData.day}
@@ -255,7 +257,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
           disabled={formData.meeting_mode === 'one-time'}
         >
           <option value={-1} disabled> choose a day </option>
-         
+
           <option value={1}>Monday</option>
           <option value={2}>Tuesday</option>
           <option value={3}>Wednesday</option>
@@ -277,7 +279,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
             required
           />
         </label>
-        
+
         <label><p>End Time: <span style={{ color: 'red' }}>*</span></p>
           <input
             type="time"
@@ -287,7 +289,7 @@ const AppointmentCreationForm = ({ onSubmit }) => {
             required
           />
         </label>
-        
+
       </div>
 
       {/* Form buttons */}

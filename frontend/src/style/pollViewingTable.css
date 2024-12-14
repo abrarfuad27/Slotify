@@ -1,4 +1,4 @@
- /* Christina Chen */
+/* Christina Chen */
 /* Table Div Styling */
 .poll-table-div {
     overflow-y: auto;
@@ -45,6 +45,7 @@
     top: 0px; 
 }
 
+/* Responsive Styling */
 @media (max-width: 1200px) {
     .poll-table-div {
         width: 60vw;

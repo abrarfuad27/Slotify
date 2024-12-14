@@ -236,7 +236,6 @@ app.post("/createAppointments", async (req, res) => {
   }
 });
 
-// TODO PUT THE THING ON the server one
 // Route to get managed active/inactive polls
 app.get("/getManagedPolls", async (req, res) => {
   try {

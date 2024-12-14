@@ -1,5 +1,5 @@
 // Christina Chen
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../style/appointmentCreation.css';
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
@@ -8,15 +8,15 @@ import NavBarMember from '../components/navbarMember';
 import Footer from "../components/footer";
 import icon from "../assets/create_appt_icon.png";
 import { publicUrl } from "../constants";
-import Modal from "react-modal"; 
+import Modal from "react-modal";
 import copy_icon from "../assets/copy_icon.png";
 const AppointmentCreation = () => {
-const { user } = useAuth();
-const email = user.email;
-const [modalIsOpen, setModalIsOpen] = useState(false);
-const [modalMessage, setModalMessage] = useState("");
-const [isSuccess, setIsSuccess] = useState(false);
-const [apptLink, setApptLink] = useState('');
+  const { user } = useAuth();
+  const email = user.email;
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [apptLink, setApptLink] = useState('');
 
 
   // Error modal methods
@@ -47,18 +47,18 @@ const [apptLink, setApptLink] = useState('');
   const handleSubmit = async (formData) => {
     try {
       // Argument validation
-      if (!formData){
+      if (!formData) {
         throw new Error('Invalid form data');
       }
 
       // Create structured request data
       const requestData = createRequestData(formData);
       // const requestData = null; //TODO remove
-  
+
       // Create appointment in database
       const response = await axios.post(
         `${publicUrl}/createAppointments`,
-        {...requestData},
+        { ...requestData },
         {
           withCredentials: true,
         }
@@ -68,16 +68,14 @@ const [apptLink, setApptLink] = useState('');
       if (response.data.status === "success") {
         setApptLink(requestData.appointmentURL);
         openModal("Appointment created! Save the appointment URL: ", true);
-      } 
+      }
       else {
-        console.log(response.data);
         openModal(response.data.message || "Error creating appointment.", false);
       }
 
-    }catch (error){
-      console.log(error);
+    } catch (error) {
       openModal("Failed to create appointment. Please try again later.", false);
-    }  
+    }
   };
 
   // Preparing data to create appointment
@@ -92,17 +90,17 @@ const [apptLink, setApptLink] = useState('');
     const timeslotIds = [];
 
     // Generate one meeting Url per timeslot
-    for (let i = 0; i < formData.timeslot_dates.length; i++) { 
-      timeslotIds.push('time'+generateUrl(11)); 
+    for (let i = 0; i < formData.timeslot_dates.length; i++) {
+      timeslotIds.push('time' + generateUrl(11));
     }
 
     // Structure request data
     requestData = {
       ...formData,
       'creator': email,
-      'appointmentId' : 'appt'+ generateUrl(11),
+      'appointmentId': 'appt' + generateUrl(11),
       'appointmentURL': 'slotify.com/' + generateUrl(11),
-      'timeslotIds' : timeslotIds,
+      'timeslotIds': timeslotIds,
     }
 
     return requestData;
@@ -114,16 +112,16 @@ const [apptLink, setApptLink] = useState('');
   };
   return (
     <div className='appt-creation bg'>
-      <NavBarMember/>
+      <NavBarMember />
 
       {/* Main content */}
       <div className='create-appt-content'>
         <div className='create-appt-header'>
-          <h1>Create an Appointment&nbsp;</h1><img className='create-appt-icon' src={icon} alt='Create appointment header icon'/>
+          <h1>Create an Appointment&nbsp;</h1><img className='create-appt-icon' src={icon} alt='Create appointment header icon' />
         </div>
-        <FormComponent onSubmit={handleSubmit}/>
+        <FormComponent onSubmit={handleSubmit} />
       </div>
-      <Footer/>
+      <Footer />
 
       {/* Error/success modal */}
       <Modal
@@ -135,29 +133,29 @@ const [apptLink, setApptLink] = useState('');
       >
         {/* Modal content */}
         <h2>{isSuccess ? "Success" : "Error"}</h2>
-       
+
 
         {/* Modal button to copy Url */}
         <p>{modalMessage}</p>
         <div className='created-appt-url-section'>
           <a
-          href={apptLink}
-          className="modal-link"
-          target="_blank"
-          rel="noopener noreferrer"
+            href={apptLink}
+            className="modal-link"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {apptLink}
           </a>
           <button
-          className="copy-icon-btn"
-          onClick={() => copyToClipboard(apptLink)}
-          style={{display: apptLink ? 'inline-flex' : 'none'}}
+            className="copy-icon-btn"
+            onClick={() => copyToClipboard(apptLink)}
+            style={{ display: apptLink ? 'inline-flex' : 'none' }}
           >
-            <img src={copy_icon} alt='Copy icon'/>
+            <img src={copy_icon} alt='Copy icon' />
           </button>
 
         </div>
-        
+
         {/* Modal closing button */}
         <button
           onClick={() => {
@@ -168,7 +166,7 @@ const [apptLink, setApptLink] = useState('');
             }
           }}
         >
-        OK
+          OK
         </button>
 
       </Modal>

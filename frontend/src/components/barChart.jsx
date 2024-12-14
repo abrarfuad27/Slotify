@@ -4,11 +4,15 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { barElementClasses } from '@mui/x-charts/BarChart';
 
+// Bar chart to display poll statistics
 // Reference documentation : https://mui.com/x/react-charts/axis/
-export default function AxisFormatter({ dataset }) {
+export default function PollBarChart({ dataset }) {
   const colors = ['#81B5D1'];
   const theme_color = '#085A77';
+  
+  // Chart styling customization
   const chartParams = {
+    // Style y-axis
     yAxis: [
       {
         label: 'Vote Count',
@@ -18,20 +22,23 @@ export default function AxisFormatter({ dataset }) {
         }
       },
     ],
+    // data
     series: [
       {
-        //   label: 'GDP',
         dataKey: 'vote_count',
         valueFormatter: (v) =>
           `${v} vote(s)`,
       },
     ],
+    // hide legend
     slotProps: {
       legend: { hidden: true }
     },
-    dataset,
+    dataset, 
     width: 500,
     height: 400,
+
+    // styling colors and axis widths
     sx: {
       [`.${barElementClasses.root}`]: {
         '&:hover': {
@@ -52,10 +59,11 @@ export default function AxisFormatter({ dataset }) {
     }
   };
   return (
-    
     <BarChart
       className='my-bar-chart'
       borderRadius={10}
+
+      // set data
       xAxis={[
         {
           categoryGapRatio: 0.7,
@@ -70,7 +78,9 @@ export default function AxisFormatter({ dataset }) {
           labelStyle: { fontSize: 20 }
         }
       ]}
+      // set colors
       colors={colors}
+      // set styling
       {...chartParams}
     />
   );
