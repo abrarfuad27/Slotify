@@ -2,12 +2,21 @@ import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { barElementClasses } from '@mui/x-charts/BarChart';
-// https://mui.com/x/react-charts/axis/
 
-const colors = ['#81B5D1'];
-
+// Reference documentation : https://mui.com/x/react-charts/axis/
 export default function AxisFormatter({ dataset }) {
+  const colors = ['#81B5D1'];
+  const theme_color = '#085A77';
   const chartParams = {
+    yAxis: [
+      {
+        label: 'Vote Count',
+        labelStyle: {
+            fontSize: 14,
+            fill: `${theme_color}`
+        }
+      },
+    ],
     series: [
       {
         //   label: 'GDP',
@@ -20,26 +29,23 @@ export default function AxisFormatter({ dataset }) {
       legend: { hidden: true }
     },
     dataset,
-    width: 600,
+    width: 500,
     height: 400,
     sx: {
       [`.${barElementClasses.root}`]: {
         '&:hover': {
-          fill: '#085A77',
-          stroke: '#085A77',
+          fill:`${theme_color}`,
+          stroke: `${theme_color}`,
         },
-  
+    
       },
       [`.${axisClasses.root}`]: {
-        [`.${axisClasses.tick}`]: {
-          stroke : 'none'
-        },
-        [`.${axisClasses.line}`]: {
-          stroke: '#085A77',
+        [`.${axisClasses.line}, .${axisClasses.tick}`]: {
+          stroke: `${theme_color}`,
           strokeWidth: 5
         },
         [`.${axisClasses.tickLabel}`]: {
-          fill: '#085A77',
+          fill: `${theme_color}`,
         },
       },
     }
@@ -49,7 +55,6 @@ export default function AxisFormatter({ dataset }) {
     <BarChart
       className='my-bar-chart'
       borderRadius={10}
-      // leftAxis={null} //removes the vertical bar
       xAxis={[
         {
           categoryGapRatio: 0.7,
