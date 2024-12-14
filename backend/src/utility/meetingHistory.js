@@ -18,7 +18,7 @@ const getMeetingHistory = async (userData, res) => {
                 Appointment a ON t.appointmentId = a.appointmentId
             WHERE t.appointee = ?
                 AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
-                AND (t.timeslotDate || ' ' || t.endTime) < datetime('now')
+                AND (t.timeslotDate || ' ' || t.endTime) < datetime('now','localtime')
             ORDER BY t.timeslotDate, t.endTime`, 
             [userData.email], async (err, rows) => {
       if (err) {
@@ -48,7 +48,7 @@ const getCreatorMeetingHistory = async (userData, res) => {
                 Appointment a ON t.appointmentId = a.appointmentId
             WHERE a.creator = ?
                 AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
-                AND (t.timeslotDate || ' ' || t.endTime) < datetime('now')
+                AND (t.timeslotDate || ' ' || t.endTime) < datetime('now','localtime')
             ORDER BY t.timeslotDate, t.endTime`, 
             [userData.email], async (err, rows) => {
       if (err) {
