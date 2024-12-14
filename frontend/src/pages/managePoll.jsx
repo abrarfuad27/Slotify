@@ -148,8 +148,8 @@ const ManagePoll = () => {
         });
         let mapPolls = filteredPolls.map((poll, index) => (
             <tr key={index}>
-                <td>{poll.pollId}</td>
                 <td>{poll.pollName}</td>
+                <td>{poll.pollId}</td>
                 <td>
                     <div id={poll.pollId} className='link' onClick={handleClick}>View Details</div>
                   

@@ -19,6 +19,7 @@
     text-align: left;
     padding: 10px;
     border: 1px solid #ccc;
+    width: 33%;
 }
 
 .poll-table th {
