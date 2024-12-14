@@ -1,3 +1,4 @@
+// Christina Chen
 const db = require("./db");
 
 // Create appointments for a member

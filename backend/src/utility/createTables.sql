@@ -1,3 +1,4 @@
+-- Christina Chen
 -- Members Table --
 
 CREATE TABLE IF NOT EXISTS Member (

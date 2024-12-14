@@ -1,3 +1,4 @@
+// Christina Chen
 const db = require("./db");
 
 // Fetch active and inactive polls a member created

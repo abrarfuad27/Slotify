@@ -1,3 +1,4 @@
+// Christina Chen
 const db = require("./db");
 
 // Retrieve up to N of the upcoming meetings - with meeting time closest to today's date and time
@@ -49,6 +50,7 @@ const getUpcomingAppts = async (userData) => {
   }
 };
 
+// Salomon Lavy Perez 
 const getCreatorUpcomingAppts = async (userData, res) => {
   const {email}= userData;
 

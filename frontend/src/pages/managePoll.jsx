@@ -1,3 +1,4 @@
+// Christina Chen
 import React, {useEffect, useState} from 'react';
 import NavBarMember from '../components/navbarMember';
 import Footer from "../components/footer";
@@ -197,11 +198,11 @@ const ManagePoll = () => {
                 <h1>Manage my polls</h1>
                 <div className='active-polls'>
                     <h2>Active poll(s)</h2>
-                    <PollViewingTable content={activePolls && activePolls.length !== 0 ? activePolls : <tr><td colSpan='3'>No polls yet.</td></tr>}/>
+                    <PollViewingTable content={activePolls && activePolls.length !== 0 ? activePolls : <tr><td colSpan='3'>No polls yet</td></tr>}/>
                 </div>
                 <div className='closed-polls'>
                     <h2>Closed poll(s)</h2>
-                    <PollViewingTable content={inactivePolls && inactivePolls.length !== 0 ? inactivePolls : <tr><td colSpan='3'>No polls yet.</td></tr>}/>
+                    <PollViewingTable content={inactivePolls && inactivePolls.length !== 0 ? inactivePolls : <tr><td colSpan='3'>No polls yet</td></tr>}/>
                 </div>
             </div>
             <Footer/>
@@ -254,7 +255,6 @@ const ManagePoll = () => {
                                 className="copy-icon-btn"
                                 onClick={() => copyToClipboard(pollLink)}
                             >
-                            {/* when styling add class name */}
                                 <img src={copy_icon} alt='Copy icon'/>
                             </button>
                         </div>

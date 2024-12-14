@@ -1,3 +1,4 @@
+// Christina Chen
 import React from 'react';
 import NavBarUser from '../components/navbarUser';
 import Footer from '../components/footer';

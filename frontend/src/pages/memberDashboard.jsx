@@ -1,3 +1,4 @@
+// Christina Chen
 import React, { useState, useEffect } from 'react';
 import '../style/memberDashboard.css';
 import DashboardCard from '../components/dashboardCard';

@@ -1,3 +1,4 @@
+// Christina Chen
 const db = require('./db');
 
 const endPoll = async (pollId) => {

@@ -1,3 +1,4 @@
+// Christina Chen
 import React from 'react';
 import '../style/dashboardCard.css';
 

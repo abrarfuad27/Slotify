@@ -1,3 +1,7 @@
+// Abrar Mohammad Fuad
+// Christina Chen
+// Salomon Lavy Perez
+// Samuel Lin
 const { backendPort, frontendUrl } = require("./constants.js");
 
 const express = require("express");
