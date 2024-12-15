@@ -78,7 +78,7 @@ const UpcomingAppointments = () => {
         <div className="appointments-section">
             <h2>Upcoming Appointments</h2>
             <div className="appointments-table-div">
-                {upcomingAppointments.length > 0 ? (
+                
                     <table className="appointments-table">
                         <thead>
                             <tr>
@@ -90,7 +90,8 @@ const UpcomingAppointments = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {upcomingAppointments.map((appt, index) => (
+                        {upcomingAppointments.length > 0 ? (
+                            upcomingAppointments.map((appt, index) => (
                                 <tr key={index}>
                                     <td data-label="Appointment with:">{appt.creator}</td>
                                     <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
@@ -102,12 +103,12 @@ const UpcomingAppointments = () => {
                                             {appt.appointmentURL}
                                     </td>
                                 </tr>
-                            ))}
+                            ))) : (
+                                <p className="err">No upcoming appointments found.</p>
+                            )}
                         </tbody>
                     </table>
-                ) : (
-                    <p className="err">No upcoming appointments found.</p>
-                )}
+                
             </div>
         </div>
 
@@ -115,7 +116,7 @@ const UpcomingAppointments = () => {
         <div className="appointments-section">
             <h2>Upcoming Created Appointments</h2>
             <div className="appointments-table-div">
-                {upcomingCreatorAppointments.length > 0 ? (
+                {/* {upcomingCreatorAppointments.length > 0 ? ( */}
                     <table className="appointments-table">
                         <thead>
                             <tr>
@@ -127,24 +128,26 @@ const UpcomingAppointments = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {upcomingCreatorAppointments.map((appt, index) => (
-                                <tr key={index}>
-                                    <td data-label="Appointee:">{appt.appointee}</td>
-                                    <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
-                                    <td data-label="Time">
-                                        {appt.startTime} - {appt.endTime}
-                                    </td>
-                                    <td data-label="Mode">{appt.mode || "One-time"}</td>
-                                    <td data-label="URL">
-                                            {appt.appointmentURL}
-                                    </td>
-                                </tr>
-                            ))}
+                        {upcomingCreatorAppointments.length > 0 ? (
+                                upcomingCreatorAppointments.map((appt, index) => (
+                                    <tr key={index}>
+                                        <td data-label="Appointee:">{appt.appointee}</td>
+                                        <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
+                                        <td data-label="Time">
+                                            {appt.startTime} - {appt.endTime}
+                                        </td>
+                                        <td data-label="Mode">{appt.mode || "One-time"}</td>
+                                        <td data-label="URL">
+                                                {appt.appointmentURL}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <p className="err">No upcoming created appointments found.</p>
+                            )}
                         </tbody>
                     </table>
-                ) : (
-                    <p className="err">No upcoming created appointments found.</p>
-                )}
+                
             </div>
         </div>
         </div>

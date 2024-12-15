@@ -3,7 +3,6 @@
 // Salomon Lavy Perez
 // Samuel Lin
 const { backendPort, frontendUrl } = require("./constants.js");
-
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -11,18 +10,20 @@ const { authenticateToken } = require("./utility/authenticate"); // Import the a
 const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
-const { getUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
+const { getUpcomingAppts, getCreatorUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const { createPollAndSlots } = require("./utility/createPollAndSlots");
 const { getPollAndSlots } = require("./utility/getPollAndSlots");
 const { votePoll } = require("./utility/votePoll");
 const { getAvailableTimeslots } = require("./utility/getTimeslots");
 const { bookTimeslot } = require("./utility/bookTimeslot");
-const { getMeetingHistory } = require("./utility/meetingHistory"); 
+const { getMeetingHistory, getCreatorMeetingHistory } = require("./utility/meetingHistory"); 
 const { createTimeSlot } = require("./utility/createTimeSlot"); 
 const { getRequests } = require("./utility/getRequests");
 const { acceptRequest, deleteRequest } = require("./utility/answerRequest");
 const {createAppointments } = require("./utility/createAppointments");
 const {createAppointmentOnRequest } = require("./utility/createAppointmentOnRequest");
+const {getManagedPolls} = require("./utility/getManagedPolls")
+const {endPoll} = require("./utility/endPoll")
 
 const app = express();
 const PORT = backendPort;
