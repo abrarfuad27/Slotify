@@ -1,3 +1,4 @@
+//Salomon Lavy Perez
 import React, { useEffect, useState } from "react";
 import NavbarMember from "../components/navbarMember";
 import "../style/meetingHistory.css";
@@ -66,7 +67,7 @@ const UpcomingAppointments = () => {
 
 
    return (
-       <div className="meeting-history-page">
+       <div className="bg meeting-history">
        <NavbarMember />
        <div className="container">
            <h1 className="page-title">History</h1>

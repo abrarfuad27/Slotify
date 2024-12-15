@@ -178,7 +178,6 @@ app.post("/createTimeSlot", async (req, res) => {
     const result = await createTimeSlot(req.body, res);
     res.json(result);
   } catch (error) {
-    console.log("pene");
     res.status(400).json({ message: error });
   }
 });

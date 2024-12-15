@@ -1,3 +1,5 @@
+//Salomon Lavy Perez
+
 const db = require("./db");
 
 // Retrieve up to three of the closest upcoming meetings to today's date and time
