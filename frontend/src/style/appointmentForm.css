@@ -121,11 +121,11 @@
 
 /* Day Styling */
 .day p {
-    width : 12%;
+    width : 18%;
 }
 .day select {
-    width: 24%;
-    height: 90%;
+    width: 25%;
+    height: 92%;
 }
 .day select:hover {
     cursor: pointer;
