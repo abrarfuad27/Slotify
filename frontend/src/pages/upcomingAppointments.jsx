@@ -71,7 +71,7 @@ const UpcomingAppointments = () => {
        <div className="bg meeting-history">
        <NavbarMember />
        <div className="container">
-           <h1 className="page-title">History</h1>
+           <h1 className="page-title">What's Next</h1>
 
 
            {/* Upcoming Appointments Section */}
