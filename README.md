@@ -1,9 +1,15 @@
 # Slotify
 COMP 307 Final Project
 
+This app facilitates appointments scheduling and booking for students and professors. It also allows easy poll creation and sharing.
+
 ## How to run the app:
 Browser : use Chrome
-Note about the meeting/polling URL
+
+**Note about the meeting/poll URL** : 
+To find a meeting/poll, we input the URL into the search bar in the "Book Appointment" and "Access Poll" page. **We can't query for an appointment/poll on the browser.**
+
+Confirmed this as a valid implentation with professor Vybihal over email.
 
 ### IF ON LOCAL:
 
@@ -30,3 +36,12 @@ Note about the meeting/polling URL
 * After running `npm start` in `Slotify/frontend`, the webapp will be running on **https://fall2024-comp307-group06.cs.mcgill.ca**, not on your localhost.
 
 N.B.: `npm start` on frontend should not be affected, but restart with CTRL-C just in case.
+
+## Contributions
+
+| Abrar Mohammad Fuad  | Christina Chen  | Samuel Lin  | Salomon Lavy Perez  |
+|-----------|-----------|-----------|-----------|
+| Backend Routing and Ticket System | Landing page | Create poll | Meeting History |
+| Nav Bar (member/user view) | Create appointment | Access poll | Upcoming appointments |
+| User Login/Register | Manage poll | Nav Bar (member/user view) | View Meeting Requests |
+| Book appointments | Member Dashboard | Footer | Create Meeting Requests |
