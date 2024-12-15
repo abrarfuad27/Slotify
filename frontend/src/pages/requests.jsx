@@ -212,9 +212,7 @@ const Requests = () => {
                 overlayClassName="modal-overlay"
                 > 
                 
-                {/* <div className="confirmation-modal"> */}
                 <div>
-                    {/* <div className="modal-content"> */}
                     <div>
                         <h2>Appointment Booked!</h2>
                         <p>
