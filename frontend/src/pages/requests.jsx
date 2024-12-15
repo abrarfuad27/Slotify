@@ -11,6 +11,7 @@ const Requests = () => {
     const [selectedAppointee, setSelectedAppointee] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [confirmationModal, setConfirmationModal] = useState(null); // New state for confirmation modal
     const { user } = useAuth();
     const email = user.email;
 
@@ -54,6 +55,19 @@ const Requests = () => {
         try {
             if (action === "accept") {
                 await axios.put(`${publicUrl}/handleRequests`, { timeSlotId });
+
+                // Find the accepted request details
+                const acceptedRequest = groupedRequests
+                    .flatMap((group) => group.requests)
+                    .find((req) => req.timeslotID === timeSlotId);
+
+                if (acceptedRequest) {
+                    setConfirmationModal({
+                        name: `${acceptedRequest.appointee}`,
+                        date: new Date(acceptedRequest.timeslotDate).toLocaleDateString(),
+                        time: `${acceptedRequest.startTime} - ${acceptedRequest.endTime}`,
+                    });
+                }
             } else if (action === "deny") {
                 await axios.delete(`${publicUrl}/handleRequests`, {
                     data: { timeSlotId },
@@ -161,6 +175,24 @@ const Requests = () => {
                     </div>
                 </div>
             )}
+
+            {confirmationModal && (
+                <div className="confirmation-modal">
+                    <div className="modal-content">
+                        <h2>Appointment Booked!</h2>
+                        <p>
+                            Appointment successfully booked with {confirmationModal.name}!
+                        </p>
+                        <button
+                            className="close-modal-button"
+                            onClick={() => setConfirmationModal(null)}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <Footer />
         </div>
     );
