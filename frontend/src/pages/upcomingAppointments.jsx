@@ -98,13 +98,7 @@ const UpcomingAppointments = () => {
                                     </td>
                                     <td data-label="Mode">{appt.mode || "One-time"}</td>
                                     <td data-label="URL">
-                                        <a
-                                            href={appt.appointmentURL}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
                                             {appt.appointmentURL}
-                                        </a>
                                     </td>
                                 </tr>
                             ))}
@@ -141,13 +135,7 @@ const UpcomingAppointments = () => {
                                     </td>
                                     <td data-label="Mode">{appt.mode || "One-time"}</td>
                                     <td data-label="URL">
-                                        <a
-                                            href={appt.appointmentURL}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
                                             {appt.appointmentURL}
-                                        </a>
                                     </td>
                                 </tr>
                             ))}
