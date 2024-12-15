@@ -250,8 +250,6 @@ app.put("//endPoll", async (req, res) => {
     res.status(400).json({ message: error });
   }
 });
-// Add a closing curly brace here
-
 
 // Start the server
 app.listen(PORT, () => {
