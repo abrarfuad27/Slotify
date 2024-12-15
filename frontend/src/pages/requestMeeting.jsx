@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarMember from "../components/navbarMember";
 import "../style/requestMeeting.css";
 import axios from 'axios';
@@ -26,6 +26,7 @@ const RequestMeeting = () => {
     const [course, setCourse] = useState("");
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
+    const [curDate, setCurDate] = useState('');
     const { user } = useAuth();
     const { email } = useParams();
     const create = "salomon.lavyperez@mail.mcgill.ca";
@@ -36,6 +37,10 @@ const RequestMeeting = () => {
     const queryParams = new URLSearchParams(location.search);
     const name = queryParams.get("name");
 
+    useEffect(() => {
+        const curDate = new Date().toLocaleDateString('en-CA');
+        setCurDate(curDate);
+      }, []);
     // Add a new request
     const handleAdd = () => {
         setError(null); // Clear previous error
@@ -142,6 +147,7 @@ const RequestMeeting = () => {
                                     type="date"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
+                                    min={curDate}
                                     required
                                 />
                             </div>
