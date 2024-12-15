@@ -294,7 +294,7 @@ const ManagePoll = () => {
 
                         {/* Section with poll Url that member can share */}
                         <div className='share-poll-section'>
-                            Share poll token: &nbsp;
+                            Share poll URL: &nbsp;
                                 <p className='poll-url'>
                                     {pollUrl}
                                 </p>
