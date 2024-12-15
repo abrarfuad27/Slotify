@@ -99,12 +99,17 @@ const PollAccess = () => {
       });
 
       if (response.status === 200) {
-        setPollData(response.data);
+        const fetchedPollData = response.data;
+        if (!fetchedPollData.isActive) {
+          setErrorMessage('This poll is closed and no longer accepting votes.');
+          return;
+        }
+        setPollData(fetchedPollData);
       } else {
         openErrorModal('Poll not found. Please try again.');
       }
     } catch (error) {
-      openErrorModal('Poll not found. Please search for a different poll.');
+      openErrorModal('Error fetching poll data. Please try again.');
     }
   };
 
@@ -115,14 +120,16 @@ const PollAccess = () => {
   const handleVoteSubmit = async () => {
     setErrorMessage('');
     setSuccessMessage('');
-
+  
     if (!selectedSlot) {
       setErrorMessage('Please select a timeslot before submitting.');
       return;
     }
   
     if (pollData && !pollData.isActive) {
-      setErrorMessage('This poll is closed and no longer accepting votes.');
+      if (!showErrorModal) {
+        setErrorMessage('This poll is closed and no longer accepting votes.');
+      }
       return;
     }
   
@@ -130,7 +137,7 @@ const PollAccess = () => {
       const response = await axios.post(`${publicUrl}/voteOnSlot`, {
         pollSlotId: selectedSlot,
       });
-
+  
       if (response.status === 200) {
         setSuccessMessage(
           `Your vote has been submitted successfully for poll ${pollData.pollName}!`
@@ -146,8 +153,7 @@ const PollAccess = () => {
         openErrorModal('Error submitting your vote.');
       }
     }
-  };
-  
+  };  
 
   return (
     <div className="poll-access-page">
@@ -177,7 +183,9 @@ const PollAccess = () => {
           </div>
         </div>
       </div>
-      {errorMessage && <p className="poll-access-error-message">{errorMessage}</p>}
+      {!showErrorModal && errorMessage && (
+        <p className="poll-access-error-message">{errorMessage}</p>
+      )}
       {pollData && (
         <div className="poll-details">
           <div className="poll-details-more">
