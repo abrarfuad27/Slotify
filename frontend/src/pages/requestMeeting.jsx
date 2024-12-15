@@ -137,7 +137,7 @@ const RequestMeeting = () => {
 
                         <div className="request-form">
                             <div className="form-row">
-                                <label>Date:</label>
+                                <label>Date: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="date"
                                     value={date}
@@ -146,7 +146,7 @@ const RequestMeeting = () => {
                                 />
                             </div>
                             <div className="form-row">
-                                <label>Start:</label>
+                                <label>Start: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="time"
                                     value={startTime}
@@ -155,7 +155,7 @@ const RequestMeeting = () => {
                                 />
                             </div>
                             <div className="form-row">
-                                <label>End:</label>
+                                <label>End: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="time"
                                     value={endTime}
@@ -164,7 +164,7 @@ const RequestMeeting = () => {
                                 />
                             </div>
                             <div className="form-row">
-                                <label>Topic:</label>
+                                <label>Topic: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="text"
                                     value={topic}
