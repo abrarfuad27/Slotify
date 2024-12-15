@@ -1,40 +1,130 @@
+ /* Christina Chen */
+ /* Main Page Styling */
 .poll-management {
     width: 100vw;
     height: 100vh;
 }
+
+/* General Text Styling */
+.poll-management h2 {
+    color: #085A77;
+    text-align: center;
+}
+.poll-management-content h1 {
+    color: #3d0db2;
+}
+
+/* General Modal Text Styling */
+.poll-modal .modal-content h2 {
+    color: #085A77;
+}
+
+.poll-modal .modal-content h3 {
+    color: #085A77;
+    font-size: large;
+}
+
+/* Main Content Styling */
 .poll-management-content {
+    background-color: #FFFBF5;
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.poll-management-content h1 {
-    color: #3d0db2;
+
+/* General Poll Modal Styling */
+.poll-modal .end-poll-btn, .poll-modal .close-modal-btn{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #085a77;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+.poll-modal .close-modal-btn {
+    margin-top: 60px;
 }
 
-/* Modal Styling */
+.poll-modal .end-poll-btn:hover, .poll-modal .close-modal-btn:hover{
+    background-color: #034459;
+}
+
+/* Poll Bar Chart Modal Styling */
 .poll-modal {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    background: white;
+    padding: 26px;
+    padding-top: 42px;
+    border-radius: 10px;
+    width: 45%;
+    height: 80vh;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 }
+
 .poll-modal .modal-content {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0px;
+    box-shadow: none;
+}
+
+p.poll-url{
+    font-weight: bold;
+}
+/* Confirmation Modal Styling */
+.confirmation-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    height: 20%;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.confirmation-modal div{
+    display: flex;
+    flex-direction: row;
+}
+.confirmation-modal button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #085a77;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.confirmation-modal .confirm-no {
+    background-color: #CF1C13;
+}
+
+.confirmation-modal .confirm-yes {
+    margin-right: 5%;
 }
 
 /* Modal Button Styling */
 .poll-modal .end-poll-btn {
     background-color: #CF1C13;
-    width: 15%;
+    width: 23%;
+
 }
 .poll-modal .close-modal-btn {
     background: none;
@@ -43,4 +133,84 @@
     align-self: flex-end;
     margin-top: 0px;
     margin-left: 0px;
+}
+
+/* Active Poll Modal Information Styling */
+.active-poll-info { 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.share-poll-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.share-poll-section .modal-link {
+    font-size: small;
+}
+.share-poll-section .copy-icon-btn {
+    width: 3vw;
+    min-width: 20px;
+    margin:0px;
+}
+
+.active-poll-info .copy-confirmation {
+    color: #5EE044;
+    font-weight: bold;
+    min-height: 20px;
+}
+.display .poll-ended-msg {
+    display: none;
+}
+
+/* Inactive Poll Modal Information Styling  */
+.do-not-display button, .do-not-display div{
+    display: none;
+}
+.do-not-display p {
+    display: block;
+    color: red;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.link {
+    text-decoration: underline;
+}
+.link:hover{
+    cursor: pointer;
+}
+
+/* Copy Icon Styling */
+.poll-modal .copy-icon-btn {
+    width: 2vw;
+}
+.poll-modal .copy-icon-btn:hover{
+    cursor: pointer;
+}
+.poll-modal .copy-icon-btn img {
+    width:70%;
+    height:auto;
+    min-width: 22px;
+    margin-left:20%;
+}
+
+/* Responsive Styling */
+@media (max-width: 1200px) {
+    .poll-modal, .modal-content{
+        width: 65%;
+    }
+}
+
+@media (max-width: 900px) {
+    .poll-modal, .modal-content{
+        width: 80%;
+    }
+}
+@media (max-width: 800px) {
+    .poll-modal, .modal-content{
+        width: 90%;
+    }
 }

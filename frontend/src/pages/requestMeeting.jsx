@@ -30,7 +30,6 @@ const RequestMeeting = () => {
     const [curDate, setCurDate] = useState('');
     const { user } = useAuth();
     const { email } = useParams();
-    const create = "salomon.lavyperez@mail.mcgill.ca";
     const location = useLocation();
     const navigate = useNavigate();
 

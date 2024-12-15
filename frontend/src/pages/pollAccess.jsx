@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const PollAccess = () => {
   const { user, isLoading } = useAuth();
+  // eslint-disable-next-line
   const [userEmail, setUserEmail] = useState("");
   const [previousUserState, setPreviousUserState] = useState(null);
 

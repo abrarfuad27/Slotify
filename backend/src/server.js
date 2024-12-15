@@ -1,4 +1,7 @@
-
+// Abrar Mohammad Fuad
+// Christina Chen
+// Salomon Lavy Perez
+// Samuel Lin
 const { backendPort, frontendUrl } = require("./constants.js");
 const express = require("express");
 const cors = require("cors");
@@ -38,7 +41,6 @@ app.use(express.json());
 // Route to handle registration
 app.post("/userRegister", async (req, res) => {
   const userData = req.body;
-  console.log("Received registration data:", userData);
   try {
     const result = await registerUser(userData);
     res.status(201).json({ status: "success", message: result });
@@ -81,7 +83,6 @@ app.get("/upcomingAppointments", async (req, res) => {
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
-    console.log(error.message); // log for programmer debugging
   }
 });
 
@@ -96,7 +97,6 @@ app.get("/upcomingCreatorAppointments", async (req, res) => {
 
 app.post("/createPollAndSlots", async (req, res) => {
   const pollData = req.body;
-  console.log("Received poll data:", pollData);
   try {
     const result = await createPollAndSlots(pollData);
     res.status(201).json({ status: "success", message: result });
@@ -155,7 +155,6 @@ app.post("/bookTimeslot", async (req, res) => {
 app.get("/meetingHistory", async (req, res) => {
   try {
     const result = await getMeetingHistory(req.query); // Use req.query instead of req.body for GET requests
-    console.log(req)
     res.json({ data: result }); // Send the resolved data as JSON
   } catch (error) {
     res.status(400).json({ message: error });
@@ -165,7 +164,6 @@ app.get("/meetingHistory", async (req, res) => {
 app.get("/meetingCreatorHistory", async (req, res) => {
   try {
     const result = await getCreatorMeetingHistory(req.query); // Use req.query instead of req.body for GET requests
-    console.log(req)
     res.json({ data: result }); // Send the resolved data as JSON
   } catch (error) {
     res.status(400).json({ message: error });
@@ -225,22 +223,18 @@ app.post("/createAppointmentOnRequest", async (req, res) => {
 // Route to handle appointment creation
 app.post("/createAppointments", async (req, res) => {
   try {
-    const result = await createAppointments(req.body, res);
-    // console.log(res.json(result));
+    const result = await createAppointments(req.body);
     res.status(201).json({ status: "success", message: result });
   } catch (error) {
     res.status(400).json({ message: error });
   }
 });
 
-// TODO PUT THE THING ON the server one
 // Route to get managed active/inactive polls
 app.get("/getManagedPolls", async (req, res) => {
   try {
-    const result = await getManagedPolls(req.query, res); 
-    // console.log(res.json(result));
+    const result = await getManagedPolls(req.query); 
     res.json(result);
-    // res.status(201).json({ status: "success", message: result });
   } catch (error) {
     res.status(400).json({ message: error });
   }
@@ -251,7 +245,6 @@ app.put("/endPoll", async (req, res) => {
   try {
     const { pollId } = req.body;
     const result = await endPoll(pollId, res); 
-    // console.log(res.json(result));
     res.status(201).json({ status: "success", message: result });
 
   } catch (error) {

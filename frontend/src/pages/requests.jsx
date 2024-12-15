@@ -18,6 +18,7 @@ const Requests = () => {
 
     useEffect(() => {
         fetchRequests();
+        // eslint-disable-next-line
     }, []);
 
     const fetchRequests = async () => {

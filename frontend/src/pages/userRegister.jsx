@@ -60,7 +60,6 @@ export default function RegisterPage() {
 
     try {
       const response = await axios.post(`${publicUrl}/userRegister`, userData);
-      console.log("Server Response:", response.data); // Display the server response
 
       setModalMessage(response.data.message); // Set success message from server
       setIsSuccess(true); // Mark as a success response

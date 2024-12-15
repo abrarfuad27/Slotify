@@ -1,4 +1,4 @@
-
+/* Christina Chen */
 .dashboard-card {
     width:50vw;
     height:18vh;
@@ -38,43 +38,17 @@
     font-weight: bold;
 }
 
-/* Laptop (max-width: 1440px) */
+/* Responsive Styling */
 @media (max-width: 1440px) {
     .dashboard-card {
         width: 50vw;
     }
 }
 
-/* Laptop (max-width: 1038px) */
-@media (max-width: 1038px) {
-    /* .dashboard-card {
-        min-height: 175px;
-    } */
-}
-
-/* Tablets (max-width: 800px) */
 @media (max-width: 800px) {
-    /* .dashboard-card {
-        min-height: 175px;
-    } */
-    /* .card-content {
-        margin-left: 0px;
-    } */
     .dashboard-card {
         /* width: 100%; */
         min-width: 350px;
         min-height: 175px;
     }
 }
-
-/* Smartphones (max-width: 425px) */
-/* @media (max-width: 425px) {
-    .dashboard-card {
-        width: 100%;
-        min-width: 350px;
-        min-height: 175px;
-    }
-    .card-content {
-        margin-left: 0px;
-    }
-} */

@@ -1,7 +1,8 @@
+ /* Christina Chen */
+ /* Main Page Styling */
 .appt-creation {
-    height: 100vh;
+    height: 130vh;
     width: 100vw;
-    background-color: #FFFBF5;
 }
 
 .create-appt-icon {
@@ -9,11 +10,10 @@
     object-fit: cover;
 }
 .create-appt-content {
-    height: 100%;
+    height: 90%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
     align-items: center;
 }
 
@@ -23,6 +23,48 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height : 20%;
+    height : 15%;
     color: #3d0db2;
+}
+
+/* Success Modal Styling */
+.created-appt-url-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.created-appt-url-section .copy-icon-btn {
+    width: 3vw;
+    min-width: 60px;
+    margin:0px;
+}
+.created-appt-url-section .copy-icon-btn:hover{
+    cursor: pointer;
+}
+.created-appt-url-section .copy-icon-btn img {
+    width:100%;
+    height:auto;
+}
+
+.created-appt-url-section img {
+    border-radius: 5px;
+}
+p.appt-url{
+    font-weight: bold;
+}
+
+.modal .appt-copy-confirmation {
+    color: #5EE044;
+    font-weight: bold;
+    min-height: 18px;
+}
+
+/* Responsive Styling */
+@media (max-width: 800px){
+    .created-appt-url-section .copy-icon-btn {
+        width: 3vw;
+        min-width: 50px;
+        margin:0px;
+    }
 }

@@ -1,3 +1,4 @@
+// Christina Chen
 import React from 'react';
 import NavBarUser from '../components/navbarUser';
 import Footer from '../components/footer';
@@ -26,21 +27,21 @@ const Landing = () => {
         {/* Content Section */}
         <div className='content'>
             <div className='content-item' id='item1'>
-                <img src={schedule_icon}></img>
+                <img src={schedule_icon} alt='Schedule icon'></img>
                 <h3>Easy scheduling for office hours</h3>
                 <p>Professors and TAs can set up regular office hours, 
                     making it simple for students to view and book available time slots.</p>
             </div>
             
             <div className='content-item' id='item2'>
-                <img src={meeting_icon}></img>
+                <img src={meeting_icon} alt='Meeting icon'></img>
                 <h3>One-time meeting creation</h3>
                 <p>Create unique, non-recurring meetings for 
                     special appointments or  discussions, ensuring flexibility in scheduling.</p>
             </div>
 
             <div className='content-item' id='item3'>
-                <img src={appointment_icon}></img>
+                <img src={appointment_icon} alt='Appointment icon'></img>
                 <h3>Centralized appointment history</h3>
                 <p>Access a clear, organized list of all past and 
                     upcoming appointments in one place for quick reference and better time management.</p>

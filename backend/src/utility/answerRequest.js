@@ -2,7 +2,6 @@
 const db = require('./db');
 
 const acceptRequest = async (timeSlotId) => {
-    console.log("Received timeSlotId:", timeSlotId); // Debug log to confirm input
 
     return new Promise((resolve, reject) => {
         db.run(
@@ -15,7 +14,6 @@ const acceptRequest = async (timeSlotId) => {
                     console.error("Database error:", err.message); // Log any database errors
                     reject("Database error: " + err.message); // Reject with error message
                 } else {
-                    console.log("Successfully updated timeSlotId:", timeSlotId); // Debug log for success
                     resolve({ message: "Request status updated to accepted successfully!" }); // Resolve with success message
                 }
             }
@@ -24,7 +22,6 @@ const acceptRequest = async (timeSlotId) => {
 };
 
 const deleteRequest = async (timeSlotId) => {
-    console.log(timeSlotId);
     return new Promise((resolve, reject) => {
         db.run(
             `DELETE FROM TimeSlot

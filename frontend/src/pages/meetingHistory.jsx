@@ -22,6 +22,7 @@ const MeetingHistory = () => {
     // Fetch appointments on mount
     useEffect(() => {
         fetchAppointments();
+        // eslint-disable-next-line
     }, []);
 
     const fetchAppointments = async () => {

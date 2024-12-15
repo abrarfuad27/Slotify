@@ -25,7 +25,6 @@ const createAppointmentOnRequest = async (appointmentData) => {
         course,
         appointmentURL,
     } = appointmentData;
-    console.log(appointmentData)
 
     return new Promise((resolve, reject) => {
         db.run(

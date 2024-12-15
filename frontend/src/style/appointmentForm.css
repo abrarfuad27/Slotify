@@ -1,12 +1,29 @@
+ /* Christina Chen */
 .create-appt-form-div {
-    width: 60vw;
-    height: 65vh;
+    max-width:700px;
+    width: 38vw;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 2% 5% 2%;
+
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 15px;
+    border: 1px solid #ddd;
 }
 
+/* General Text Styling */
+.create-appt-form-div p {
+    color : #085A77;
+}
+
+/* Error message box styling */
+.create-appt-form-div .error-msg {
+    height: 4%;
+    font-size: medium;
+}
 .create-appt-form-div p{
     font-weight: bold;
 }
@@ -16,6 +33,14 @@
     font-weight: bold;
     font-size: 1.1em;
 }
+
+/* General Styling */
+.topic, .day, .form-btn, .course {
+    width: 100%;
+    display: flex;
+}
+
+/* Mode styling */
 .mode {
     display: flex;
     flex-direction: row;
@@ -24,65 +49,89 @@
     height: 5%;
 }
 .mode p {
-    width:10%;
+    width:15%;
 }
-.create-appt-form-div .radio-option {
+
+.mode .radio-option {
     display: flex;
     flex-direction: row;
-
     align-items: center;
     justify-content: left;
-    width: 15%;
+    width: 20%;
+}
+.mode input:hover, .mode label:hover{
+    cursor: pointer;
 }
 
-.create-appt-form-div .radio-option > input {
+.mode .radio-option > input {
     width: 10%;
     margin-bottom: 4%;
 }
 
+/* Course and Topic Styling */
+.course, .topic {
+    flex-direction: column;
+    
+}
 
-.topic, .day, .time-period, .time-of-day, .form-btn, .course {
-    width: 100%;
+.course p, .topic p{
+    height: 1vh;
+}
+
+.course input, .topic input {
+    height: 5vh;
+}
+
+/* Time Period Styling */
+.time-period p{
+    padding-right: 9%;
+}
+.time-period input {
+    width: 49%;
+}
+.time-period input:hover{
+    cursor: pointer;
+}
+
+/* Time of Day Styling */
+.time-of-day, .time-period { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.time-of-day label, .time-period label { 
+    flex: 1; 
     display: flex;
+    flex-direction: row;
+    min-width: 100px; 
 }
 
-.course p{
-    width:20%;
-}
-.course input {
-    width: 80%;
+.time-of-day p{
+    padding-right: 8%;
 }
 
-.topic p {
-    width:11%;
+.time-of-day input {
+    width: 50%;
+    height: 90%;
 }
-.topic input {
-    width : 89%;
+.time-of-day input:hover { 
+    cursor: pointer;
 }
 
+/* Day Styling */
 .day p {
-    width : 11%;
+    width : 18%;
 }
 .day select {
-    width: 15%;
+    width: 25%;
+    height: 92%;
 }
-.time-period p:first-child {
-    width : 15%;
-}
-
-.time-period input {
-    width: 20%;
-    margin-right: 3%;
-    margin-left: 3%;
-}
-.time-of-day p {
-    width: 10%;
-}
-.time-of-day input {
-    width: 15%;
-    margin-right: 10%;
+.day select:hover {
+    cursor: pointer;
 }
 
+/* Form Button Styling */
 .form-btn {
     display: flex;
     flex-direction: row;
@@ -91,19 +140,66 @@
 }
 
 .form-btn button {
-    width: 8vw;
-    height: 5vh;
+    width: 24%;
+    height: 6vh;
     border-radius: 10px;
     color: white;
+    border: none; 
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form-btn button:hover {
+    cursor: pointer;
 }
 
 .form-btn button:first-child {
-    background-color: #085a77;
-    margin-left: 2%;
+    background-color: rgb(8, 90, 119);
+    margin-right: 5%;   
 }
 
 .form-btn button:last-child {
-    background-color: red;
-    margin-right: 2%;
+    background-color: #CF1C13;
 }
-/* TODO font ! */
+
+.form-btn button:hover {
+    background-color: rgb(5, 52, 69);
+}
+
+@media (max-width: 1400px) {
+    .create-appt-form-div {
+        width: 85vw;
+    }
+}
+@media (max-width: 768px) {
+    .create-appt-form-div {
+        width: 85vw;
+        height: 90vh;;
+    }
+    .mode p {
+        width: 25%;
+    }
+    .mode .radio-option{
+        width: 25%;
+    }
+    .day p {
+        width: 33%;
+    }
+    .day select {
+        width: 68%;
+    }
+    .time-of-day, .time-period { 
+        flex-direction: column; 
+    }
+
+    .time-of-day label, .time-period label { 
+        width: 100%; 
+    }
+    .time-of-day input, .time-period input { 
+        width: 67%;
+    }
+    .time-of-day p, .time-period p { 
+        width: 24%;
+    }
+}

@@ -1,3 +1,4 @@
+// Christina Chen
 import React, { useState, useEffect } from 'react';
 import '../style/memberDashboard.css';
 import DashboardCard from '../components/dashboardCard';
@@ -37,11 +38,13 @@ const MemberDashboard = () => {
       max_num_meetings
     };
     getUpcomingAppointments(userData);
+    // eslint-disable-next-line
   }, []);
 
   // update the dashboard with the upcoming meetings
   useEffect(() => {
     displayUpcomingAppointments();
+    // eslint-disable-next-line
   }, [apptTimes]);
 
 
@@ -91,7 +94,6 @@ const MemberDashboard = () => {
 
     // creating the content of the meeting cards
     for (let i = 0; i < apptTimes.length; i++) {
-      console.log(apptTimes[i]);
       data = apptTimes[i];
 
       // indicate whether a member is the creator or appointee of the meeting

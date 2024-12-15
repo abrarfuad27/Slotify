@@ -21,13 +21,12 @@ const getRequests = async (userData, res) => {
                     Member m ON t.appointee = m.email
                 WHERE a.creator = ?
                     AND (t.isRequest = 1 AND t.requestStatus = 'pending')
-                    AND (t.timeslotDate || ' ' || t.endTime) > datetime('now')
+                    AND (t.timeslotDate || ' ' || t.endTime) > datetime('now','localtime')
                 ORDER BY t.timeslotDate, t.endTime`, 
                 [userData.email], async (err, rows) => {
           if (err) {
             reject("Database error: " + err.message);
           } else {       
-            console.log(userData.email)
             resolve(rows);
           }
         });

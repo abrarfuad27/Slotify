@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+// Christina Chen
+import React, { useState } from 'react';
 import '../style/appointmentCreation.css';
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
@@ -7,9 +8,8 @@ import NavBarMember from '../components/navbarMember';
 import Footer from "../components/footer";
 import icon from "../assets/create_appt_icon.png";
 import { publicUrl } from "../constants";
-import Modal from "react-modal"; 
-import copy_icon from "../assets/copy_icon.png";
-
+import Modal from "react-modal";
+import copy_icon from "../assets/copy-icon.png";
 const AppointmentCreation = () => {
   const { user } = useAuth();
   const email = user.email;
@@ -17,9 +17,9 @@ const AppointmentCreation = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [apptLink, setApptLink] = useState('');
+  const [copied, setCopied] = useState(false);
 
-
-
+  // Error modal methods
   const openModal = (message, success) => {
     setModalMessage(message);
     setIsSuccess(success);
@@ -30,75 +30,106 @@ const AppointmentCreation = () => {
     setModalIsOpen(false);
   };
 
+  // Generate url for meetings and polls
+  const generateUrl = (urlLength) => {
+    const tokens = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let url = '';
+
+    // Randomly generate a string of length === urlLength
+    for (let i = 0; i < urlLength; i++) {
+      const randInd = Math.floor(Math.random() * tokens.length);
+      url += tokens[randInd];
+    }
+    return url;
+  }
+
+  // Method to create appointment 
+  const handleSubmit = async (formData) => {
+    try {
+      // Argument validation
+      if (!formData) {
+        throw new Error('Invalid form data');
+      }
+
+      // Create structured request data
+      const requestData = createRequestData(formData);
+
+      // Create appointment in database
+      const response = await axios.post(
+        `${publicUrl}/createAppointments`,
+        { ...requestData },
+        {
+          withCredentials: true,
+        }
+      );
+
+      // Set modal message based on response
+      if (response.data.status === "success") {
+        setApptLink(requestData.appointmentURL);
+        openModal("Appointment created! Save the appointment URL: ", true);
+      }
+      else {
+        openModal(response.data.message || "Error creating appointment.", false);
+      }
+
+    } catch (error) {
+      openModal("Failed to create appointment. Please try again later.", false);
+    }
+  };
+
+  // Preparing data to create appointment
   const createRequestData = (formData) => {
+
+    // If meeting is one-time, the start date === end date
     if (formData.meeting_mode === 'one-time') {
       formData.end_date = formData.start_date;
     }
 
     let requestData = {};
-    // const timeslot_dates = createTimeslotDates(formData);
     const timeslotIds = [];
-    for (let i = 0; i < formData.timeslot_dates.length; i++) { 
-      timeslotIds.push('time' + generateUniqueString(11)); 
+
+    // Generate one meeting Url per timeslot
+    for (let i = 0; i < formData.timeslot_dates.length; i++) {
+      timeslotIds.push('time' + generateUrl(11));
     }
+
+    // Structure request data
     requestData = {
       ...formData,
       'creator': email,
-      'appointmentId' : 'appt'+ generateUniqueString(11),
-      'appointmentURL': generateUniqueString(11),
-      'timeslotIds' : timeslotIds,
+      'appointmentId': 'appt' + generateUrl(11),
+      'appointmentURL': 'slotify.com/appt/' + generateUrl(11),
+      'timeslotIds': timeslotIds,
     }
+
     return requestData;
   };
 
-  const generateUniqueString = (length) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%&!#';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-    return result;
-  }
-
-  const handleSubmit = async (formData) => {
-    if (!formData){
-      // alert("NO BUENO");
-      return;
-    }
-    console.log('HEREREE:', formData);
-    const requestData = createRequestData(formData);
-    console.log('Request data', requestData);
-
-    const response = await axios.post(
-      `${publicUrl}/createAppointments`,
-      {...requestData},
-      {
-        withCredentials: true,
-      }
-    );
-    // console.log(requestData.appointment_data.appointmentURL);
-    if (response.data.status === "success") {
-      setApptLink(requestData.appointmentURL);
-      openModal("Appointment created! Save the appointment token: "+requestData.appointmentURL, true);
-    } else {
-      openModal("There was an error :", false);
+  // Method to copy poll Url to clipboard
+  const copyToClipboard = async (text) => {
+    try {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+        console.error('Could not copy text:', error);
     }
   };
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-  };
+
   return (
-    <div className='appt-creation'>
-      <NavBarMember/>
+    <div className='appt-creation bg'>
+      <NavBarMember />
+
+      {/* Main content */}
       <div className='create-appt-content'>
         <div className='create-appt-header'>
-          <h1>Create an Appointment&nbsp;</h1><img className='create-appt-icon' src={icon}/>
+          <h1>Create an Appointment&nbsp;</h1><img className='create-appt-icon' src={icon} alt='Create appointment header icon' />
         </div>
-
-        <FormComponent onSubmit={handleSubmit}/>
+        <FormComponent onSubmit={handleSubmit} />
       </div>
-      <Footer/>
+      <Footer />
+
+      {/* Error/success modal */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -106,14 +137,28 @@ const AppointmentCreation = () => {
         className="modal"
         overlayClassName="modal-overlay"
       >
+        {/* Modal content */}
         <h2>{isSuccess ? "Success" : "Error"}</h2>
+
+
+        {/* Modal button to copy Url */}
         <p>{modalMessage}</p>
-        <button
-          className="copy-icon-btn"
-          onClick={() => copyToClipboard(apptLink)}
-        >
-          <img src={copy_icon}/>
-        </button>
+        <div className='created-appt-url-section'>
+          <p className='appt-url'>
+            {apptLink}
+          </p>
+          <button
+            className="copy-icon-btn"
+            onClick={() => copyToClipboard(apptLink)}
+            style={{ display: apptLink ? 'inline-flex' : 'none',  background:'none'}}
+          >
+            <img src={copy_icon} alt='Copy icon' />
+          </button>
+        </div>
+        <div className="appt-copy-confirmation">{copied && "Link Copied!"}</div>
+
+
+        {/* Modal closing button */}
         <button
           onClick={() => {
             if (isSuccess) {
@@ -123,130 +168,12 @@ const AppointmentCreation = () => {
             }
           }}
         >
-        OK
+          OK
         </button>
 
       </Modal>
     </div>
-    );
+  );
 };
 
 export default AppointmentCreation;
-
-// import React, { useState } from "react";
-// import NavBarMember from '../components/navbarMember';
-// import '../style/createAppointments.css';
-// import icon from '../assets/create_appt_icon.png';
-// import axios from "axios";
-// import DatePickerForm from "../components/datePicker";
-// import BasicTimePicker from "../components/timeOfDayPicker";
-// const CreateAppointments = () => {
-//     const [topic, setTopic] = useState("");
-
-//     // form data
-//     const [data, setData] = useState({ 
-//                 mode: null, 
-//                 course: null,
-//                 topic : null,
-//                 day : null,
-//                 startDate : null,
-//                 endDate : null,
-//                 startTime : null,
-//                 endTime : null
-//             });
-
-//     const handleSubmit = async (e) => {
-        
-//     };
-//     // TODO : after correct submission tell them to check/delete their appointment through the History tab
-//     return (
-//        <div className='create-appt bg'>
-//             <NavBarMember />
-//             <div className='create-appt-content'>
-//                 <div className='create-appt-header'>
-//                     <h1>Create an Appointment&nbsp;</h1><img className='create-appt-icon' src={icon}/>
-//                 </div>
-
-//                 <div className="create-appt-form-div container-box">
-//                     <form className="create-appt-form-container" onSubmit={handleSubmit}>                     
-                    
-//                         <div className='mode'>
-//                             {/* put red star for required using css */}
-//                             <p>Mode*:</p>
-//                             <div class="radio-option">
-//                                 <input type="radio" id="one-time" name="meeting_mode" value="one-time" required/>
-//                                 <label for="one-time">One-Time</label>
-//                             </div>
-//                             <div class="radio-option">
-//                                 <input type="radio" id="recurring" name="meeting_mode" value="recurring"/>
-//                                 <label for="recurring">Recurring</label><br/>
-//                             </div>
-//                         </div>
-
-//                         <div className='course'>
-//                             {/* not required */}
-//                             <p>Course (optional):</p>
-//                             <input
-//                             type="text"
-//                             value={topic}
-//                             onChange={(e) => setTopic(e.target.value)}
-//                             required
-//                             />
-//                         </div>
-
-//                         <div className='topic'>
-//                             {/* put red star */}
-//                             <p>Topic*:</p>
-//                             <input
-//                             type="text"
-//                             value={topic}
-//                             onChange={(e) => setTopic(e.target.value)}
-//                             required
-//                             />
-//                         </div>
-
-//                         {/* only appears when you select RECURRING*/}
-//                         <div className='day'>
-//                             <p>Day*:</p>
-//                             <select name='day' required>
-//                                 <option disabled selected value> -- choose a day </option>
-//                                 <option>Monday</option> 
-//                                 <option>Tuesday</option> 
-//                                 <option>Wednesday</option> 
-//                                 <option>Thursday</option> 
-//                                 <option>Friday</option> 
-//                                 <option>Saturday</option> 
-//                                 <option>Sunday</option> 
-//                             </select>
-//                         </div>
-
-
-//                         <div className='time-period'>
-//                             <p>Time period*:</p>
-//                             <input type="date" required/>
-//                             <p>to</p>
-//                             {/* dynamically change to required and enforce start <= end if recurrent */}
-//                             <input type="date"/>
-//                         </div>
-
-//                         <div className='time-of-day'>
-//                             <p>Start*:</p>
-//                                 <input type="time" required/>
-//                             <p>End*:</p>
-//                             {/* enforce start time < end time */}
-//                                 <input type="time" required/>
-//                         </div>
-
-//                         <div className='form-btn'>
-//                             <button type='submit' className='confirm'>Confirm</button>
-//                             <button type='submit' className='cancel'>Cancel</button>
-//                         </div>
-                        
-//                     </form>
-//                 </div>
-//             </div>
-//        </div>
-//     );
-// };
-
-// export default CreateAppointments;

@@ -1,13 +1,14 @@
 //Salomon Lavy Perez
+// Christina Chen
 const db = require("./db");
 
 // Retrieve up to N of the upcoming meetings - with meeting time closest to today's date and time
 const getUpcomingAppts = async (userData) => {
 
   try {
-    const {email, max_num_meetings}= userData;
+    const { email, max_num_meetings } = userData;
 
-    // argument validation
+    // Argument validation
     if (!email) {
       throw new Error('Email is missing.');
     }
@@ -33,16 +34,16 @@ const getUpcomingAppts = async (userData) => {
               WHERE (t.appointee = ? OR a.creator = ?) 
                   AND (t.appointee IS NOT NULL)
                   AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
-                  AND (t.timeslotDate || ' ' || t.endTime) > datetime('now')
+                  AND datetime(t.timeslotDate || 'T' || t.endTime) > datetime('now','localtime')
               ORDER BY t.timeslotDate, t.endTime
-              LIMIT ?`, 
-              [email, email, max_num_meetings], (err, rows) => {
-        if (err) {
-          reject("Database error: " + err.message);
-        } else {        
-          resolve({ data: rows });
-        }
-      });
+              LIMIT ?`,
+        [email, email, max_num_meetings], (err, rows) => {
+          if (err) {
+            reject("Database error: " + err.message); // Reject with error
+          } else {
+            resolve({ data: rows }); // Resolve with result
+          }
+        });
     });
     return result;
   } catch (err) {
@@ -50,8 +51,9 @@ const getUpcomingAppts = async (userData) => {
   }
 };
 
+// Salomon Lavy Perez 
 const getCreatorUpcomingAppts = async (userData, res) => {
-  const {email}= userData;
+  const { email } = userData;
 
   return new Promise((resolve, reject) => {
     db.all(`SELECT 
@@ -69,15 +71,15 @@ const getCreatorUpcomingAppts = async (userData, res) => {
             WHERE (a.creator = ?) 
                 AND (t.appointee IS NOT NULL)
                 AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
-                AND (t.timeslotDate || ' ' || t.endTime) > datetime('now')
-            ORDER BY t.timeslotDate, t.endTime`, 
-            [email], async (err, rows) => {
-      if (err) {
-        reject("Database error: " + err.message);
-      } else {        
-        res.json({ data: rows });
-      }
-    });
+                AND datetime(t.timeslotDate || 'T' || t.endTime) > datetime('now','localtime')
+            ORDER BY t.timeslotDate, t.endTime`,
+      [email], async (err, rows) => {
+        if (err) {
+          reject("Database error: " + err.message);
+        } else {
+          res.json({ data: rows });
+        }
+      });
   });
 };
 
