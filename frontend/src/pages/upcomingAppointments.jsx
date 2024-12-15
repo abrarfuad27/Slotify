@@ -24,6 +24,7 @@ const UpcomingAppointments = () => {
    // Fetch appointments on mount
    useEffect(() => {
        fetchAppointments();
+       // eslint-disable-next-line
    }, []);
 
 
