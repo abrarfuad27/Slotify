@@ -81,7 +81,6 @@
 }
 
 p.poll-url{
-    color: #007bff;
     font-weight: bold;
 }
 /* Confirmation Modal Styling */
@@ -189,6 +188,7 @@ p.poll-url{
 .poll-modal .copy-icon-btn img {
     width:70%;
     height:auto;
+    min-width: 22px;
     margin-left:20%;
 }
 

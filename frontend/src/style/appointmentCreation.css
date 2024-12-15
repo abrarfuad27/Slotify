@@ -51,7 +51,6 @@
     border-radius: 5px;
 }
 p.appt-url{
-    color: #007bff;
     font-weight: bold;
 }
 
@@ -61,3 +60,11 @@ p.appt-url{
     min-height: 18px;
 }
 
+/* Responsive Styling */
+@media (max-width: 800px){
+    .created-appt-url-section .copy-icon-btn {
+        width: 3vw;
+        min-width: 50px;
+        margin:0px;
+    }
+}
