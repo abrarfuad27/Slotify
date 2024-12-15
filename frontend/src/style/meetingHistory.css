@@ -11,6 +11,7 @@
     margin: 0;
     width: 100vw;
     font-family: Arial, sans-serif;
+    background: fffbf5;
 }
 
 /* Container */
@@ -19,6 +20,8 @@
     margin: 0 auto;
     padding: 10px; /* Default padding */
     box-sizing: border-box;
+    min-height: 90vh;
+    background: fffbf5;
 }
 
 /* Title Styling */
@@ -42,12 +45,23 @@
     font-size: 1.5rem;
     color: #085A77;
 }
+.err {
+    text-align: center;
+}
 
 /* Table Styling */
+.appointments-table-div {
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 220px; /* Set the maximum height for the container */
+    border-radius: 8px; /* Round the corners of the container */
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.1); /* Add shadow for aesthetics */
+}
+
 .appointments-table {
-    width: 100%;
+    width: 100%; /* Make the table occupy the full width of the container */
     border-collapse: collapse;
     font-size: 1rem; /* Default font size */
+    border-radius: 8px; /* Round the corners of the table */
 }
 
 .appointments-table th,
@@ -61,6 +75,8 @@
     background-color: #085A77;
     color: white;
     font-size: 1rem;
+    position: sticky; 
+    top: 0px; 
 }
 
 .appointments-table tr:nth-child(even) {
@@ -92,10 +108,7 @@
 
 /* Stack table cells vertically on very small screens */
 @media (max-width: 750px) {
-    .container {
-        max-width: 100%; /* Use full width for very small screens */
-        padding: 5px; /* Smaller padding */
-    }
+    
 
     .appointments-table {
         display: flex;
@@ -112,7 +125,8 @@
     .appointments-table tbody tr {
         display: block;
         margin-bottom: 15px;
-        border-bottom: 2px solid #eee;
+        border: 1px solid #ccc; /* Add a clear border */
+        border-radius: 8px;
     }
 
     .appointments-table tbody td {

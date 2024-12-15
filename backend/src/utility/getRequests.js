@@ -26,6 +26,7 @@ const getRequests = async (userData, res) => {
           if (err) {
             reject("Database error: " + err.message);
           } else {       
+            console.log(userData.email)
             resolve(rows);
           }
         });

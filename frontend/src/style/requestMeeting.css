@@ -1,7 +1,6 @@
 .request-meeting-page {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
     min-height: 100vh;
+    background-color: #fffbf5;
 }
 
 .containerRequest {
@@ -11,12 +10,11 @@
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px 30px;
+    padding: 20px 20px;
 }
 
 .page-title {
-    font-size: 2.5rem;
-    color: #085A77;
+    color: #3d0db2;
     margin-bottom: 10px;
     font-weight: bold;
 }
@@ -32,7 +30,7 @@
     color: red;
     font-size: 1rem;
     margin-bottom: 15px;
-    text-align: left;
+    text-align: center;
 }
 
 .request-form {

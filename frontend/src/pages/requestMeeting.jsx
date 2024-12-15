@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarMember from "../components/navbarMember";
 import "../style/requestMeeting.css";
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { publicUrl } from '../constants';
+import Footer from '../components/footer';
 
 const generateRandomId = (length) => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -25,11 +26,21 @@ const RequestMeeting = () => {
     const [course, setCourse] = useState("");
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
+    const [curDate, setCurDate] = useState('');
     const { user } = useAuth();
-    const { creatorEmail } = useParams();
+    const { email } = useParams();
+    const create = "salomon.lavyperez@mail.mcgill.ca";
+    const location = useLocation();
     const navigate = useNavigate();
-    const creator = "salomon.lavyperez@mail.mcgill.ca";
 
+    // Extract 'name' from query params
+    const queryParams = new URLSearchParams(location.search);
+    const name = queryParams.get("name");
+
+    useEffect(() => {
+        const curDate = new Date().toLocaleDateString('en-CA');
+        setCurDate(curDate);
+      }, []);
     // Add a new request
     const handleAdd = () => {
         setError(null); // Clear previous error
@@ -42,7 +53,10 @@ const RequestMeeting = () => {
             setError("Please fill in all fields before adding a request.");
             return;
         }
-
+        if (course && !/^[A-Za-z0-9]+$/.test(course)) {
+            setError("Course must contain only letters and numbers, with no spaces.");
+            return;
+        }
         const now = new Date();
         const selectedDate = new Date(date + "T" + startTime);
 
@@ -74,23 +88,23 @@ const RequestMeeting = () => {
     const handleSubmit = async () => {
         try {
             for (const request of requests) {
-                const appointmentId = generateRandomId(11);
+                const appointmentId = "appt" + generateRandomId(11);
                 const appointmentData = {
-                    appointmentId,
+                    appointmentId: appointmentId,
                     mode: "one-time",
-                    creator,
+                    creator: email,
                     startDate: request.date,
                     endDate: request.date,
                     topic: request.topic,
                     course: request.course,
-                    appointmentURL: "http://slotify.com/" + generateRandomId(11),
+                    appointmentURL: "slotify.com/appt/"+generateRandomId(11),
                 };
 
                 // Create Appointment
                 await axios.post(`${publicUrl}/createAppointmentOnRequest`, appointmentData);
 
                 const timeslotData = {
-                    timeslotID: generateRandomId(11),
+                    timeslotID: "time"+generateRandomId(11),
                     appointmentId,
                     startTime: request.startTime,
                     endTime: request.endTime,
@@ -113,12 +127,13 @@ const RequestMeeting = () => {
     };
 
     return (
+        <div>
         <div className="request-meeting-page">
             <NavbarMember />
+            <h1 className="page-title">Request Meeting</h1>
             <div className="container containerRequest">
-                <h1 className="page-title">Request Meeting</h1>
                 <p className="page-subtitle">
-                    Request alternative time slots (maximum 4).
+                    Request alternative time slots for {name || "User"} (maximum 4).
                 </p>
 
                 {!success ? (
@@ -127,16 +142,17 @@ const RequestMeeting = () => {
 
                         <div className="request-form">
                             <div className="form-row">
-                                <label>Date:</label>
+                                <label>Date: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="date"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
+                                    min={curDate}
                                     required
                                 />
                             </div>
                             <div className="form-row">
-                                <label>Start:</label>
+                                <label>Start: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="time"
                                     value={startTime}
@@ -145,7 +161,7 @@ const RequestMeeting = () => {
                                 />
                             </div>
                             <div className="form-row">
-                                <label>End:</label>
+                                <label>End: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="time"
                                     value={endTime}
@@ -154,10 +170,11 @@ const RequestMeeting = () => {
                                 />
                             </div>
                             <div className="form-row">
-                                <label>Topic:</label>
+                                <label>Topic: <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="text"
                                     value={topic}
+                                    placeholder="Office Hours"
                                     onChange={(e) => setTopic(e.target.value)}
                                     required
                                 />
@@ -166,7 +183,11 @@ const RequestMeeting = () => {
                                 <label>Course:</label>
                                 <input
                                     type="text"
+                                    name="course"
                                     value={course}
+                                    pattern="^[A-Za-z0-9]+$"
+                                    title="Letters and numbers only - no space"
+                                    placeholder="COMP307"
                                     onChange={(e) => setCourse(e.target.value)}
                                 />
                             </div>
@@ -230,6 +251,8 @@ const RequestMeeting = () => {
                     </div>
                 )}
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };
