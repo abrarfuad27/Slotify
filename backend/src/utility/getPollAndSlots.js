@@ -1,8 +1,9 @@
+/* Name: Samuel Lin */
+
 const db = require('./db');
 
 const getPollAndSlots = async (query) => {
   const { pollId } = query;
-  console.log("pollId", pollId);
   if (!pollId) {
     throw new Error('Poll ID is required.');
   }
@@ -19,9 +20,6 @@ const getPollAndSlots = async (query) => {
             reject('Database error while fetching slots: ' + err.message);
           } else {
             resolve({ ...poll, slots });
-            console.log("poll here", poll);
-            console.log("slot here", slots);
-
           }
         });
       }

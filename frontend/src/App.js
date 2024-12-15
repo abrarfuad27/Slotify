@@ -44,10 +44,6 @@ function App() {
               }
             />
             <Route path="/bookAppointment" element={<BookAppointment />} />
-            {/* <Route
-              path="/bookAppointment/:idofAppointment"
-              element={<BookAppointment />}
-            /> */}
 
             <Route
               path="/createPoll"

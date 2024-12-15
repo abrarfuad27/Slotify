@@ -1,5 +1,4 @@
 //Salomon Lavy Perez
-
 .table-container{
     margin: 0 auto;
 }
@@ -20,6 +19,7 @@ footer {
     margin-top: auto; /* Push the footer to the bottom */
 }
 .requests-table {
+    margin: 0 auto;
     margin-top: 1rem;
     width: 800px;
     border-collapse: collapse;

@@ -1,5 +1,4 @@
 //Salomon Lavy Perez
-
 const db = require('./db');
 
 /**

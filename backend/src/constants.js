@@ -1,7 +1,8 @@
+/* Name: Samuel Lin */
+
 // Backend port: change as needed (4000 for local, 5000 for SOCS server)
 const backendPort = 4000;
 // const backendPort = 5000; 
-
 
 // Localhost: port 3000 by default
 const frontendPort = 3000; // Change if needed

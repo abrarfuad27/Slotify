@@ -1,7 +1,9 @@
+/* Name: Samuel Lin */
+
 .poll-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 103vh;
   font-family: Arial, sans-serif;
   width: 100vw;
   background-color: #fffbf5;
@@ -10,20 +12,19 @@
 .poll-header {
   text-align: center;
   color: #3D0DB2;
-  padding-top: 30px;
+  margin: 30px auto;
 }
 
 .poll-container {
   max-width: 700px;
-  margin: auto;
-  margin-top: 20px;
+  margin: 0px auto;
+  margin-bottom: 30px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #fff;
   box-sizing: border-box;
   flex-direction: column;
-  justify-content: top;
   min-height: fit-content;
   position: relative;
 }
@@ -77,59 +78,80 @@ textarea {
   background-color: #064a5b;
 }
 
-.options-list {
-  margin-top: 20px;
+.poll-page .options-list {
+  margin-top: 20px; 
 }
 
-.option-item {
+.poll-page .option-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.poll-create {
+.poll-page .poll-create {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
 
-.poll-options-row {
+.poll-page .poll-options-row {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.poll-options-row label {
+.poll-page .poll-options-row label {
   flex: 1;
   display: flex;
   flex-direction: column;
   font-weight: bold;
 }
 
-.poll-options-row input {
-  width: 100%;
+.poll-page .poll-options-row input {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.poll-options-actions {
+.poll-page .poll-options-row-std {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.poll-page .poll-options-row-std input[type="date"],
+.poll-page .poll-options-row-std input[type="time"] {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
+}
+
+.poll-page .poll-options-row-std label {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+}
+
+.poll-page .poll-options-row-std input {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.poll-page .poll-options-actions {
   margin-top: 10px;
   display: flex;
   justify-content: flex-start;
   gap: 10px;
 }
 
-.poll-page body,
-html {
-  overflow-x: hidden;
-}
-
-.modal-overlay {
+.poll-page .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -142,7 +164,7 @@ html {
   z-index: 1000;
 }
 
-.modal {
+.poll-page .modal {
   background: white;
   width: 80%;
   max-width: 500px;
@@ -153,7 +175,7 @@ html {
   position: relative;
 }
 
-.modal .close-btn {
+.poll-page .modal .close-btn {
   text-align: center;
   border: none;
   font-size: 15px;
@@ -162,17 +184,18 @@ html {
   margin: 10px auto 0;
 }
 
-.modal-title {
+.poll-page .modal-title {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.modal-message {
+.poll-page .modal-message {
   font-size: 16px;
+  margin-bottom: 0px;
 }
 
-.modal-link {
+.poll-page .modal-link {
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
@@ -180,43 +203,109 @@ html {
   cursor: pointer;
 }
 
-.modal-link:hover {
+.poll-page .modal-link:hover {
   text-decoration: underline;
 }
 
-.modal-buttons {
+.poll-page .modal-buttons {
   display: flex;
   justify-content: space-between;
   gap: 5px;
   margin-top: 10px;
 }
 
-.poll-error-message {
+.poll-page .poll-error-message {
   color: red;
 }
 
-.modal-link-container {
+.poll-page .modal-link-container {
+  justify-content: space-between;
   align-items: center;
-  margin-left: 50px;
+  margin-top: 10px;
   gap: 8px;
+  word-wrap:break-word;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
 }
 
-.copy-icon-btn {
+.poll-page .copy-icon-btn {
   background: none !important;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: 0;
+  justify-content: center;
+  align-items: center;
 }
 
-.copy-icon-btn:hover {
+.poll-page .copy-icon-btn:hover {
   color: #0056b3;
 }
 
+.poll-page .copy-icon-img {
+  align-items: center;
+  width: 15px;
+  height: auto;
+}
+
+.poll-page .copy-confirmation {
+  color: green;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.poll-page body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.poll-page input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  min-height: 44px;
+  resize: vertical;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.poll-page .input-group {
+  flex-direction: column;
+  flex: 1 1 30%; /* Default behavior: each input group takes 30% width */
+  min-width: 120px;
+}
+
+.poll-page .poll-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+  padding-left: 2px;
+}
+
+
 @media (max-width: 768px) {
-  .poll-options-row label {
+  .poll-page .poll-options-row label {
     flex: 1 1 100%;
     margin-bottom: 10px;
+  }
+
+  .poll-page .poll-options-row-std {
+    flex-wrap: wrap;
+  }
+
+  .poll-page .poll-container {
+    margin: 0 30px;
+  }
+
+  .poll-page .input-group {
+    flex: 1 1 100%;
   }
 }
 
