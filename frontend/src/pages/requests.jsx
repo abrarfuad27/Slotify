@@ -6,8 +6,12 @@ import "../style/requests.css";
 import { useAuth } from "../context/AuthContext";
 import { publicUrl } from "../constants";
 import Footer from "../components/footer";
+import Modal from "react-modal";
 
 const Requests = () => {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);
     const [groupedRequests, setGroupedRequests] = useState([]);
     const [selectedAppointee, setSelectedAppointee] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -100,6 +104,15 @@ const Requests = () => {
         );
     }
 
+    const openModal = (message, success) => {
+        setModalMessage(message);
+        setIsSuccess(success);
+        setModalIsOpen(true);
+      };
+    
+      const closeModal = () => {
+        setModalIsOpen(false);
+      };
     return (
         <div className="requests-page">
             <NavbarMember />
@@ -126,7 +139,9 @@ const Requests = () => {
                                     <td>
                                         <button
                                             className="view-details-button"
-                                            onClick={() => setSelectedAppointee(appointee)}
+                                            onClick={() => {setSelectedAppointee(appointee);
+                                                openModal('');
+                                            }}
                                         >
                                             View Details
                                         </button>
@@ -139,7 +154,14 @@ const Requests = () => {
             </div>
 
             {selectedAppointee && (
-                <div className="details-modal">
+                <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Appointment Creation Status"
+                className="modal"
+                overlayClassName="modal-overlay"
+                > 
+                    <div className="details-modal">
                     <div className="modal-content">
                         <h2>{selectedAppointee.firstName}'s Proposed Time Slots</h2>
                         <ul className="timeslots-list">
@@ -159,6 +181,7 @@ const Requests = () => {
                                             ✓
                                         </button>
                                         <button
+                                            style={{backgroundColor:'#CF1C13'}}
                                             className="deny-button"
                                             onClick={() => handleAction(req.timeslotID, "deny")}
                                         >
@@ -176,11 +199,23 @@ const Requests = () => {
                         </button>
                     </div>
                 </div>
+                </Modal>
+                
             )}
 
             {confirmationModal && (
-                <div className="confirmation-modal">
-                    <div className="modal-content">
+                <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Appointment Creation Status"
+                className="modal"
+                overlayClassName="modal-overlay"
+                > 
+                
+                {/* <div className="confirmation-modal"> */}
+                <div>
+                    {/* <div className="modal-content"> */}
+                    <div>
                         <h2>Appointment Booked!</h2>
                         <p>
                             Appointment successfully booked with {confirmationModal.name}!
@@ -193,7 +228,9 @@ const Requests = () => {
                         </button>
                     </div>
                 </div>
+                </Modal>
             )}
+            
 
             <Footer />
         </div>
