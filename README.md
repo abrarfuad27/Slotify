@@ -5,6 +5,7 @@ This app facilitates appointments scheduling and booking for students and profes
 
 ## How to run the app:
 Browser : use Chrome
+Website URL : https://fall2024-comp307-group06.cs.mcgill.ca
 
 **Note about the meeting/poll URL** : 
 To find a meeting/poll, we input the URL into the search bar in the "Book Appointment" and "Access Poll" page. **We can't query for an appointment/poll on the browser.**
