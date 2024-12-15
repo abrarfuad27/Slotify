@@ -105,7 +105,7 @@ app.post("/createPollAndSlots", async (req, res) => {
   }
 });
 
-app.get("/pollAndSlots", async (req, res) => {
+app.get("/getPollAndSlots", async (req, res) => {
   try {
     const result = await getPollAndSlots(req.query, res);
     res.json(result);

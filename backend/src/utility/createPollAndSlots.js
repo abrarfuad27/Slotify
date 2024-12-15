@@ -1,3 +1,4 @@
+/* Name: Samuel Lin */
 const db = require("./db");
 
 const createPollAndSlots = async (userData, res) => {

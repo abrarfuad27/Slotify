@@ -1,3 +1,5 @@
+-- Name: Samuel Lin --
+
 -- Members Table --
 
 CREATE TABLE IF NOT EXISTS Member (
