@@ -48,58 +48,9 @@ const AppointmentCreation = () => {
       'appointmentURL': generateUniqueString(11),
       'timeslotIds' : timeslotIds,
     }
-    // requestData.appointment_data = {
-    //   ...formData,
-    //   'creator': email,
-    //   'appointmentId' : 'appt'+ generateUniqueString(11),
-    //   'appointmentURL': generateUniqueString(11)
-    // };
-    // requestData.timeslot_data = {
-    //   'timeslotIds' : timeslotIds,
-    //   'timeslot_dates' : formData.timeslot_dates
-    // }
-
     return requestData;
   };
 
-
-  // // warning : ensure that times are set in correct timezone
-  // const createTimeslotDates = (formData) => {
-  //   if (formData.meeting_mode === 'one-time'){
-  //     return [new Date(formData.start_date)];
-  //   }
-  //   const result = [];
-    
-  //   const startDateParts = formData.start_date.split('-');
-  //   const endDateParts = formData.end_date.split('-');
-
-  //   let curr_date = new Date(
-  //     startDateParts[0],
-  //     startDateParts[1] - 1,
-  //     startDateParts[2]
-  //   );
-
-  //   const end_date = new Date(
-  //     endDateParts[0],
-  //     endDateParts[1] - 1,
-  //     endDateParts[2]
-  //   )
-  //   let timeslot = '';
-  //   while (curr_date <= end_date){
-  //     if (curr_date.getDay() === Number(formData.day)){
-  //       timeslot = curr_date.toISOString().slice(0, 10);
-  //       result.push(timeslot);
-  //     }
-  //     curr_date.setDate(curr_date.getDate() + 1);
-  //   }
-  //   const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday']
-  //   if (!result.length){
-  //     alert(`Invalid start/end date range. The time window is too narrow, and no ${days[formData.day]} falls within the specified period for a recurring meeting.`);
-  //   }
-  //   return result;
-  // };
-
-  //TODO : extract as function
   const generateUniqueString = (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%&!#';
     let result = '';
@@ -133,9 +84,6 @@ const AppointmentCreation = () => {
     } else {
       openModal("There was an error :", false);
     }
-    // alert("Appointment created! Save the URL :" +  requestData.appointmentURL);
-    // alert("Server Response:", response.data); 
-    // console.log("Server Response:", response.data.message);
   };
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);

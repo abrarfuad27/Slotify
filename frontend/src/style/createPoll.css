@@ -1,7 +1,9 @@
+/* Name: Samuel Lin */
+
 .poll-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 103vh;
   font-family: Arial, sans-serif;
   width: 100vw;
   background-color: #fffbf5;
@@ -222,6 +224,8 @@ textarea {
   margin-top: 10px;
   gap: 8px;
   word-wrap:break-word;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
 }
 
 .poll-page .copy-icon-btn {

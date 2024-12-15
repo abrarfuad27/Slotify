@@ -1,3 +1,5 @@
+// Name: Samuel Lin
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "../context/AuthContext";
 import NavbarMember from '../components/navbarMember';
@@ -19,6 +21,8 @@ const PollAccess = () => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -39,6 +43,26 @@ const PollAccess = () => {
     // Update the previous user state
     setPreviousUserState(user);
   }, [user, isLoading, navigate, previousUserState]);
+
+  const openSuccessModal = () => setShowSuccessModal(true);
+  const closeSuccessModal = () => {
+    setPollUrl('');
+    setPollData(null);
+    setSelectedSlot(null);
+    setSuccessMessage('');
+    setErrorMessage('');
+    setShowSuccessModal(false);
+  };
+
+  const openErrorModal = (message) => {
+    setErrorMessage(message);
+    setShowErrorModal(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorMessage('');
+    setShowErrorModal(false);
+  };
 
   const extractPollId = (url) => {
     const match = url.match(/slotify\.com\/poll\/([A-Za-z0-9]{11})/);
@@ -64,7 +88,7 @@ const PollAccess = () => {
       : null;
 
     if (!pollId) {
-      setErrorMessage('Invalid URL or Poll ID format. Please try again.');
+      setErrorMessage('Invalid poll URL or ID. Please try again.');
       return;
     }
 
@@ -76,11 +100,10 @@ const PollAccess = () => {
       if (response.status === 200) {
         setPollData(response.data);
       } else {
-        setErrorMessage('Poll not found. Please try again.');
+        openErrorModal('Poll not found. Please try again.');
       }
     } catch (error) {
-      console.error(error);
-      setErrorMessage('Error fetching poll data. Please try again.');
+      openErrorModal('Poll not found. Please search for a different poll.');
     }
   };
 
@@ -106,22 +129,21 @@ const PollAccess = () => {
       const response = await axios.post(`${publicUrl}/voteOnSlot`, {
         pollSlotId: selectedSlot,
       });
-  
+
       if (response.status === 200) {
         setSuccessMessage(
-          `Your vote has been submitted successfully for poll "${pollData.pollName}"!`
+          `Your vote has been submitted successfully for poll ${pollData.pollName}!`
         );
-        setPollData({
-          ...pollData,
-          slots: [], // Clear slots to indicate voting is complete
-        });
-      }
-       else {
-        setErrorMessage('Failed to submit vote. Please try again.');
+        openSuccessModal();
+      } else {
+        openErrorModal('Failed to submit vote. Please try again.');
       }
     } catch (error) {
-      console.error(error);
-      setErrorMessage('Error submitting your vote. Please try again.');
+      if (error.response && error.response.data) {
+        openErrorModal(error.response.data.message || 'Error submitting your vote. Please try again.');
+      } else {
+        openErrorModal('Error submitting your vote.');
+      }
     }
   };
   
@@ -154,54 +176,87 @@ const PollAccess = () => {
           </div>
         </div>
       </div>
+      {errorMessage && <p className="poll-access-error-message">{errorMessage}</p>}
       {pollData && (
         <div className="poll-details">
-          {errorMessage && <p className="poll-access-error-message">{errorMessage}</p>}
           <div className="poll-details-more">
             <h1>{pollData.pollName}</h1>
             <h3>Poll Question: <strong>{pollData.pollQuestion}</strong></h3>
             <p>
               <strong>Poll Owner:</strong> {pollData.creator}
             </p>
-            {!successMessage && (
-              <div className="poll-slots">
-                {pollData.slots.map((slot) => {
-                  const date = new Date(slot.pollingSlotDate);
-              
-                  const day = date.getDate();
-                  const month = date.toLocaleString("en-US", { month: "short" });
-                  const year = date.getFullYear();
-                  const suffix = ["th", "st", "nd", "rd"][
-                    (day % 10 > 3 || Math.floor((day % 100) / 10) === 1) ? 0 : day % 10
-                  ];
-                  const formattedDate = `${month} ${day}${suffix}, ${year}`;
-              
-                  // Parse the start and end times
-                  const startTime = new Date(`${slot.pollingSlotDate}T${slot.startTime}`);
-                  const endTime = new Date(`${slot.pollingSlotDate}T${slot.endTime}`);
-              
-                  const timeOptions = { hour: "numeric", minute: "2-digit", hour12: true };
-              
-                  const formattedStartTime = new Intl.DateTimeFormat("en-US", timeOptions).format(startTime);
-                  const formattedEndTime = new Intl.DateTimeFormat("en-US", timeOptions).format(endTime);
-              
-                  return (
-                    <div
-                      key={slot.pollSlotId}
-                      className={`poll-slot ${selectedSlot === slot.pollSlotId ? "selected" : ""}`}
-                      onClick={() => handleSlotSelect(slot.pollSlotId)}
-                    >
-                      {formattedDate} | {formattedStartTime} - {formattedEndTime}
-                    </div>
-                  );
-                })}
-                <button className="poll-submit-vote-btn" onClick={handleVoteSubmit}>
-                  Submit
+            <div className="poll-slots">
+              {pollData.slots.map((slot) => {
+                const date = new Date(slot.pollingSlotDate);
+            
+                const day = date.getDate();
+                const month = date.toLocaleString("en-US", { month: "short" });
+                const year = date.getFullYear();
+                const suffix = ["th", "st", "nd", "rd"][
+                  (day % 10 > 3 || Math.floor((day % 100) / 10) === 1) ? 0 : day % 10
+                ];
+                const formattedDate = `${month} ${day}${suffix}, ${year}`;
+            
+                // Parse the start and end times
+                const startTime = new Date(`${slot.pollingSlotDate}T${slot.startTime}`);
+                const endTime = new Date(`${slot.pollingSlotDate}T${slot.endTime}`);
+            
+                const timeOptions = { hour: "numeric", minute: "2-digit", hour12: true };
+            
+                const formattedStartTime = new Intl.DateTimeFormat("en-US", timeOptions).format(startTime);
+                const formattedEndTime = new Intl.DateTimeFormat("en-US", timeOptions).format(endTime);
+            
+                return (
+                  <div
+                    key={slot.pollSlotId}
+                    className={`poll-slot ${selectedSlot === slot.pollSlotId ? "selected" : ""}`}
+                    onClick={() => handleSlotSelect(slot.pollSlotId)}
+                  >
+                    {formattedDate} | {formattedStartTime} - {formattedEndTime}
+                  </div>
+                );
+              })}
+              <button className="poll-submit-vote-btn" onClick={handleVoteSubmit}>
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showSuccessModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="poll-modal-title">Vote Casted!</div>
+            <div className="poll-success-message">
+              {successMessage}
+            </div>
+            <div className="poll-modal-link-container">
+              <div className="poll-modal-buttons">
+                <button
+                  className="close-btn"
+                  onClick={() =>
+                    (window.location.href = `/memberDashboard`)
+                  }
+                >
+                  Return To Dashboard
+                </button>
+                <button className="close-btn" onClick={() => closeSuccessModal()}>
+                  Vote on Another Poll
                 </button>
               </div>
-            )}
+            </div>
           </div>
-          {successMessage && <p className="poll-success-message">{successMessage}</p>}
+        </div>
+      )}
+      {showErrorModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="poll-modal-title">Error fetching or submitting poll data</div>
+            <div className="poll-success-message">
+              {errorMessage}
+            </div>
+            <button onClick={closeErrorModal}>Close</button>
+          </div>
         </div>
       )}
       <Footer />

@@ -1,3 +1,5 @@
+/* Name: Samuel Lin */
+
 import React, { useState } from 'react';
 import NavbarMember from '../components/navbarMember';
 import Footer from '../components/footer';
@@ -129,7 +131,7 @@ const CreatePoll = () => {
     }
   
     const pollId = generateRandomId();
-    const pollUrl = `http://slotify.com/poll/${pollId}`;
+    const pollUrl = `slotify.com/poll/${pollId}`;
     const creator = email;
   
     const slots = pollOptions.map((option) => {

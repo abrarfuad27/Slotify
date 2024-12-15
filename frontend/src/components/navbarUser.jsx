@@ -1,3 +1,5 @@
+/* Name: Abrar Fuad Mohammad, Samuel Lin */
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../style/navbarUser.css";

@@ -1,14 +1,13 @@
-/* Main container styling */
+/* Name: Samuel Lin */
+
 .poll-access-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 103vh;
   width: 100vw;
   background-color: #fffbf5;
   font-family: 'Arial', sans-serif;
 }
-
-/* Form styling */
 
 .poll-access-page .poll-header {
   margin-bottom: 20px;
@@ -41,7 +40,7 @@
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .poll-access-page .poll-url-input-container {
@@ -83,14 +82,12 @@
   background-color: #81B5D1;
 }
 
-/* Error message styling */
 .poll-access-page .poll-access-error-message {
   color: red;
   margin-top: 10px;
   font-size: 14px;
+  text-align: center;
 }
-
-/* Poll details styling */
 
 .poll-access-page .poll-slots {
   margin-top: 10px;
@@ -149,13 +146,69 @@
   font-size: 24px;
 }
 
+.poll-access-page .poll-modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #085A77;
+}
+
 .poll-access-page .poll-success-message {
-  color: green;
-  max-width: 400px;
+  color: black;
+  max-width: 800px;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 16px;
   margin-top: 30px;
+}
+
+.poll-access-page .poll-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.poll-access-page .modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.poll-access-page .poll-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.poll-page .modal .close-btn {
+  text-align: center;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto 0;
+}
+
+.poll-access-page .close-btn:hover {
+  background-color: #064a5b;
+}
+
+@media (max-width: 600px) {
+  .poll-modal {
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 6px;
+  }
 }

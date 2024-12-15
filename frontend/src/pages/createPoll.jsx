@@ -1,3 +1,5 @@
+// Name: Samuel Lin
+
 import React, { useState, useEffect } from "react";
 import NavbarMember from "../components/navbarMember";
 import Footer from "../components/footer";
@@ -131,7 +133,7 @@ const CreatePoll = () => {
     }
   
     const pollId = generateRandomId();
-    const pollUrl = `http://slotify.com/poll/${pollId}`;
+    const pollUrl = `slotify.com/poll/${pollId}`;
     const creator = email;
   
     const slots = pollOptions.map((option) => {
@@ -309,23 +311,18 @@ const CreatePoll = () => {
           <div className="modal">
             <div className="modal-title">Poll Created Successfully!</div>
             <div className="modal-message">
-              Your poll has been created. Click the link below to view your poll:
+              Your poll has been created! Save the link below to share it with others.
             </div>
             <div className="modal-link-container">
-              <a
-                href={pollLink}
-                className="modal-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {pollLink}&nbsp; &nbsp; 
-              </a>
-              <button
+              <p>
+                {pollLink}&nbsp;
+                <button
                 className="copy-icon-btn"
                 onClick={() => copyToClipboard(pollLink)}
-              >
+                >
                 <img src={copy_icon} className="copy-icon-img" alt="Copy Icon" />
               </button>
+              </p>
             </div>
             {copied && <label className="copy-confirmation">Link Copied!</label>}
             <div className="modal-buttons">
