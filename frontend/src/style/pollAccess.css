@@ -10,7 +10,12 @@
 }
 
 .poll-access-page .poll-header {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.poll-access-page .poll-access-subtitle {
+  font-weight: none;
+  font-size: 16px;
 }
 
 .poll-access-page .poll-access-container {
@@ -35,12 +40,13 @@
 }
 
 .poll-access-page .poll-url-input {  
-  width: 300px;
+  width: 350px;
   padding: 10px 10px 10px 35px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 30px;
   margin-bottom: 10px;
+  height: 1.4375em;
 }
 
 .poll-access-page .poll-url-input-container {

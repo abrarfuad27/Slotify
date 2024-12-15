@@ -52,6 +52,7 @@ export default function BookAppointmentSearchBar({ url, setURL, onSearch }) {
         sx={{
           width: "350px", // Set the desired width
           "& .MuiOutlinedInput-root": {
+            backgroundColor: "white",
             borderWidth: "1px", // Increase border width
             borderRadius: "30px", // Set border radius
             "& fieldset": {

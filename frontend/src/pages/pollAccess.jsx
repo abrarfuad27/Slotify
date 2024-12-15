@@ -154,7 +154,7 @@ const PollAccess = () => {
       {user ? <NavbarMember /> : <NavbarUser />}
       <h1 className="poll-header">Vote on a Poll!</h1>
       <div className="poll-access-container">
-        <h3>Enter the poll URL or ID</h3>
+        <p className="poll-access-subtitle">Enter the poll URL or ID</p>
         <div className="poll-url-input-container">
           <div className="input-with-icon">
             <SearchIcon 

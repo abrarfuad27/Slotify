@@ -25,7 +25,7 @@ const registerUser = async (userData) => {
               if (err) {
                 reject("Failed to register user: " + err.message);
               } else {
-                resolve("Your Slotify account has been registerd successfully");
+                resolve("Your Slotify account has been registered successfully");
               }
             }
           );
