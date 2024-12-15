@@ -146,7 +146,8 @@
     color: white;
     border: none; 
     outline: none;
-
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .form-btn button:hover {
@@ -160,6 +161,10 @@
 
 .form-btn button:last-child {
     background-color: #CF1C13;
+}
+
+.form-btn button:hover {
+    background-color: rgb(5, 52, 69);
 }
 
 @media (max-width: 1400px) {
