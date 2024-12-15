@@ -68,7 +68,7 @@ const UpcomingAppointments = () => {
 
 
    return (
-       <div className="meeting-history-page">
+       <div className="bg meeting-history">
        <NavbarMember />
        <div className="container">
            <h1 className="page-title">History</h1>
