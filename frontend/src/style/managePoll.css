@@ -138,7 +138,6 @@ p.poll-url{
 }
 .share-poll-section {
     display: flex;
-    /* flex-direction: row; */
     flex-wrap: wrap;
     align-items: center;
 }
