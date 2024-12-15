@@ -1,3 +1,4 @@
+//Salomon Lavy Perez
 const db = require('./db');
 
 /**
@@ -24,6 +25,7 @@ const createAppointmentOnRequest = async (appointmentData) => {
         course,
         appointmentURL,
     } = appointmentData;
+    console.log(appointmentData)
 
     return new Promise((resolve, reject) => {
         db.run(

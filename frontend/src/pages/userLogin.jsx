@@ -1,8 +1,8 @@
+// Abrar Mohammad Fuad; 261083785
 import React, { useState } from "react";
 import "../style/userLogin.css"; // Import the CSS file
 import NavBarUser from "../components/navbarUser";
 import Footer from "../components/footer";
-import axios from "axios";
 import Modal from "react-modal"; // Import React Modal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { useAuth } from "../context/AuthContext"; // Import useAuth hook
@@ -19,6 +19,7 @@ export default function LoginPage() {
   const navigate = useNavigate(); // Initialize useNavigate
   const { login } = useAuth(); // Access login function from AuthContext
 
+  // check if all input fields are filled
   const validateInputs = () => {
     const newErrors = { email: "", password: "" };
     if (!email.trim()) newErrors.email = "Email is required.";
@@ -138,7 +139,7 @@ export default function LoginPage() {
             <button
               onClick={() => {
                 if (isSuccess) {
-                  navigate("/memberDashboard"); // Redirect to the root page if login is successful
+                  navigate("/memberDashboard"); // Redirect to the dashboard page if login is successful
                 } else {
                   closeModal(); // Close the modal if there's an error
                 }

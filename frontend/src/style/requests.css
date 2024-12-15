@@ -1,7 +1,30 @@
+//Salomon Lavy Perez
+.table-container{
+    margin: 0 auto;
+}
+.requests-page {
+    display: flex;
+    flex-direction: column; /* Arrange content vertically */
+    min-height: 103vh; /* Full viewport height */
+    margin-bottom: 0;
+    background-color: #fffbf5;
+}
+.page-title {
+    color: #3d0db2;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+footer {
+    margin-top: auto; /* Push the footer to the bottom */
+}
 .requests-table {
-    width: 100%;
+    margin-top: 1rem;
+    width: 800px;
     border-collapse: collapse;
-    margin-top: 2.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 .requests-table th,
@@ -15,9 +38,17 @@
     background-color: #085A77;
     color: white;
 }
+.requests-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
+.requests-table tr:hover {
+    background-color: #e6f7ff;
+}
+.err{
+    text-align: center !important;
+}
 .view-details-button {
-    color: #3498db;
     text-decoration: underline;
     cursor: pointer;
     background: none;
@@ -34,6 +65,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.no-requests-message {
+    text-align: center;
+}
+
+.containerRequests {
+    max-width: 800px;
+    margin: 1.5rem auto;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+    max-height: 150px;
 }
 
 .modal-content {
@@ -73,7 +118,7 @@
 }
 
 .close-details-button {
-    background-color: #3498db;
+    background-color: #085A77;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -83,11 +128,46 @@
     width: 100%;
     text-align: center;
 }
+.confirmation-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation-modal .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+}
+
+.close-modal-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #085A77;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
 
 /* Responsive Design */
 
 /* Tablet (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
+    .requests-table{
+        width: 500px;
+    }
     .requests-table th,
     .requests-table td {
         font-size: 0.9rem;
@@ -102,8 +182,9 @@
 /* Mobile (max-width: 520px) */
 @media (max-width: 520px) {
     .requests-table {
+        width: 100%;
         display: block;
-        overflow-x: auto;
+        margin: 10px auto;
     }
 
     .requests-table thead {
@@ -112,7 +193,7 @@
 
     .requests-table tbody tr {
         display: block;
-        margin-bottom: 15px;
+        margin-top: 15px;
         border-radius: 8px;
         border: 1px solid #ccc; /* Add a nice border around each row */
         background-color: #f8f9fa;
@@ -140,26 +221,5 @@
 
     .modal-content {
         width: 90%;
-    }
-}
-
-/* Extra small screens (max-width: 425px) */
-@media (max-width: 425px) {
-    .requests-table tbody td {
-        font-size: 0.8rem;
-        padding: 6px;
-    }
-
-    .close-details-button {
-        font-size: 0.9rem;
-        padding: 8px 15px;
-    }
-
-    .requests-table tbody tr {
-        margin-bottom: 10px;
-        padding: 8px; /* Adjust padding */
-        border: 1px solid #ddd; /* Add an outline for a clear separation */
-        background-color: #fff; /* Keep it clean and professional */
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Slightly enhance shadow */
     }
 }

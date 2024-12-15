@@ -1,5 +1,4 @@
 /* Name: Abrar Fuad Mohammad, Samuel Lin */
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../style/navbarUser.css";
@@ -40,7 +39,7 @@ const NavBarUser = () => {
           </li>
         </ul>
         <div className="auth-buttons">
-          <Link to="/userLogin" className="auth-button login-button">
+          <Link to="/userLogin" window className="auth-button login-button">
             Log In
           </Link>
           <Link to="/userRegister" className="auth-button signup-button">

@@ -1,3 +1,4 @@
+// Abrar Mohammad Fuad; 261083785
 import React, { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,6 +7,7 @@ import "../style/searchBarBook.css";
 export default function BookAppointmentSearchBar({ url, setURL, onSearch }) {
   const [touched, setTouched] = useState(false);
 
+  // Function to handle search click through prop function onSearch
   const handleSearchClick = () => {
     setTouched(true);
     onSearch(url);
@@ -23,7 +25,7 @@ export default function BookAppointmentSearchBar({ url, setURL, onSearch }) {
           }
         }}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter") { // If the user presses Enter
             setTouched(true);
             onSearch(url);
           }

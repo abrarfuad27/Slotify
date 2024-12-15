@@ -1,3 +1,4 @@
+//Salomon Lavy Perez
 const db = require('./db');
 
 const getRequests = async (userData, res) => {
@@ -26,6 +27,7 @@ const getRequests = async (userData, res) => {
           if (err) {
             reject("Database error: " + err.message);
           } else {       
+            console.log(userData.email)
             resolve(rows);
           }
         });

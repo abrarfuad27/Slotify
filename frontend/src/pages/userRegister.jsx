@@ -1,3 +1,4 @@
+// Abrar Mohammad Fuad; 261083785
 import React, { useState } from "react";
 import "../style/userRegister.css"; // Import the CSS file
 import axios from "axios";
@@ -23,6 +24,7 @@ export default function RegisterPage() {
     password: "",
   });
 
+  // check if the input fields are filled
   const validateInputs = () => {
     const newErrors = { firstName: "", lastName: "", email: "", password: "" };
     if (!firstName.trim()) {
@@ -47,7 +49,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-    if (!validateInputs()) return;
+    if (!validateInputs()) return; // If there are errors, do not proceed
 
     const userData = {
       firstName,
@@ -74,7 +76,6 @@ export default function RegisterPage() {
       // Open the modal
       setModalIsOpen(true);
 
-      // Optionally clear the form fields after submission
       setFirstName("");
       setLastName("");
       setEmail("");

@@ -1,3 +1,4 @@
+// Abrar Mohammad Fuad; 261083785
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import NavBarMember from "../components/navbarMember";
@@ -10,7 +11,7 @@ import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import Modal from "react-modal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { publicUrl } from "../constants";
 
 export default function BookAppointment() {
@@ -31,7 +32,6 @@ export default function BookAppointment() {
   const [userEmailError, setUserEmailError] = useState(false);
 
   const navigate = useNavigate();
-  // const { idofAppointment } = useParams();
 
   useEffect(() => {
     if (user) {
@@ -50,12 +50,6 @@ export default function BookAppointment() {
     // Update the previous user state
     setPreviousUserState(user);
   }, [user, isLoading, navigate, previousUserState]);
-
-  // useEffect(() => {
-  //   if (idofAppointment) {
-  //     handleSearch(idofAppointment);
-  //   }
-  // }, [idofAppointment]);
 
   const openModal = (message, success, additionalContent = null) => {
     setModalMessage(
@@ -94,7 +88,7 @@ export default function BookAppointment() {
         setCourse(course);
         setTopic(topic);
         setAvailableTimeslots(timeslots);
-
+        // If no timeslots available, inform the user and provide a link to request a meeting if member, or login/register if user
         if (timeslots.length === 0) {
           if (user) {
             openModal(
@@ -244,7 +238,9 @@ export default function BookAppointment() {
                       }`}
                       onClick={() => handleTimeslotClick(slot.timeslotID)}
                     >
-                      {`${creatorName}  ${course}  ${topic} | ${slot.startTime} - ${slot.endTime}`}
+                      {`${creatorName}  ${course ? course : ""}  ${topic} | ${
+                        slot.startTime
+                      } - ${slot.endTime}`}
                     </div>
                   ))}
                 </div>
@@ -268,19 +264,20 @@ export default function BookAppointment() {
                   setUserEmailError(false);
                 }}
               />
-              {userEmailError && (
-                <p
-                  className="email-error"
-                  style={{
-                    color: "red",
-                    marginTop: "5px",
-                    fontSize: "12px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Please enter a valid McGill email.
-                </p>
-              )}
+
+              <p
+                className="email-error"
+                style={{
+                  color: "red",
+                  marginTop: "5px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  minHeight: "15px",
+                }}
+              >
+                {userEmailError ? "Please enter a valid McGill email." : ""}
+              </p>
+
               <button onClick={handleBook}>Book Meeting</button>
               <p className="alternate-meeting-text">
                 Alternative meeting timeslots can only be requested by members.
@@ -295,9 +292,7 @@ export default function BookAppointment() {
             <div className="book-member-container">
               <p>Don't see a timeslot with your availability?</p>
               {
-                <a
-                  href={`/requestMeeting/${creatorEmail}?name=${creatorName}`}
-                >
+                <a href={`/requestMeeting/${creatorEmail}?name=${creatorName}`}>
                   <p>Click here to request a meeting with {creatorName}!</p>
                 </a>
               }
