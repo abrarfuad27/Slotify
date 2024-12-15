@@ -1,3 +1,4 @@
+// Abrar Mohammad Fuad; 261083785
 const db = require("./db"); // Assuming your database connection is in db.js
 
 /**
@@ -91,7 +92,7 @@ const getAvailableTimeslots = (searchUrl) => {
               return reject({ status: 500, message: "Internal server error" });
             }
 
-            // Always return the creator details
+            // Always return the creator details because they are needed if user wants to request alternate timeslots
             const response = {
               firstName,
               lastName,
