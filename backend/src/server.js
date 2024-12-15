@@ -178,6 +178,7 @@ app.post("/createTimeSlot", async (req, res) => {
     const result = await createTimeSlot(req.body, res);
     res.json(result);
   } catch (error) {
+    console.log("pene");
     res.status(400).json({ message: error });
   }
 });
@@ -216,7 +217,6 @@ app.delete("/handleRequests", async (req, res) => {
 app.post("/createAppointmentOnRequest", async (req, res) => {
   try {
     const result = await createAppointmentOnRequest(req.body, res);
-    // console.log(res.json(result));
     res.status(201).json({ status: "success", message: result });
   } catch (error) {
     res.status(400).json({ message: error });

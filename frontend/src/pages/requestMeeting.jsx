@@ -3,7 +3,7 @@ import NavbarMember from "../components/navbarMember";
 import "../style/requestMeeting.css";
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { publicUrl } from '../constants';
 import Footer from '../components/footer';
 
@@ -27,9 +27,15 @@ const RequestMeeting = () => {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
     const { user } = useAuth();
-    const { creatorEmail } = useParams();
+    const { email } = useParams();
+    const create = "salomon.lavyperez@mail.mcgill.ca";
+    const location = useLocation();
     const navigate = useNavigate();
-    console.log(creatorEmail)
+
+    // Extract 'name' from query params
+    const queryParams = new URLSearchParams(location.search);
+    const name = queryParams.get("name");
+
     // Add a new request
     const handleAdd = () => {
         setError(null); // Clear previous error
@@ -42,7 +48,10 @@ const RequestMeeting = () => {
             setError("Please fill in all fields before adding a request.");
             return;
         }
-
+        if (course && !/^[A-Za-z0-9]+$/.test(course)) {
+            setError("Course must contain only letters and numbers, with no spaces.");
+            return;
+        }
         const now = new Date();
         const selectedDate = new Date(date + "T" + startTime);
 
@@ -74,23 +83,23 @@ const RequestMeeting = () => {
     const handleSubmit = async () => {
         try {
             for (const request of requests) {
-                const appointmentId = generateRandomId(11);
+                const appointmentId = "appt" + generateRandomId(11);
                 const appointmentData = {
-                    appointmentId,
+                    appointmentId: appointmentId,
                     mode: "one-time",
-                    creatorEmail,
+                    creator: email,
                     startDate: request.date,
                     endDate: request.date,
                     topic: request.topic,
                     course: request.course,
-                    appointmentURL: "slotify.com/" + generateRandomId(11),
+                    appointmentURL: "slotify.com/appt/"+generateRandomId(11),
                 };
 
                 // Create Appointment
                 await axios.post(`${publicUrl}/createAppointmentOnRequest`, appointmentData);
 
                 const timeslotData = {
-                    timeslotID: generateRandomId(11),
+                    timeslotID: "time"+generateRandomId(11),
                     appointmentId,
                     startTime: request.startTime,
                     endTime: request.endTime,
@@ -113,12 +122,13 @@ const RequestMeeting = () => {
     };
 
     return (
+        <div>
         <div className="request-meeting-page">
             <NavbarMember />
+            <h1 className="page-title">Request Meeting</h1>
             <div className="container containerRequest">
-                <h1 className="page-title">Request Meeting</h1>
                 <p className="page-subtitle">
-                    Request alternative time slots (maximum 4).
+                    Request alternative time slots for {name || "User"} (maximum 4).
                 </p>
 
                 {!success ? (
@@ -169,7 +179,9 @@ const RequestMeeting = () => {
                                     type="text"
                                     name="course"
                                     value={course}
-                                    pattern="^[A-Za-z0-9]+$" title="Letters and numbers only - no space" placeholder="COMP307"
+                                    pattern="^[A-Za-z0-9]+$"
+                                    title="Letters and numbers only - no space"
+                                    placeholder="COMP307"
                                     onChange={(e) => setCourse(e.target.value)}
                                 />
                             </div>
@@ -233,7 +245,8 @@ const RequestMeeting = () => {
                     </div>
                 )}
             </div>
-            <Footer />
+        </div>
+        <Footer />
         </div>
     );
 };
