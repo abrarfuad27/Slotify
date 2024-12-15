@@ -104,7 +104,9 @@ const UpcomingAppointments = () => {
                                     </td>
                                 </tr>
                             ))) : (
-                                <p className="err">No upcoming appointments found.</p>
+                                <tr className="no-appt-row">
+                                    <td className="err" colSpan="5">No upcoming appointments found.</td>
+                                </tr>
                             )}
                         </tbody>
                     </table>
@@ -143,7 +145,9 @@ const UpcomingAppointments = () => {
                                     </tr>
                                 ))
                             ) : (
-                                <p className="err">No upcoming created appointments found.</p>
+                                <tr className="no-appt-row">
+                                    <td className="err" colSpan="5">No upcoming appointments found.</td>
+                                </tr>
                             )}
                         </tbody>
                     </table>
