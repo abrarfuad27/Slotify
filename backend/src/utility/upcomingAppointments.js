@@ -23,7 +23,8 @@ const getUpcomingAppts = async (userData) => {
                   t.startTime, 
                   t.endTime, 
                   t.appointee,
-                  a.creator, 
+                  a.creator,
+                  a.mode, 
                   a.topic, 
                   a.course, 
                   a.appointmentURL
@@ -62,6 +63,7 @@ const getCreatorUpcomingAppts = async (userData, res) => {
                 t.endTime, 
                 t.appointee,
                 a.topic, 
+                a.mode,
                 a.course, 
                 a.appointmentURL
             FROM 

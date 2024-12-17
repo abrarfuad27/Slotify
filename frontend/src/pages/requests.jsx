@@ -162,7 +162,7 @@ const Requests = () => {
                 overlayClassName="modal-overlay"
                 > 
                     <div className="details-modal">
-                    <div className="modal-content">
+                    <div className="modal-content" style={{maxHeight:'620px', overflow:'auto'}}>
                         <h2>{selectedAppointee.firstName}'s Proposed Time Slots</h2>
                         <ul className="timeslots-list">
                             {selectedAppointee.requests.map((req, index) => (

@@ -3,6 +3,14 @@ COMP 307 Final Project
 
 This app facilitates appointments scheduling and booking for students and professors. It also allows easy poll creation and sharing.
 
+## Team 
+Student ID | Name |
+|---------|-------|
+261083785 | Abrar Mohammad Fuad |
+260985409 | Christina Chen |
+261075511 | Salomon Lavy Perez |
+260982699 | Samuel Lin |
+
 ## How to run the app:
 **Browser : use Chrome**
 
@@ -58,10 +66,9 @@ Note : non-member refers to people who do not have an account with Slotify
 7. Manage a Poll (display poll active and inactive polls statistics, allow user to end a poll)
 
 ## Contributions
-
-| Abrar Mohammad Fuad  | Christina Chen  | Samuel Lin  | Salomon Lavy Perez  |
-|-----------|-----------|-----------|-----------|
-| Backend Routing and Ticket System | Landing page | Create poll | Meeting History |
-| Nav Bar (member/user view) | Create appointment | Access poll | Upcoming appointments |
-| User Login/Register | Manage poll | Nav Bar (member/user view) | View Meeting Requests |
-| Book appointments | Member Dashboard | Footer | Create Meeting Requests |
+| Abrar Mohammad Fuad               | Christina Chen     | Samuel Lin                 | Salomon Lavy Perez      |
+|-----------------------------------|--------------------|----------------------------|-------------------------|
+| Backend Routing and Ticket System | Landing page       | Create poll                | Meeting History         |
+| Nav Bar (member/user view)        | Create appointment | Access poll                | Upcoming appointments   |
+| User Login/Register               | Manage poll        | Nav Bar (member/user view) | View Meeting Requests   |
+| Book appointments                 | Member Dashboard   | Footer                     | Create Meeting Requests |
