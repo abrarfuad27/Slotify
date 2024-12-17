@@ -39,9 +39,9 @@ const getUpcomingAppts = async (userData) => {
               LIMIT ?`,
         [email, email, max_num_meetings], (err, rows) => {
           if (err) {
-            reject("Database error: " + err.message); // Reject with error
+            reject("Database error: " + err.message); 
           } else {
-            resolve({ data: rows }); // Resolve with result
+            resolve({ data: rows }); 
           }
         });
     });
@@ -83,4 +83,52 @@ const getCreatorUpcomingAppts = async (userData, res) => {
   });
 };
 
-module.exports = { getUpcomingAppts, getCreatorUpcomingAppts };
+const getUpcomingApptsAsAppointee = async (userData) => {
+
+  try {
+    const { email, max_num_meetings } = userData;
+
+    // Argument validation
+    if (!email) {
+      throw new Error('Email is missing.');
+    }
+    if (!max_num_meetings || max_num_meetings <= 0) {
+      throw new Error('Max number of meetings is missing or is invalid.');
+    }
+
+    // query to get up to N=max_num_meetings of meetings
+    const result = await new Promise((resolve, reject) => {
+      db.all(`SELECT 
+                  t.timeslotDate, 
+                  t.startTime, 
+                  t.endTime, 
+                  t.appointee,
+                  a.creator, 
+                  a.topic, 
+                  a.course, 
+                  a.appointmentURL
+              FROM 
+                  Timeslot t
+              JOIN 
+                  Appointment a ON t.appointmentId = a.appointmentId
+              WHERE (t.appointee = ?) 
+                  AND (t.appointee IS NOT NULL)
+                  AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
+                  AND datetime(t.timeslotDate || 'T' || t.endTime) > datetime('now','localtime')
+              ORDER BY t.timeslotDate, t.endTime
+              LIMIT ?`,
+        [email, max_num_meetings], (err, rows) => {
+          if (err) {
+            reject("Database error: " + err.message); 
+          } else {
+            resolve({ data: rows }); 
+          }
+        });
+    });
+    return result;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports = { getUpcomingAppts, getCreatorUpcomingAppts, getUpcomingApptsAsAppointee };

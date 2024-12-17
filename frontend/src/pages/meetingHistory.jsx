@@ -67,7 +67,7 @@ const MeetingHistory = () => {
 
             {/* Upcoming Appointments Section */}
             <div className="appointments-section">
-                <h2>Previous Appointments</h2>
+                <h2>Previous Appointments Created By Others</h2>
                 <div class="appointments-table-div">
                 <table className="appointments-table">
                     <thead>
@@ -104,7 +104,7 @@ const MeetingHistory = () => {
 
             {/* Previous Appointments Section */}
             <div className="appointments-section">
-                <h2>Previous Created Appointments</h2>
+                <h2>My Previous Created Appointments</h2>
                 <div class="appointments-table-div">
                 <table className="appointments-table">
                     <thead>

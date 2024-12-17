@@ -31,7 +31,7 @@ const UpcomingAppointments = () => {
    const fetchAppointments = async () => {
        try {
            // Fetch upcoming appointments
-           const upcomingResponse = await axios.get(`${publicUrl}/upcomingAppointments`, {
+           const upcomingResponse = await axios.get(`${publicUrl}/upcomingApptsAsAppointee`, {
                params: userData,
            });
            setUpcomingAppointments(upcomingResponse.data.data || []);
@@ -76,13 +76,13 @@ const UpcomingAppointments = () => {
 
            {/* Upcoming Appointments Section */}
         <div className="appointments-section">
-            <h2>Upcoming Appointments</h2>
+            <h2>Appointments Scheduled by Others</h2>
             <div className="appointments-table-div">
                 
                     <table className="appointments-table">
                         <thead>
                             <tr>
-                                <th>Appointment with:</th>
+                                <th>Organizor:</th>
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Mode</th>
@@ -116,7 +116,7 @@ const UpcomingAppointments = () => {
 
         {/* Upcoming Created Appointments Section */}
         <div className="appointments-section">
-            <h2>Upcoming Created Appointments</h2>
+            <h2>My Created Appointments</h2>
             <div className="appointments-table-div">
                 {/* {upcomingCreatorAppointments.length > 0 ? ( */}
                     <table className="appointments-table">

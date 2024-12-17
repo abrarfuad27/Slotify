@@ -10,7 +10,7 @@ const { authenticateToken } = require("./utility/authenticate"); // Import the a
 const { registerUser } = require("./utility/register");
 const { loginUser } = require("./utility/login");
 const db = require("./utility/db");
-const { getUpcomingAppts, getCreatorUpcomingAppts } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
+const { getUpcomingAppts, getCreatorUpcomingAppts, getUpcomingApptsAsAppointee } = require("./utility/upcomingAppointments"); // Import the get upcoming appointments function
 const { createPollAndSlots } = require("./utility/createPollAndSlots");
 const { getPollAndSlots } = require("./utility/getPollAndSlots");
 const { votePoll } = require("./utility/votePoll");
@@ -80,6 +80,15 @@ app.get("/validateUser", authenticateToken, (req, res) => {
 app.get("/upcomingAppointments", async (req, res) => {
   try {
     const result = await getUpcomingAppts(req.query);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
+app.get("/upcomingApptsAsAppointee", async (req, res) => {
+  try {
+    const result = await getUpcomingApptsAsAppointee(req.query);
     res.json(result);
   } catch (error) {
     res.status(400).json({ message: error });
