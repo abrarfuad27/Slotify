@@ -168,7 +168,13 @@ const Requests = () => {
                             {selectedAppointee.requests.map((req, index) => (
                                 <li key={index} className="timeslot-item">
                                     <div>
-                                        <p><strong>Date:</strong> {new Date(req.timeslotDate).toLocaleDateString()}</p>
+                                        <p><strong>Date:</strong>{" "}
+                                            {new Date(req.timeslotDate + 'T00:00:00').toLocaleDateString("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                            })}
+                                        </p>
                                         <p><strong>Time:</strong> {req.startTime} - {req.endTime}</p>
                                         <p><strong>Topic:</strong> {req.topic}</p>
                                         {req.course && <p><strong>Course:</strong> {req.course}</p>}

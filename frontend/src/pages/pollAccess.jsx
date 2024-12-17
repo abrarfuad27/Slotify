@@ -244,10 +244,10 @@ const PollAccess = () => {
                 <button
                   className="close-btn"
                   onClick={() =>
-                    (window.location.href = `/memberDashboard`)
+                    (window.location.href = `${user ? '/memberDashboard' : '/'}`)
                   }
                 >
-                  Return To Dashboard
+                  Return To Home
                 </button>
                 <button className="close-btn" onClick={() => closeSuccessModal()}>
                   Vote on Another Poll

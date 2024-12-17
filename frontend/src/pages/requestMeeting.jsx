@@ -210,12 +210,20 @@ const RequestMeeting = () => {
                         <div className="requests-list">
                             {requests.map((request, index) => (
                                 <div key={index} className="request-item">
-                                    <span>
+                                    {/* <span>
                                         {new Date(request.date).toLocaleDateString("en-US", {
                                             month: "short",
                                             day: "numeric",
                                             year: "numeric",
                                         })}{" "}
+                                        | {request.startTime} - {request.endTime}
+                                    </span> */}
+                                    <span>
+                                        {new Intl.DateTimeFormat("en-US", {
+                                            month: "short",
+                                            day: "numeric",
+                                            year: "numeric",
+                                        }).format(new Date(request.date + "T00:00"))}{" "}
                                         | {request.startTime} - {request.endTime}
                                     </span>
                                     <button
