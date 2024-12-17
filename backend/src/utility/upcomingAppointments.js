@@ -69,7 +69,6 @@ const getCreatorUpcomingAppts = async (userData, res) => {
             JOIN 
                 Appointment a ON t.appointmentId = a.appointmentId
             WHERE (a.creator = ?) 
-                AND (t.appointee IS NOT NULL)
                 AND (t.isRequest = 0 OR (t.isRequest = 1 AND t.requestStatus = 'approved'))
                 AND datetime(t.timeslotDate || 'T' || t.endTime) > datetime('now','localtime')
             ORDER BY t.timeslotDate, t.endTime`,

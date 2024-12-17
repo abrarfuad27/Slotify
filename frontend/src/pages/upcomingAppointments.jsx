@@ -82,7 +82,7 @@ const UpcomingAppointments = () => {
                     <table className="appointments-table">
                         <thead>
                             <tr>
-                                <th>Organizor:</th>
+                                <th>Organizer:</th>
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Mode</th>
@@ -133,7 +133,7 @@ const UpcomingAppointments = () => {
                         {upcomingCreatorAppointments.length > 0 ? (
                                 upcomingCreatorAppointments.map((appt, index) => (
                                     <tr key={index}>
-                                        <td data-label="Appointee:">{appt.appointee}</td>
+                                        <td data-label="Appointee:">{appt.appointee ? appt.appointee:'No one yet' }</td>
                                         <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
                                         <td data-label="Time">
                                             {appt.startTime} - {appt.endTime}

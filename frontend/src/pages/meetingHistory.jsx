@@ -72,7 +72,7 @@ const MeetingHistory = () => {
                 <table className="appointments-table">
                     <thead>
                         <tr>
-                            <th>Appointment with:</th>
+                            <th>Organizer:</th>
                             <th>Date</th>
                             <th>Time</th>
                             <th>Mode</th>
@@ -120,7 +120,7 @@ const MeetingHistory = () => {
                         {previousCreatorAppointments.length > 0 ? (
                             previousCreatorAppointments.map((appt, index) => (
                                 <tr key={index}>
-                                    <td data-label="Appointee:">{appt.appointee}</td>
+                                    <td data-label="Appointee:">{appt.appointee ? appt.appointee : 'No one'}</td>
                                     <td data-label="Date">{formatDate(appt.timeslotDate)}</td>
                                     <td data-label="Time">
                                         {appt.startTime} - {appt.endTime}
