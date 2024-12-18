@@ -143,6 +143,9 @@
 
 /* Tablets (max-width: 800px) */
 @media (max-width: 800px) {
+    .dashboard-content {
+        min-height: 103vh;
+    }
     .dashboard-background {
         transform: translate(-14%,5%);
         background-size: 130%;
@@ -159,7 +162,6 @@
     .create-appt-btn {
         width: 42%;
     }
-    
 }
 
 /* Smartphones (max-width: 425px) */

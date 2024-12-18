@@ -237,8 +237,9 @@ export default function BookAppointment() {
                         selectedTimeslot === slot.timeslotID ? "selected" : ""
                       }`}
                       onClick={() => handleTimeslotClick(slot.timeslotID)}
+                      style={{ whiteSpace: "pre-wrap" }}
                     >
-                      {`${creatorName}  ${course ? course : ""}  ${topic} | ${
+                      {`${creatorName}  ${course ? course : ""}  ${topic} \n ${
                         slot.startTime
                       } - ${slot.endTime}`}
                     </div>

@@ -32,7 +32,6 @@
   margin-top: 10px;
   max-height: 150px; /* Adjust height as needed */
   overflow-y: auto;
-  padding-right: 50px; /* Remove space to the right */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   margin-bottom: 20px;
 }
@@ -58,9 +57,11 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
   white-space: nowrap; /* Prevents the text from wrapping into multiple lines */
   overflow: hidden; /* Ensures any overflow is hidden */
-  width: 95%; /* Make the timeslot divs slightly narrower to provide space for the scrollbar */
+  width: 70%; /* Make the timeslot divs slightly narrower to provide space for the scrollbar */
   margin: 0 auto; /* Center the timeslot divs */
   transition: background-color 0.3s ease; /* Smooth transition on hover */
+  text-wrap: wrap;
+  text-align: center;
 }
 
 .timeslot:hover {

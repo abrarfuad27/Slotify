@@ -1,4 +1,4 @@
-//Salomon Lavy Perez
+/* Salomon Lavy Perez */
 .request-meeting-page {
     min-height: 100vh;
     background-color: #fffbf5;
@@ -233,12 +233,6 @@
     .button-group {
         flex-direction: column;
         gap: 10px;
-    }
-
-    .add-button,
-    .reset-button,
-    .submit-button {
-        width: 100%;
     }
 
     .requests-list {

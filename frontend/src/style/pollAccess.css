@@ -212,8 +212,8 @@
 }
 
 @media (max-width: 600px) {
-  .poll-modal {
-    max-width: 300px;
+  .poll-access-page .modal-overlay {
+    max-width: 100%;
     padding: 20px;
     border-radius: 6px;
   }
