@@ -2,15 +2,21 @@
 const sqlite3 = require("sqlite3").verbose();
 const fs = require("fs");
 
-// Load the SQL file
-const createTablesSQL = fs.readFileSync("src/utility/createTables.sql", "utf-8");
+// Determine which database and SQL file to use
+const isTestEnv = process.env.NODE_ENV === "test";
+console.log("isTestEnv:", isTestEnv);
+const dbFile = isTestEnv ? "./slotify_test.db" : "./slotify.db";
+const createTablesSQL = fs.readFileSync(
+  isTestEnv ? "src/utility/createTablesTest.sql" : "src/utility/createTables.sql",
+  "utf-8"
+);
 
 // Create or connect to the SQLite database
-const db = new sqlite3.Database("./slotify.db", (err) => {
+const db = new sqlite3.Database(dbFile, (err) => {
   if (err) {
-    console.error("Error opening database:", err.message);
+    console.error(`Error opening database (${dbFile}):`, err.message);
   } else {
-    console.log("Connected to the SQLite database.");
+    console.log(`Connected to the SQLite database (${dbFile}).`);
     
     // Run the SQL to initialize tables
     db.exec(createTablesSQL, (err) => {
