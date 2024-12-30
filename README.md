@@ -72,3 +72,34 @@ Note : non-member refers to people who do not have an account with Slotify
 | Nav Bar (member/user view)        | Create appointment | Access poll                | Upcoming appointments   |
 | User Login/Register               | Manage poll        | Nav Bar (member/user view) | View Meeting Requests   |
 | Book appointments                 | Member Dashboard   | Footer                     | Create Meeting Requests |
+
+
+## Demo of the website
+
+**Landing Page**
+![image](https://github.com/user-attachments/assets/303c21d4-fec1-4b3f-a69a-09ce09a4d9ac)
+
+
+**Creating Appointments**
+![image](https://github.com/user-attachments/assets/0d11661f-a4cc-4dde-8c84-69ef8527f39a)
+
+
+**Booking Appointments**
+![image](https://github.com/user-attachments/assets/1b3869df-5f64-4313-b5f0-48d8dca64620)
+
+**Requesting for an alternate time**
+![image](https://github.com/user-attachments/assets/7f2d90c0-a5fd-4ac7-95e5-b31e2bbb725c)
+
+**Viewing your upcoming schedule**
+![image](https://github.com/user-attachments/assets/be043b04-9dfd-4095-921b-0c42993ebed1)
+
+**Creating a Poll to decide suitable appointment timings**
+![image](https://github.com/user-attachments/assets/d0f5de8a-636d-4435-932f-95e07d656dba)
+
+**Voting on a Poll**
+![image](https://github.com/user-attachments/assets/e3d4611f-eaa5-4599-9645-f19cc2d90ba7)
+
+**Managing a Poll**
+![image](https://github.com/user-attachments/assets/08270fd8-ace3-403f-96b0-615d7082dc3c)
+
+
