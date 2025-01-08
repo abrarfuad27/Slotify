@@ -4,12 +4,12 @@ COMP 307 Final Project
 This app facilitates appointments scheduling and booking for students and professors. It also allows easy poll creation and sharing.
 
 ## Team 
-Student ID | Name |
-|---------|-------|
-261083785 | Abrar Mohammad Fuad |
-260985409 | Christina Chen |
-261075511 | Salomon Lavy Perez |
-260982699 | Samuel Lin |
+ Name |
+-------|
+Abrar Mohammad Fuad |
+Christina Chen |
+Salomon Lavy Perez |
+Samuel Lin |
 
 ## How to run the app:
 **Browser : use Chrome**
